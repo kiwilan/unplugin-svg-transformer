@@ -2,19 +2,19 @@ export interface Options {
   /**
    * Directory where the SVG files are located.
    *
-   * @default './resources/js/Icons/svg'
+   * @default './src/icons/svg'
    */
   iconsDir: string
   /**
    * Directory where the cache files will be created.
    *
-   * @default './resources/js/Icons/cache'
+   * @default './src/icons/cache'
    */
   cacheDir: string
   /**
    * File where the types and list of icons will be created.
    *
-   * @default './resources/js/icons.ts'
+   * @default './src/icons.ts'
    */
   filenamePath: string
   /**

@@ -5,9 +5,9 @@ import { SvgItem } from './lib/SvgItem'
 import { TsConverter } from './lib/TsConverter'
 
 export const DEFAULT_OPTIONS: Options = {
-  iconsDir: './resources/js/Icons/svg',
-  cacheDir: './resources/js/Icons/cache',
-  filenamePath: './resources/js/icons.ts',
+  iconsDir: './src/icons/svg',
+  cacheDir: './src/icons/cache',
+  filenamePath: './src/icons.ts',
   gitignorePath: './.gitignore',
 }
 
@@ -37,14 +37,10 @@ export default createUnplugin<Options | undefined>(options => ({
     // Add the cache directory to the .gitignore file.
     await FileUtils.addPathToGitignoreIfNotExists(opts.cacheDir, opts.gitignorePath)
   },
-  transformInclude(id) {
-    return id.endsWith('main.ts')
+  vite: {
+    handleHotUpdate({ file, server }) {
+      if (file.endsWith('.svg'))
+        server.restart()
+    },
   },
-  transform(code) {
-    return code.replace('__UNPLUGIN__', `Hello Unplugin! ${options}`)
-  },
-  // handleHotUpdate({ file, server }) {
-  //   if (file.endsWith('.svg'))
-  //     server.restart()
-  // },
 }))

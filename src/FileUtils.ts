@@ -6,21 +6,6 @@ export class FileUtils {
     return join(process.cwd(), path)
   }
 
-  // public static getCachePath(): string {
-  //   return join(process.cwd(), './resources/js/Icons/cache')
-  // }
-
-  // public static getIconTsPath() {
-  //   const directoryPath = join(process.cwd(), './resources/js')
-  //   const filePath = join(directoryPath, 'icons.ts')
-
-  //   return filePath
-  // }
-
-  // public static getDirectoryPath(): string {
-  //   return join(process.cwd(), './resources/js/Icons')
-  // }
-
   public static async write(path: string, content: string): Promise<boolean> {
     try {
       await fs.writeFile(path, content)

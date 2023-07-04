@@ -27,7 +27,15 @@ export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOpt
       await Promise.all(files.map(async (file) => {
         let path = file.getPath()
         path = `${opts.cacheDir}${path}`
-        await FileUtils.write(path, file.getContent())
+        path = path.replace('.svg', '.ts')
+
+        let dir = path.substring(0, path.lastIndexOf('/'))
+        await FileUtils.checkIfDirectoryExists(dir)
+
+        let content = file.getContent()
+        content = `export default '${content}';`
+
+        await FileUtils.write(path, content)
       }))
 
       await TsConverter.make(files, opts)

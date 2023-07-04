@@ -15,7 +15,7 @@ export class FileUtils {
       return content
     }
     catch (err) {
-      console.error('Unable to read file:', err)
+      console.error('Unable to read file:', err, path)
       return ''
     }
   }
@@ -27,7 +27,7 @@ export class FileUtils {
       return true
     }
     catch (err) {
-      console.error('Unable to write file:', err)
+      console.error('Unable to write file:', err, path)
     }
 
     return false

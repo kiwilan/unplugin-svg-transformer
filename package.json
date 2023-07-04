@@ -58,6 +58,11 @@
       "require": "./dist/types.cjs",
       "import": "./dist/types.js"
     },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "require": "./dist/vue/vue.cjs.js",
+      "import": "./dist/vue/vue.es.js"
+    },
     "./*": "./*"
   },
   "main": "dist/index.cjs",
@@ -75,7 +80,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build:vite": "vite build",
+    "build:unplugin": "tsup",
+    "build": "npm run clean && npm run build:unplugin && npm run build:vite",
     "dev": "tsup --watch src",
     "build:fix": "esno scripts/postbuild.ts",
     "lint": "eslint .",
@@ -85,7 +92,7 @@
     "start": "esno src/index.ts",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "clean": "rimraf dist && rimraf vue",
+    "clean": "rimraf dist",
     "local": "rm -f ~/unplugin-svg-transformer-*.tgz || true && mv ./unplugin-svg-transformer-*.tgz ~/unplugin-svg-transformer.tgz",
     "package": "npm run clean && npm run build && npm pack && npm run local",
     "deploy": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
@@ -96,6 +103,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
     "@types/node": "^18.16.16",
+    "@vitejs/plugin-vue": "^4.2.3",
     "@vitest/coverage-c8": "^0.32.4",
     "bumpp": "^9.1.0",
     "chalk": "^5.2.0",
@@ -108,7 +116,9 @@
     "tsup": "^6.7.0",
     "typescript": "^5.1.3",
     "vite": "^4.3.9",
+    "vite-plugin-dts": "^3.0.3",
     "vitest": "^0.31.4",
+    "vue": "^3.3.4",
     "webpack": "^5.85.0"
   }
 }

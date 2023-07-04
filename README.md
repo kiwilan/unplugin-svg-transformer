@@ -26,7 +26,11 @@ Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 ## Install
 
 ```bash
-npm i unplugin-svg-transformer
+npm i unplugin-svg-transformer -D
+# or
+pnpm install unplugin-svg-transformer -D
+# or
+yarn add unplugin-svg-transformer -D
 ```
 
 <details>

@@ -111,7 +111,7 @@ export class SvgItem {
 
   private nameFromPath(): string {
     let name = this.path!
-    if (name.startsWith('/'))
+    if (name.startsWith('/') || name.startsWith('\\'))
       name = name.substring(1)
     name = name.replace(/\.svg$/, '')
     name = name.replace(/[^\w\s]/gi, '-')

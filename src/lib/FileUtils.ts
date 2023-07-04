@@ -40,7 +40,10 @@ export class FileUtils {
       path = `${cacheDir}${path}`
       path = path.replace('.svg', '.ts')
 
-      const dir = path.substring(0, path.lastIndexOf('/'))
+      let dir = path.substring(0, path.lastIndexOf('/'))
+      if (process.platform === 'win32')
+        dir = path.substring(0, path.lastIndexOf('\\'))
+
       await FileUtils.checkIfDirectoryExists(dir)
 
       let content = file.getContent()
@@ -57,9 +60,13 @@ export class FileUtils {
     await FileUtils.checkIfDirectoryExists(dir)
   }
 
-  public static convertDirectorySeparator(path: string): string {
-    if (process.platform === 'win32')
+  public static convertDirectorySeparator(path: string, double = false): string {
+    if (process.platform === 'win32') {
+      if (double)
+        return path.replace(/\\/g, '\\\\')
+
       return path.replace(/\//g, '\\')
+    }
 
     return path
   }

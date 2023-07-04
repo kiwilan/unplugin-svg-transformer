@@ -70,9 +70,16 @@ export class TsConverter {
     this.items.forEach((item) => {
       let path = item.getPath()
       path = path.replace('.svg', '')
-      content += `  '${item.getName()}': import('${relativePath}${path}'),\n`
+      path = `${relativePath}${path}`
+      path = FileUtils.convertDirectorySeparator(path, true)
+
+      content += `  '${item.getName()}': import('${path}'),\n`
     })
-    content += `  'default': import('${relativePath}/default'),\n`
+
+    const baseDefaultPath = FileUtils.convertDirectorySeparator('/default')
+    const defaultPath = FileUtils.convertDirectorySeparator(`${relativePath}${baseDefaultPath}`, true)
+
+    content += `  'default': import('${defaultPath}'),\n`
     content += '}\n'
 
     return content

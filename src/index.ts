@@ -4,7 +4,7 @@ import { FileUtils } from './lib/FileUtils'
 import { SvgItem } from './lib/SvgItem'
 import { TsConverter } from './lib/TsConverter'
 
-const DEFAULT_OPTIONS: Options = {
+export const DEFAULT_OPTIONS: Options = {
   iconsDir: './resources/js/Icons/svg',
   cacheDir: './resources/js/Icons/cache',
   filenamePath: './resources/js/icons.ts',

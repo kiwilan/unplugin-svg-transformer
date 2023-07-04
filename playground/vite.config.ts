@@ -5,6 +5,11 @@ import Unplugin from '../src/vite'
 export default defineConfig({
   plugins: [
     Inspect(),
-    Unplugin(),
+    Unplugin({
+      iconsDir: './icons/svg',
+      cacheDir: './icons/cache',
+      filenamePath: './icons/icons.ts',
+      gitignorePath: './.gitignore',
+    }),
   ],
 })

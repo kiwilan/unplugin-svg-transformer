@@ -1,4 +1,4 @@
-# Vite Plugin SVG
+# unplugin SVG Transformer
 
 <!-- ![Banner with printer shop picture in background and Typescriptable Laravel title](docs/banner.jpg) -->
 
@@ -154,16 +154,6 @@ In `package.json`:
     "unplugin-svg-transformer": "file:~/unplugin-svg-transformer.tgz"
   }
 }
-```
-
-### Build
-
-```bash
-pnpm run prepublishOnly
-```
-
-```bash
-pnpm run release
 ```
 
 ## Changelog

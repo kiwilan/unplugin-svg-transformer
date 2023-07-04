@@ -44,7 +44,22 @@ export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOpt
 }
 
 export interface VitePluginSvgOptions {
+  /**
+   * Directory where the SVG files are located.
+   *
+   * @default './resources/js/Icons'
+   */
   iconsDir: string
+  /**
+   * Directory where the cache files will be created.
+   *
+   * @default './resources/js/Icons/cache'
+   */
   cacheDir: string
+  /**
+   * File where the types and list of icons will be created.
+   *
+   * @default './resources/js/icons.ts'
+   */
   filenamePath: string
 }

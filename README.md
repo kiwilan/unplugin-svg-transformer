@@ -1,4 +1,4 @@
-# unplugin SVG Transformer
+# unplugin-svg-transformer
 
 <!-- ![Banner with printer shop picture in background and Typescriptable Laravel title](docs/banner.jpg) -->
 
@@ -9,7 +9,11 @@
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
-EXPERIMENTAL. Import easily your SVG with Vite.
+> **Warning**
+>
+> EXPERIMENTAL: This project is still in early development, and may face breaking changes in the future.
+
+Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
 ## Features
 
@@ -170,8 +174,6 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 [<img src="https://user-images.githubusercontent.com/48261459/201463225-0a5a084e-df15-4b11-b1d2-40fafd3555cf.svg" height="120rem" width="100%" />](https://github.com/kiwilan)
-
-https://img.shields.io/npm/v/unplugin?style=flat&colorA=18181B&colorB=F0DB4F
 
 [unplugin-version-src]: https://img.shields.io/static/v1?style=flat-square&label=unplugin&message=v1.3&color=F0DB4F&labelColor=18181B
 [unplugin-version-href]: https://github.com/unjs/unplugin

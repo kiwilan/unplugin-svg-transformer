@@ -15,4 +15,9 @@ export default defineConfig({
       // Add your plugin options here
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: './src/main.ts', // Specify the entry point for your application here
+    },
+  },
 })

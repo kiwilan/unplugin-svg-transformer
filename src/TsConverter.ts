@@ -65,13 +65,11 @@ export class TsConverter {
     let content = 'export const IconList: Record<IconType | string, Promise<{ default: string }>> = {\n'
 
     this.items.forEach((item) => {
-      let name = `${item.getName()}`
-      if (name.includes('-'))
-        name = `'${name}'`
-
-      content += `  ${name}: import('${relativePath}${item.getPath()}'),\n`
+      let path = item.getPath()
+      path = path.replace('.svg', '')
+      content += `  '${item.getName()}': import('${relativePath}${path}'),\n`
     })
-    content += `  default: import('${relativePath}/default'),\n`
+    content += `  'default': import('${relativePath}/default'),\n`
     content += '}\n'
 
     return content

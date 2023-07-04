@@ -5,29 +5,27 @@ import { TsConverter } from './TsConverter'
 
 // import { createApp } from 'vue'
 // import MyComponent from './components/MyComponent.vue'
-// import { setup } from './methods'
 
 const DEFAULT_OPTIONS = {
-  base: './resources/js',
-  icons: './resources/js/Icons',
-  cache: './resources/js/Icons/cache',
-  filename: 'icons.ts',
+  iconsDir: './resources/js/Icons',
+  cacheDir: './resources/js/Icons/cache',
+  filenamePath: './resources/js/icons.ts',
 }
 
-export default function vitePluginSvg(options: VitePluginSvgOptions): PluginOption {
+export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOption {
   return {
     name: 'vite-plugin-svg',
     async buildStart() {
       const opts: VitePluginSvgOptions = Object.assign({}, DEFAULT_OPTIONS, options)
-      console.log(opts)
-      console.log('vite-plugin-start')
-      console.log(FileUtils.getCachePath())
+      opts.iconsDir = FileUtils.fullPath(opts.iconsDir)
+      opts.cacheDir = FileUtils.fullPath(opts.cacheDir)
+      opts.filenamePath = FileUtils.fullPath(opts.filenamePath)
 
-      await FileUtils.removeDirectory(FileUtils.getCachePath())
-      const files = await SvgItem.toList(FileUtils.getDirectoryPath(), FileUtils.getDirectoryPath())
-      console.log(files)
+      await FileUtils.removeDirectory(opts.cacheDir)
+      const files = await SvgItem.toList(opts.iconsDir, opts.iconsDir)
+      // console.log(files)
 
-      await TsConverter.make(files)
+      await TsConverter.make(files, opts)
       // let content = await typeContent(files)
       // content += await listContent(files)
 
@@ -45,6 +43,8 @@ export default function vitePluginSvg(options: VitePluginSvgOptions): PluginOpti
   }
 }
 
-interface VitePluginSvgOptions {
-  // Add your plugin options here
+export interface VitePluginSvgOptions {
+  iconsDir: string
+  cacheDir: string
+  filenamePath: string
 }

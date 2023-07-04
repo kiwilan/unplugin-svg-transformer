@@ -1,21 +1,25 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
+import { join } from 'node:path'
 
 export class FileUtils {
-  public static getCachePath(): string {
-    return path.join(process.cwd(), './resources/js/Icons/cache')
+  public static fullPath(path: string): string {
+    return join(process.cwd(), path)
   }
 
-  public static getIconTsPath() {
-    const directoryPath = path.join(process.cwd(), './resources/js')
-    const filePath = path.join(directoryPath, 'icons.ts')
+  // public static getCachePath(): string {
+  //   return join(process.cwd(), './resources/js/Icons/cache')
+  // }
 
-    return filePath
-  }
+  // public static getIconTsPath() {
+  //   const directoryPath = join(process.cwd(), './resources/js')
+  //   const filePath = join(directoryPath, 'icons.ts')
 
-  public static getDirectoryPath(): string {
-    return path.join(process.cwd(), './resources/js/Icons')
-  }
+  //   return filePath
+  // }
+
+  // public static getDirectoryPath(): string {
+  //   return join(process.cwd(), './resources/js/Icons')
+  // }
 
   public static async write(path: string, content: string): Promise<boolean> {
     try {

@@ -1,30 +1,50 @@
 import type { PluginOption } from 'vite'
+import { FileUtils } from './FileUtils'
+import { SvgItem } from './SvgItem'
+import { TsConverter } from './TsConverter'
 
-export default function vitePluginSvg(): PluginOption {
+// import { createApp } from 'vue'
+// import MyComponent from './components/MyComponent.vue'
+// import { setup } from './methods'
+
+const DEFAULT_OPTIONS = {
+  base: './resources/js',
+  icons: './resources/js/Icons',
+  cache: './resources/js/Icons/cache',
+  filename: 'icons.ts',
+}
+
+export default function vitePluginSvg(options: VitePluginSvgOptions): PluginOption {
   return {
-    // plugin name
     name: 'vite-plugin-svg',
+    async buildStart() {
+      const opts: VitePluginSvgOptions = Object.assign({}, DEFAULT_OPTIONS, options)
+      console.log(opts)
+      console.log('vite-plugin-start')
+      console.log(FileUtils.getCachePath())
 
-    // pre will be executed before post
-    enforce: 'pre', // post
+      await FileUtils.removeDirectory(FileUtils.getCachePath())
+      const files = await SvgItem.toList(FileUtils.getDirectoryPath(), FileUtils.getDirectoryPath())
+      console.log(files)
 
-    // Indicate that they are only called in 'build' or 'serve' mode
-    apply: 'build', // apply can also be a function
+      await TsConverter.make(files)
+      // let content = await typeContent(files)
+      // content += await listContent(files)
 
-    config(config, { command }) {
-      console.log('here is the config hook')
+      // write(iconTsPath(), content)
+
+      // for (const file of files)
+      //   await writeCacheSvgFile(file)
+
+      // await addDefaultSvgToCache()
     },
-
-    configResolved(resolvedConfig) {
-      console.log('here is the configResolved hook')
-    },
-
-    configureServer(server) {
-      console.log('here is the configureServer hook')
-    },
-
-    transformIndexHtml(html) {
-      console.log('here is the transformIndexHtml hook')
+    handleHotUpdate({ file, server }) {
+      if (file.endsWith('.svg'))
+        server.restart()
     },
   }
+}
+
+interface VitePluginSvgOptions {
+  // Add your plugin options here
 }

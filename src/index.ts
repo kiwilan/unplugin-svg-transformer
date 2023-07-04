@@ -7,7 +7,7 @@ import { TsConverter } from './TsConverter'
 // import MyComponent from './components/MyComponent.vue'
 
 const DEFAULT_OPTIONS = {
-  iconsDir: './resources/js/Icons',
+  iconsDir: './resources/js/Icons/svg',
   cacheDir: './resources/js/Icons/cache',
   filenamePath: './resources/js/icons.ts',
 }
@@ -21,6 +21,11 @@ export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOpt
       opts.cacheDir = FileUtils.fullPath(opts.cacheDir)
       opts.filenamePath = FileUtils.fullPath(opts.filenamePath)
 
+      await FileUtils.checkIfDirectoryExists(opts.iconsDir)
+      await FileUtils.checkIfDirectoryExists(opts.cacheDir)
+      const dir = opts.filenamePath.substring(0, opts.filenamePath.lastIndexOf('/'))
+      await FileUtils.checkIfDirectoryExists(dir)
+
       await FileUtils.removeDirectory(opts.cacheDir)
       const files = await SvgItem.toList(opts.iconsDir, opts.iconsDir)
 
@@ -29,16 +34,17 @@ export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOpt
         path = `${opts.cacheDir}${path}`
         path = path.replace('.svg', '.ts')
 
-        let dir = path.substring(0, path.lastIndexOf('/'))
+        const dir = path.substring(0, path.lastIndexOf('/'))
         await FileUtils.checkIfDirectoryExists(dir)
 
         let content = file.getContent()
-        content = `export default '${content}';`
+        content = `export default '${content}'\n`
 
         await FileUtils.write(path, content)
       }))
 
       await TsConverter.make(files, opts)
+      await FileUtils.addPathToGitignoreIfNotExists(options?.cacheDir)
     },
     handleHotUpdate({ file, server }) {
       if (file.endsWith('.svg'))
@@ -51,7 +57,7 @@ export interface VitePluginSvgOptions {
   /**
    * Directory where the SVG files are located.
    *
-   * @default './resources/js/Icons'
+   * @default './resources/js/Icons/svg'
    */
   iconsDir: string
   /**

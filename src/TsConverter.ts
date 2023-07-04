@@ -14,18 +14,12 @@ export class TsConverter {
   public static async make(items: SvgItem[], opts: VitePluginSvgOptions): Promise<TsConverter> {
     const self = new TsConverter(items)
 
+    self.opts = opts
     self.types = await self.setTypes()
     self.list = await self.setList()
-    self.opts = opts
     await self.defaultSvgFile()
 
-    console.log(opts.filenamePath);
-    console.log(self.types + self.list);
-
-
-    let write = await FileUtils.write(opts.filenamePath, self.types + self.list)
-    console.log(write);
-
+    await FileUtils.write(opts.filenamePath, self.types + self.list)
 
     return self
   }
@@ -51,19 +45,33 @@ export class TsConverter {
 
       content += `'${item.getName()}'`
     })
+
+    if (this.items.length > 0)
+      content += ' | \'default\''
+    else
+      content += '\'default\''
+
     content += '\n'
 
     return content
   }
 
   private async setList() {
+    const filenamePath = this.opts!.filenamePath
+    const cachePath = this.opts!.cacheDir
+    let relativePath = path.relative(filenamePath, cachePath)
+    relativePath = relativePath.substring(1)
+
     let content = 'export const IconList: Record<IconType | string, Promise<{ default: string }>> = {\n'
-    const basePath = './Icons/cache/'
 
     this.items.forEach((item) => {
-      content += `  '${item.getName()}': import('${basePath}${item.getName()}'),\n`
+      let name = `${item.getName()}`
+      if (name.includes('-'))
+        name = `'${name}'`
+
+      content += `  ${name}: import('${relativePath}${item.getPath()}'),\n`
     })
-    content += `  'default': import('${basePath}default'),\n`
+    content += `  default: import('${relativePath}/default'),\n`
     content += '}\n'
 
     return content

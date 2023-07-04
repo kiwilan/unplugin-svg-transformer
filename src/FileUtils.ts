@@ -46,4 +46,17 @@ export class FileUtils {
       console.error('Unable to remove directory:', err)
     }
   }
+
+  public static async addPathToGitignoreIfNotExists(path?: string): Promise<void> {
+    if (!path)
+      return
+
+    const gitignorePath = join(process.cwd(), '.gitignore')
+    const content = await fs.readFile(gitignorePath, 'utf-8')
+
+    if (content.includes(path))
+      return
+
+    await fs.appendFile(gitignorePath, `\n${path}`)
+  }
 }

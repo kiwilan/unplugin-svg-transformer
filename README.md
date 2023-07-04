@@ -87,7 +87,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [downloads-href]: https://packagist.org/packages/kiwilan/unplugin-svg-transformer
 [license-src]: https://img.shields.io/github/license/kiwilan/unplugin-svg-transformer.svg?style=flat-square&colorA=18181B&colorB=646CFF
 [license-href]: https://github.com/kiwilan/unplugin-svg-transformer/blob/main/README.md
-[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/unplugin-svg-transformer/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
-[tests-href]: https://github.com/kiwilan/unplugin-svg-transformer/actions/workflows/run-tests.yml
+[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/unplugin-svg-transformer/ci.yml?branch=main&label=tests&style=flat-square&colorA=18181B
+[tests-href]: https://github.com/kiwilan/unplugin-svg-transformer/actions/workflows/ci.yml
 [codecov-src]: https://codecov.io/gh/kiwilan/unplugin-svg-transformer/branch/main/graph/badge.svg?token=P9XIK2KV9G
 [codecov-href]: https://codecov.io/gh/kiwilan/unplugin-svg-transformer

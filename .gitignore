@@ -85,3 +85,4 @@ resources
 src/icons
 test/icons/cache
 test/icons/.gitignore
+test/icons/icons.ts

@@ -129,7 +129,7 @@ export class SvgItem {
     try {
       content = this.addInlineCurrentColor(content)
       content = this.removeBuiltInHeightAndWidth(content)
-      content = this.addHeightAndWidthToSvgAsStyle(content)
+      content = this.addDefaultStyle(content)
       content = this.removeBreakLines(content)
       content = this.removeTooLargeSpaces(content)
       content = this.removeClasses(content)
@@ -185,8 +185,8 @@ export class SvgItem {
     return content.replace(/height=".*?"/g, '').replace(/width=".*?"/g, '')
   }
 
-  private addHeightAndWidthToSvgAsStyle(content: string) {
-    return content.replace(/<svg/g, '<svg style="height: inherit; width: inherit;"')
+  private addDefaultStyle(content: string) {
+    return content.replace(/<svg/g, '<svg style="display: inline-block; height: inherit; width: inherit;"')
   }
 
   private removeBreakLines(content: string): string {

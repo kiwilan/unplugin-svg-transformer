@@ -13,6 +13,7 @@ describe('svgPlugin', () => {
   it('can parse and transform svg files', async () => {
     const files = await SvgItem.toList(iconsDir, iconsDir)
     const twitter = files.find(file => file.getFilename() === 'twitter')
+    console.log(twitter)
 
     expect(files.length).toBe(22)
     expect(twitter?.getFilename()).toBe('twitter')

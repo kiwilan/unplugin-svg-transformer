@@ -3,6 +3,7 @@ import path from 'node:path'
 
 export class SvgItem {
   protected constructor(
+    protected filename?: string,
     protected name?: string,
     protected title?: string,
     protected fullPath?: string,
@@ -12,6 +13,7 @@ export class SvgItem {
 
   public static async make(path: string, rootPath: string): Promise<SvgItem> {
     const self = new SvgItem()
+    self.filename = path.replace(/^.*[\\\/]/, '')
     self.fullPath = path
     self.path = path.replace(rootPath, '')
     self.name = self.nameFromPath()
@@ -42,22 +44,56 @@ export class SvgItem {
     return svgFiles
   }
 
+  /**
+   * Filename.
+   *
+   * @example `youtube.svg`
+   */
+  public getFilename(): string {
+    return this.filename ?? 'undefined'
+  }
+
+  /**
+   * Name.
+   *
+   * @example `youtube`
+   */
   public getName(): string {
     return this.name ?? 'undefined'
   }
 
+  /**
+   * Title.
+   *
+   * @example `Youtube`
+   */
   public getTitle(): string {
     return this.title ?? 'undefined'
   }
 
+  /**
+   * Full path.
+   *
+   * @example `/home/user/project/src/assets/icons/svg/social/youtube.svg`
+   */
   public getFullPath(): string {
     return this.fullPath ?? 'undefined'
   }
 
+  /**
+   * Path.
+   *
+   * @example `/social/youtube.svg`
+   */
   public getPath(): string {
     return this.path ?? 'undefined'
   }
 
+  /**
+   * Content.
+   *
+   * @example `<svg></svg>`
+   */
   public getContent(): string {
     return this.content ?? 'undefined'
   }
@@ -115,14 +151,23 @@ export class SvgItem {
   }
 
   private setTitle(): string {
-    return this.capitalizeFirstLetter(this.name)
+    if (!this.filename)
+      return ''
+
+    let name = this.filename
+    name = name.replace(/\.svg$/, '')
+    name = name.replace(/-/g, ' ')
+
+    return this.capitalizeEveryWord(name)
   }
 
-  private capitalizeFirstLetter(string?: string): string {
+  private capitalizeEveryWord(string: string): string {
     if (!string)
       return ''
 
-    return string.charAt(0).toUpperCase() + string.slice(1)
+    return string.replace(/\w\S*/g, (txt) => {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    })
   }
 
   private addInlineCurrentColor(content: string): string {

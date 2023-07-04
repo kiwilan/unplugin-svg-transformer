@@ -19,7 +19,13 @@ export class TsConverter {
     self.opts = opts
     await self.defaultSvgFile()
 
-    await FileUtils.write(opts.filenamePath, self.types + self.list)
+    console.log(opts.filenamePath);
+    console.log(self.types + self.list);
+
+
+    let write = await FileUtils.write(opts.filenamePath, self.types + self.list)
+    console.log(write);
+
 
     return self
   }

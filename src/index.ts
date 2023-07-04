@@ -23,18 +23,14 @@ export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOpt
 
       await FileUtils.removeDirectory(opts.cacheDir)
       const files = await SvgItem.toList(opts.iconsDir, opts.iconsDir)
-      // console.log(files)
+
+      await Promise.all(files.map(async (file) => {
+        let path = file.getPath()
+        path = `${opts.cacheDir}${path}`
+        await FileUtils.write(path, file.getContent())
+      }))
 
       await TsConverter.make(files, opts)
-      // let content = await typeContent(files)
-      // content += await listContent(files)
-
-      // write(iconTsPath(), content)
-
-      // for (const file of files)
-      //   await writeCacheSvgFile(file)
-
-      // await addDefaultSvgToCache()
     },
     handleHotUpdate({ file, server }) {
       if (file.endsWith('.svg'))

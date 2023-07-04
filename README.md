@@ -175,8 +175,8 @@ https://img.shields.io/npm/v/unplugin?style=flat&colorA=18181B&colorB=F0DB4F
 
 [unplugin-version-src]: https://img.shields.io/static/v1?style=flat-square&label=unplugin&message=v1.3&color=F0DB4F&labelColor=18181B
 [unplugin-version-href]: https://github.com/unjs/unplugin
-[version-src]: https://img.shields.io/npm/v/@kiwilan/unplugin-svg-transformer.svg?style=flat-square&color=F0DB4F&labelColor=18181b
-[version-href]: https://www.npmjs.com/package/@kiwilan/unplugin-svg-transformer
+[version-src]: https://img.shields.io/npm/v/unplugin-svg-transformer.svg?style=flat-square&color=F0DB4F&labelColor=18181b
+[version-href]: https://www.npmjs.com/package/unplugin-svg-transformer
 [downloads-src]: https://img.shields.io/npm/dm/unplugin-svg-transformer?style=flat-square&colorA=18181B&colorB=F0DB4F
 [downloads-href]: https://npmjs.com/package/unplugin-svg-transformer
 [license-src]: https://img.shields.io/github/license/kiwilan/unplugin-svg-transformer.svg?style=flat-square&colorA=18181B&colorB=F0DB4F

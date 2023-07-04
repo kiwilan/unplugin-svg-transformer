@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-svg",
   "version": "0.0.1",
-  "description": "",
+  "description": "EXPERIMENTAL. Import easily your SVG with Vite.",
   "main": "index.js",
   "scripts": {
     "build": "vite build",

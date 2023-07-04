@@ -1,25 +1,28 @@
 import path from 'node:path'
 import { FileUtils } from './FileUtils'
 import { SvgItem } from './SvgItem'
-import type { VitePluginSvgOptions } from '.'
 
 export class TsConverter {
   protected constructor(
     protected items: SvgItem[] = [],
     protected types?: string,
     protected list?: string,
-    protected opts?: VitePluginSvgOptions,
+    protected iconsDir?: string,
+    protected cacheDir?: string,
+    protected filenamePath?: string,
   ) { }
 
-  public static async make(items: SvgItem[], opts: VitePluginSvgOptions): Promise<TsConverter> {
+  public static async make(items: SvgItem[], iconsDir: string, cacheDir: string, filenamePath: string): Promise<TsConverter> {
     const self = new TsConverter(items)
 
-    self.opts = opts
+    self.iconsDir = iconsDir
+    self.cacheDir = cacheDir
+    self.filenamePath = filenamePath
     self.types = await self.setTypes()
     self.list = await self.setList()
     await self.defaultSvgFile()
 
-    await FileUtils.write(opts.filenamePath, self.types + self.list)
+    await FileUtils.write(self.filenamePath, self.types + self.list)
 
     return self
   }
@@ -27,7 +30,7 @@ export class TsConverter {
   private async defaultSvgFile() {
     const item = await SvgItem.defaultSvg()
 
-    const directoryPath = this.opts!.cacheDir
+    const directoryPath = this.cacheDir!
     await FileUtils.checkIfDirectoryExists(directoryPath)
 
     const filePath = path.join(directoryPath, `${item.getName()}.ts`)
@@ -57,8 +60,8 @@ export class TsConverter {
   }
 
   private async setList() {
-    const filenamePath = this.opts!.filenamePath
-    const cachePath = this.opts!.cacheDir
+    const filenamePath = this.filenamePath!
+    const cachePath = this.cacheDir!
     let relativePath = path.relative(filenamePath, cachePath)
     relativePath = relativePath.substring(1)
 

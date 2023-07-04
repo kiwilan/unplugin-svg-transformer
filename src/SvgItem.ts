@@ -3,6 +3,7 @@ import path from 'node:path'
 
 export class SvgItem {
   protected constructor(
+    protected basename?: string,
     protected filename?: string,
     protected name?: string,
     protected title?: string,
@@ -13,7 +14,8 @@ export class SvgItem {
 
   public static async make(path: string, rootPath: string): Promise<SvgItem> {
     const self = new SvgItem()
-    self.filename = path.replace(/^.*[\\\/]/, '')
+    self.basename = path.replace(/^.*[\\\/]/, '')
+    self.filename = self.basename.replace('.svg', '')
     self.fullPath = path
     self.path = path.replace(rootPath, '')
     self.name = self.nameFromPath()
@@ -47,10 +49,19 @@ export class SvgItem {
   /**
    * Filename.
    *
-   * @example `youtube.svg`
+   * @example `youtube`
    */
   public getFilename(): string {
     return this.filename ?? 'undefined'
+  }
+
+  /**
+   * Basename.
+   *
+   * @example `youtube.svg`
+   */
+  public getBasename(): string {
+    return this.basename ?? 'undefined'
   }
 
   /**
@@ -100,11 +111,11 @@ export class SvgItem {
 
   private nameFromPath(): string {
     let name = this.path!
-    name = name.replace(/\\/g, '/')
+    if (name.startsWith('/'))
+      name = name.substring(1)
     name = name.replace(/\.svg$/, '')
-    name = name.replace(/^\//, '')
-    name = name.replace('/', '-')
-    name = name.replace('\\', '-')
+    name = name.replace(/[^\w\s]/gi, '-')
+    name = name.replace(/\\/g, '-')
 
     return name
   }
@@ -131,9 +142,9 @@ export class SvgItem {
       content = this.removeBuiltInHeightAndWidth(content)
       content = this.addDefaultStyle(content)
       content = this.removeBreakLines(content)
-      content = this.removeTooLargeSpaces(content)
       content = this.removeClasses(content)
       content = this.addTitleIfMissing(content)
+      content = this.removeTooLargeSpaces(content)
 
       return content
     }
@@ -147,7 +158,7 @@ export class SvgItem {
     if (/<title>.*?<\/title>/.test(content))
       return content
 
-    return content.replace(/<svg/g, `<svg><title>${this.title}</title>`)
+    return content.replace(/<svg(?![^>]*\s)([^>]*)/, `<svg$1><title>${this.title}</title>`)
   }
 
   private setTitle(): string {
@@ -186,7 +197,14 @@ export class SvgItem {
   }
 
   private addDefaultStyle(content: string) {
-    return content.replace(/<svg/g, '<svg style="display: inline-block; height: inherit; width: inherit;"')
+    const styles = [
+      'display: inline-block;',
+      'height: inherit;',
+      'width: inherit;',
+    ]
+    const style = styles.join(' ')
+
+    return content.replace(/<svg/g, `<svg style="${style}"`)
   }
 
   private removeBreakLines(content: string): string {
@@ -194,7 +212,10 @@ export class SvgItem {
   }
 
   private removeTooLargeSpaces(content: string): string {
-    return content.replace(/\s{2,}/g, ' ')
+    content = content.replace(/\s{2,}/g, ' ')
+    content = content.replace(/>\s</g, '><')
+
+    return content
   }
 
   private removeClasses(content: string): string {

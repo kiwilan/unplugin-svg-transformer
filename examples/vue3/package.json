@@ -17,7 +17,7 @@
     "rimraf": "^5.0.1",
     "typescript": "^5.0.2",
     "vite": "link:../../node_modules/vite",
-    "vite-plugin-svg": "link:../../",
+    "vite-plugin-svg-transformer": "link:../../",
     "vue-tsc": "^1.4.2"
   }
 }

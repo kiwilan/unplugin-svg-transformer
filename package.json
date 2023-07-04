@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-svg",
+  "name": "vite-plugin-svg-transformer",
   "version": "0.0.1",
   "description": "EXPERIMENTAL. Import easily your SVG with Vite.",
   "type": "module",
@@ -16,13 +16,13 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/kiwilan/vite-plugin-svg",
+  "homepage": "https://github.com/kiwilan/vite-plugin-svg-transformer",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiwilan/vite-plugin-svg.git"
+    "url": "git+https://github.com/kiwilan/vite-plugin-svg-transformer.git"
   },
   "bugs": {
-    "url": "https://github.com/kiwilan/vite-plugin-svg/issues"
+    "url": "https://github.com/kiwilan/vite-plugin-svg-transformer/issues"
   },
   "scripts": {
     "dev": "pnpm run build -- --watch --ignore-watch examples",
@@ -35,7 +35,7 @@
     "prepublishOnly": "pnpm run build",
     "release": "npx bumpp --push --tag --commit && pnpm publish",
     "clean": "rimraf dist && rimraf vue",
-    "local": "rm -f ~/vite-plugin-svg-*.tgz || true && mv ./vite-plugin-svg-*.tgz ~/vite-plugin-svg.tgz",
+    "local": "rm -f ~/vite-plugin-svg-transformer-*.tgz || true && mv ./vite-plugin-svg-transformer-*.tgz ~/vite-plugin-svg-transformer.tgz",
     "package": "npm run clean && npm run build && npm pack && npm run local",
     "deploy": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
   },
@@ -45,6 +45,7 @@
     "@antfu/eslint-config": "^0.39.7",
     "@types/node": "^20.3.3",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@vitest/coverage-v8": "^0.32.4",
     "@vue/runtime-core": "^3.3.4",
     "bumpp": "^9.1.1",
     "eslint": "^8.44.0",

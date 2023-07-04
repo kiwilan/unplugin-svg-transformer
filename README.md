@@ -47,7 +47,7 @@ In `package.json`:
 ```json
 {
   "devDependencies": {
-    "vite-plugin-svg": "file:~/vite-plugin-svg.tgz"
+    "vite-plugin-svg-transformer": "file:~/vite-plugin-svg-transformer.tgz"
   }
 }
 ```

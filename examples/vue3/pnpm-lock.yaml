@@ -25,7 +25,7 @@ devDependencies:
   vite:
     specifier: link:../../node_modules/vite
     version: link:../../node_modules/vite
-  vite-plugin-svg:
+  vite-plugin-svg-transformer:
     specifier: link:../../
     version: link:../..
   vue-tsc:

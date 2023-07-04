@@ -1,12 +1,11 @@
-name: Codecov
+name: ESLint
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    paths:
+      - "**.ts"
+      - "**.tsx"
+      - "**.vue"
 
 jobs:
   phpstan:
@@ -25,12 +24,3 @@ jobs:
 
       - name: Run ESLint
         run: pnpm lint
-
-      - name: Execute tests
-        run: pnpm coverage
-
-      - name: Send code coverage
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: false

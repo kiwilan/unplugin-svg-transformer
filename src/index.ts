@@ -10,41 +10,34 @@ const DEFAULT_OPTIONS = {
   iconsDir: './resources/js/Icons/svg',
   cacheDir: './resources/js/Icons/cache',
   filenamePath: './resources/js/icons.ts',
+  gitignorePath: './.gitignore',
 }
 
-export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOption {
+export default function vitePluginSvgTransformer(options?: Options): PluginOption {
   return {
-    name: 'vite-plugin-svg',
+    name: 'vite-plugin-svg-transformer',
     async buildStart() {
-      const opts: VitePluginSvgOptions = Object.assign({}, DEFAULT_OPTIONS, options)
+      const opts: Options = Object.assign({}, DEFAULT_OPTIONS, options)
       opts.iconsDir = FileUtils.fullPath(opts.iconsDir)
       opts.cacheDir = FileUtils.fullPath(opts.cacheDir)
       opts.filenamePath = FileUtils.fullPath(opts.filenamePath)
 
-      await FileUtils.checkIfDirectoryExists(opts.iconsDir)
-      await FileUtils.checkIfDirectoryExists(opts.cacheDir)
-      const dir = opts.filenamePath.substring(0, opts.filenamePath.lastIndexOf('/'))
-      await FileUtils.checkIfDirectoryExists(dir)
+      await FileUtils.checkIfDirectoriesExists(opts.iconsDir, opts.cacheDir, opts.filenamePath)
 
+      // Remove the cache directory and create it again.
       await FileUtils.removeDirectory(opts.cacheDir)
+
+      // Get all SVG files from the icons directory.
       const files = await SvgItem.toList(opts.iconsDir, opts.iconsDir)
 
-      await Promise.all(files.map(async (file) => {
-        let path = file.getPath()
-        path = `${opts.cacheDir}${path}`
-        path = path.replace('.svg', '.ts')
+      // Write each SVG file to a TS file into the cache directory.
+      await FileUtils.writeSvgAsTs(files, opts.cacheDir)
 
-        const dir = path.substring(0, path.lastIndexOf('/'))
-        await FileUtils.checkIfDirectoryExists(dir)
+      // Create the TS file with the list of icons.
+      await TsConverter.make(files, opts.iconsDir, opts.cacheDir, opts.filenamePath)
 
-        let content = file.getContent()
-        content = `export default '${content}'\n`
-
-        await FileUtils.write(path, content)
-      }))
-
-      await TsConverter.make(files, opts)
-      await FileUtils.addPathToGitignoreIfNotExists(options?.cacheDir)
+      // Add the cache directory to the .gitignore file.
+      await FileUtils.addPathToGitignoreIfNotExists(options?.cacheDir, options?.gitignorePath)
     },
     handleHotUpdate({ file, server }) {
       if (file.endsWith('.svg'))
@@ -53,7 +46,7 @@ export default function vitePluginSvg(options?: VitePluginSvgOptions): PluginOpt
   }
 }
 
-export interface VitePluginSvgOptions {
+export interface Options {
   /**
    * Directory where the SVG files are located.
    *
@@ -72,4 +65,10 @@ export interface VitePluginSvgOptions {
    * @default './resources/js/icons.ts'
    */
   filenamePath: string
+  /**
+   * Path to the .gitignore file.
+   *
+   * @default './.gitignore'
+   */
+  gitignorePath?: string
 }

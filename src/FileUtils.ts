@@ -4,10 +4,12 @@ import type { SvgItem } from './SvgItem'
 
 export class FileUtils {
   public static fullPath(path: string): string {
+    path = this.convertDirectorySeparator(path)
     return join(process.cwd(), path)
   }
 
   public static async read(path: string): Promise<string> {
+    path = this.convertDirectorySeparator(path)
     try {
       const content = await fs.readFile(path, 'utf-8')
       return content
@@ -19,6 +21,7 @@ export class FileUtils {
   }
 
   public static async write(path: string, content: string): Promise<boolean> {
+    path = this.convertDirectorySeparator(path)
     try {
       await fs.writeFile(path, content)
       return true
@@ -31,6 +34,7 @@ export class FileUtils {
   }
 
   public static async writeSvgAsTs(files: SvgItem[], cacheDir: string): Promise<void> {
+    cacheDir = this.convertDirectorySeparator(cacheDir)
     await Promise.all(files.map(async (file) => {
       let path = file.getPath()
       path = `${cacheDir}${path}`
@@ -53,7 +57,15 @@ export class FileUtils {
     await FileUtils.checkIfDirectoryExists(dir)
   }
 
+  public static convertDirectorySeparator(path: string): string {
+    if (process.platform === 'win32')
+      return path.replace(/\//g, '\\')
+
+    return path
+  }
+
   public static async checkIfDirectoryExists(path: string): Promise<boolean> {
+    path = this.convertDirectorySeparator(path)
     try {
       const stats = await fs.stat(path)
       return stats.isDirectory()
@@ -64,13 +76,14 @@ export class FileUtils {
         return true
       }
       catch (err) {
-        console.error('Unable to create directory:', err)
+        console.error('Unable to create directory:', err, path)
         return false
       }
     }
   }
 
   public static async removeDirectory(path: string): Promise<void> {
+    path = this.convertDirectorySeparator(path)
     if (!await this.checkIfDirectoryExists(path))
       return
 
@@ -86,10 +99,13 @@ export class FileUtils {
     if (!path)
       return
 
+    path = this.convertDirectorySeparator(path)
+    gitignorePath = this.convertDirectorySeparator(gitignorePath ?? '.gitignore')
+
     path = path.replace(process.cwd(), '')
     gitignorePath = gitignorePath?.replace(process.cwd(), '')
 
-    gitignorePath = join(process.cwd(), gitignorePath ?? '.gitignore')
+    gitignorePath = join(process.cwd(), gitignorePath)
     const content = await fs.readFile(gitignorePath, 'utf-8')
 
     if (content.includes(path))

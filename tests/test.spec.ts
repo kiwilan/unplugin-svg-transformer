@@ -13,10 +13,10 @@ function getPaths() {
 
   if (os.platform() === 'win32') {
     return {
-      iconsDir: iconsDir.replace(/\//g, '\\'),
-      cacheDir: cacheDir.replace(/\//g, '\\'),
-      filenamePath: filenamePath.replace(/\//g, '\\'),
-      gitignorePath: gitignorePath.replace(/\//g, '\\'),
+      iconsDir: FileUtils.convertDirectorySeparator(iconsDir),
+      cacheDir: FileUtils.convertDirectorySeparator(cacheDir),
+      filenamePath: FileUtils.convertDirectorySeparator(filenamePath),
+      gitignorePath: FileUtils.convertDirectorySeparator(gitignorePath),
     }
   }
 

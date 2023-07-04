@@ -5,3 +5,5 @@ resources
 src/icons
 tests/icons/cache
 tests/icons/.gitignore
+
+/resources/js/Icons/cache

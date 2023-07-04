@@ -1,7 +1,7 @@
 {
   "name": "unplugin-svg-transformer",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "packageManager": "pnpm@8.6.0",
   "description": "EXPERIMENTAL. Import easily your SVG with Vite.",
   "author": "kiwilan <ewilan.riviere@gmail.com>",
@@ -84,7 +84,11 @@
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
-    "coverage": "vitest --coverage"
+    "coverage": "vitest --coverage",
+    "clean": "rimraf dist && rimraf vue",
+    "local": "rm -f ~/unplugin-svg-transformer-*.tgz || true && mv ./unplugin-svg-transformer-*.tgz ~/unplugin-svg-transformer.tgz",
+    "package": "npm run clean && npm run build && npm pack && npm run local",
+    "deploy": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
   },
   "dependencies": {
     "unplugin": "^1.3.1"

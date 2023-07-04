@@ -6,8 +6,10 @@
 
 <!-- [![version][version-src]][version-href] -->
 <!-- [![downloads][downloads-src]][downloads-href] -->
-<!-- [![license][license-src]][license-href] -->
-<!-- [![tests][tests-src]][tests-href] -->
+
+[![license][license-src]][license-href]
+[![tests][tests-src]][tests-href]
+
 <!-- [![codecov][codecov-src]][codecov-href] -->
 
 EXPERIMENTAL. Import easily your SVG with Vite.
@@ -78,13 +80,13 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [vite-version-src]: https://img.shields.io/static/v1?style=flat-square&label=Vite&message=plugin&color=646CFF&logo=vite&logoColor=ffffff&labelColor=18181b
 [vite-version-href]: https://www.php.net/
-[version-src]: https://img.shields.io/npm/v/@kiwilan/typescriptable-laravel.svg?style=flat-square&color=646CFF&logoColor=ffffff&labelColor=18181b
-[version-href]: https://www.npmjs.com/package/@kiwilan/typescriptable-laravel
-[downloads-src]: https://img.shields.io/packagist/dt/kiwilan/typescriptable-laravel.svg?style=flat-square&colorA=18181B&colorB=646CFF
-[downloads-href]: https://packagist.org/packages/kiwilan/typescriptable-laravel
-[license-src]: https://img.shields.io/github/license/kiwilan/typescriptable-laravel.svg?style=flat-square&colorA=18181B&colorB=646CFF
-[license-href]: https://github.com/kiwilan/typescriptable-laravel/blob/main/README.md
-[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/typescriptable-laravel/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
-[tests-href]: https://github.com/kiwilan/typescriptable-laravel/actions/workflows/run-tests.yml
-[codecov-src]: https://codecov.io/gh/kiwilan/typescriptable-laravel/branch/main/graph/badge.svg?token=P9XIK2KV9G
-[codecov-href]: https://codecov.io/gh/kiwilan/typescriptable-laravel
+[version-src]: https://img.shields.io/npm/v/@kiwilan/vite-plug-svg-transformer.svg?style=flat-square&color=646CFF&logoColor=ffffff&labelColor=18181b
+[version-href]: https://www.npmjs.com/package/@kiwilan/vite-plug-svg-transformer
+[downloads-src]: https://img.shields.io/packagist/dt/kiwilan/vite-plug-svg-transformer.svg?style=flat-square&colorA=18181B&colorB=646CFF
+[downloads-href]: https://packagist.org/packages/kiwilan/vite-plug-svg-transformer
+[license-src]: https://img.shields.io/github/license/kiwilan/vite-plug-svg-transformer.svg?style=flat-square&colorA=18181B&colorB=646CFF
+[license-href]: https://github.com/kiwilan/vite-plug-svg-transformer/blob/main/README.md
+[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/vite-plug-svg-transformer/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
+[tests-href]: https://github.com/kiwilan/vite-plug-svg-transformer/actions/workflows/run-tests.yml
+[codecov-src]: https://codecov.io/gh/kiwilan/vite-plug-svg-transformer/branch/main/graph/badge.svg?token=P9XIK2KV9G
+[codecov-href]: https://codecov.io/gh/kiwilan/vite-plug-svg-transformer

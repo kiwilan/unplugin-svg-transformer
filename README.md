@@ -40,6 +40,18 @@ pnpm i
 pnpm test
 ```
 
+### Local
+
+In `package.json`:
+
+```json
+{
+  "devDependencies": {
+    "vite-plugin-svg": "file:~/vite-plugin-svg.tgz"
+  }
+}
+```
+
 ### Build
 
 ```bash

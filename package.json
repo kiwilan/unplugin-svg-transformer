@@ -10,8 +10,8 @@
   ],
   "main": "dist/index.js",
   "exports": {
-    "import": "./dist/import.js",
-    "require": "./dist/require.cjs"
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
   },
   "files": [
     "dist"

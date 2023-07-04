@@ -71,6 +71,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Credits
 
 - [Ewilan Riviere](https://github.com/ewilan-riviere)
+- [antfu/unplugin-starter](https://github.com/antfu/unplugin-starter)
 
 ## License
 

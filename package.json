@@ -8,27 +8,54 @@
     "svg",
     "vue"
   ],
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "exports": {
+    "import": "./dist/import.js",
+    "require": "./dist/require.cjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/kiwilan/vite-plugin-svg",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiwilan/vite-plugin-svg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kiwilan/vite-plugin-svg/issues"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "dev": "pnpm run build -- --watch --ignore-watch examples",
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "example:vue3": "cd examples/vue3 && pnpm run build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest"
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build",
+    "release": "npx bumpp --push --tag --commit && pnpm publish",
+    "clean": "rimraf dist && rimraf vue",
+    "local": "rm -f ~/vite-plugin-svg-*.tgz || true && mv ./vite-plugin-svg-*.tgz ~/vite-plugin-svg.tgz",
+    "package": "npm run clean && npm run build && npm pack && npm run local",
+    "deploy": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
   },
-  "author": "",
+  "author": "kiwilan <ewilan.riviere@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.6",
     "@types/node": "^20.3.3",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/runtime-core": "^3.3.4",
+    "bumpp": "^9.1.1",
     "eslint": "^8.44.0",
     "ts-node": "^10.9.1",
+    "tsup": "^7.1.0",
     "typescript": "^5.1.6",
-    "vite": "^4.3.9",
     "vitest": "^0.32.4",
     "vue": "^3.3.4",
     "vue-tsc": "^1.8.3"
+  },
+  "peerDependencies": {
+    "vite": "*"
   }
 }

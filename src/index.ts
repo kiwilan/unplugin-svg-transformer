@@ -1,26 +1,30 @@
-import type { Plugin } from 'vite'
+import type { PluginOption } from 'vite'
 
-// import { createApp } from 'vue'
-// import MyComponent from './components/MyComponent.vue'
-// import { setup } from './methods'
-
-export default function svgPlugin(options: MyPluginOptions): Plugin {
-  // const app = createApp(MyComponent)
-  // app.mount('#app')
-
+export default function vitePluginSvg(): PluginOption {
   return {
-    name: 'svg-plugin',
-    async buildStart() {
-      // const opts: Options = Object.assign({}, DEFAULT_OPTIONS, userOptions)
-      // await setup()
+    // plugin name
+    name: 'vite-plugin-svg',
+
+    // pre will be executed before post
+    enforce: 'pre', // post
+
+    // Indicate that they are only called in 'build' or 'serve' mode
+    apply: 'build', // apply can also be a function
+
+    config(config, { command }) {
+      console.log('here is the config hook')
     },
-    handleHotUpdate({ file, server }) {
-      if (file.endsWith('.svg'))
-        server.restart()
+
+    configResolved(resolvedConfig) {
+      console.log('here is the configResolved hook')
+    },
+
+    configureServer(server) {
+      console.log('here is the configureServer hook')
+    },
+
+    transformIndexHtml(html) {
+      console.log('here is the transformIndexHtml hook')
     },
   }
-}
-
-interface MyPluginOptions {
-  // Add your plugin options here
 }

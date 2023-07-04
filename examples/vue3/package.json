@@ -1,0 +1,23 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@vitest/coverage-v8": "^0.32.4",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.0.2",
+    "vite": "link:../../node_modules/vite",
+    "vite-plugin-svg": "link:../../",
+    "vue-tsc": "^1.4.2"
+  }
+}

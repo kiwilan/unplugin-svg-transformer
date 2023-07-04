@@ -3,3 +3,4 @@ dist
 coverage
 resources
 src/icons
+tests/icons/cache

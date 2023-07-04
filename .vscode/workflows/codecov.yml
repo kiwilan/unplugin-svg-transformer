@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  phpstan:
-    name: phpstan
+  codecov:
+    name: codecov
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

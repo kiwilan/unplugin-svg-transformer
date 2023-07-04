@@ -1,3 +1,4 @@
+import fs from 'node:fs/promises'
 import { describe, expect, it } from 'vitest'
 import { SvgItem } from '../src/SvgItem'
 import { FileUtils } from '../src/FileUtils'
@@ -64,5 +65,20 @@ export const IconList: Record<IconType | string, Promise<{ default: string }>> =
   'social-youtube': import('./cache/social/youtube'),
   'default': import('./cache/default'),
 }\n`)
+  })
+  it('can create the gitignore file', async () => {
+    // delete `.gitignore` file
+    await fs.rm(gitignorePath)
+
+    // create `.gitignore` file
+    await FileUtils.write(gitignorePath, '')
+
+    const files = await SvgItem.toList(iconsDir, iconsDir)
+    await TsConverter.make(files, iconsDir, cacheDir, filenamePath)
+
+    const path = './tests/icons/.gitignore'
+    const content = await FileUtils.read(path)
+
+    // expect(content).toBe(`# Ignore everything in this directory'
   })
 })

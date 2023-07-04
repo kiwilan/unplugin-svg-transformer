@@ -3,13 +3,13 @@ name: ESLint
 on:
   push:
     paths:
-      - "**.ts"
-      - "**.tsx"
-      - "**.vue"
+      - '**.ts'
+      - '**.tsx'
+      - '**.vue'
 
 jobs:
-  phpstan:
-    name: phpstan
+  eslint:
+    name: eslint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

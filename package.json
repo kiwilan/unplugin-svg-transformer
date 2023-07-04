@@ -1,21 +1,10 @@
 {
   "name": "vite-plugin-svg-transformer",
+  "type": "module",
   "version": "0.0.1",
   "description": "EXPERIMENTAL. Import easily your SVG with Vite.",
-  "type": "module",
-  "keywords": [
-    "vite",
-    "svg",
-    "vue"
-  ],
-  "main": "dist/index.js",
-  "exports": {
-    "import": "./dist/index.js",
-    "require": "./dist/index.cjs"
-  },
-  "files": [
-    "dist"
-  ],
+  "author": "kiwilan <ewilan.riviere@gmail.com>",
+  "license": "MIT",
   "homepage": "https://github.com/kiwilan/vite-plugin-svg-transformer",
   "repository": {
     "type": "git",
@@ -24,6 +13,19 @@
   "bugs": {
     "url": "https://github.com/kiwilan/vite-plugin-svg-transformer/issues"
   },
+  "keywords": [
+    "vite",
+    "svg",
+    "vue"
+  ],
+  "exports": {
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "pnpm run build -- --watch --ignore-watch examples",
     "build": "tsup src/index.ts --dts --format cjs,esm",
@@ -39,8 +41,9 @@
     "package": "npm run clean && npm run build && npm pack && npm run local",
     "deploy": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
   },
-  "author": "kiwilan <ewilan.riviere@gmail.com>",
-  "license": "MIT",
+  "peerDependencies": {
+    "vite": "*"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.7",
     "@types/node": "^20.3.3",
@@ -55,8 +58,5 @@
     "vitest": "^0.32.4",
     "vue": "^3.3.4",
     "vue-tsc": "^1.8.3"
-  },
-  "peerDependencies": {
-    "vite": "*"
   }
 }

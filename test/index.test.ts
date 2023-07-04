@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import { describe, expect, it } from 'vitest'
-import { SvgItem } from '../src/SvgItem'
-import { FileUtils } from '../src/FileUtils'
-import { TsConverter } from '../src/TsConverter'
+import { SvgItem } from '../src/lib/SvgItem'
+import { FileUtils } from '../src/lib/FileUtils'
+import { TsConverter } from '../src/lib/TsConverter'
 
 function getPaths() {
   const iconsDir = `${process.cwd()}/tests/icons/svg`

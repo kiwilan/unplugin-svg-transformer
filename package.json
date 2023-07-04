@@ -1,62 +1,108 @@
 {
-  "name": "vite-plugin-svg-transformer",
+  "name": "unplugin-svg-transformer",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "packageManager": "pnpm@8.6.0",
   "description": "EXPERIMENTAL. Import easily your SVG with Vite.",
   "author": "kiwilan <ewilan.riviere@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/kiwilan/vite-plugin-svg-transformer",
+  "homepage": "https://github.com/kiwilan/unplugin-svg-transformer#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiwilan/vite-plugin-svg-transformer.git"
+    "url": "git+https://github.com/kiwilan/unplugin-svg-transformer.git"
   },
   "bugs": {
-    "url": "https://github.com/kiwilan/vite-plugin-svg-transformer/issues"
+    "url": "https://github.com/kiwilan/unplugin-svg-transformer/issues"
   },
   "keywords": [
+    "unplugin",
     "vite",
-    "svg",
-    "vue"
+    "webpack",
+    "rollup",
+    "transform",
+    "svg"
   ],
   "exports": {
-    "require": "./dist/index.cjs",
-    "import": "./dist/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "require": "./dist/vite.cjs",
+      "import": "./dist/vite.js"
+    },
+    "./webpack": {
+      "types": "./dist/webpack.d.ts",
+      "require": "./dist/webpack.cjs",
+      "import": "./dist/webpack.js"
+    },
+    "./rollup": {
+      "types": "./dist/rollup.d.ts",
+      "require": "./dist/rollup.cjs",
+      "import": "./dist/rollup.js"
+    },
+    "./esbuild": {
+      "types": "./dist/esbuild.d.ts",
+      "require": "./dist/esbuild.cjs",
+      "import": "./dist/esbuild.js"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
+      "require": "./dist/nuxt.cjs",
+      "import": "./dist/nuxt.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "require": "./dist/types.cjs",
+      "import": "./dist/types.js"
+    },
+    "./*": "./*"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "pnpm run build -- --watch --ignore-watch examples",
-    "build": "tsup src/index.ts --dts --format cjs,esm",
-    "example:vue3": "cd examples/vue3 && pnpm run build",
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "build:fix": "esno scripts/postbuild.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "test": "vitest",
-    "coverage": "vitest run --coverage",
-    "prepublishOnly": "pnpm run build",
-    "release": "npx bumpp --push --tag --commit && pnpm publish",
-    "clean": "rimraf dist && rimraf vue",
-    "local": "rm -f ~/vite-plugin-svg-transformer-*.tgz || true && mv ./vite-plugin-svg-transformer-*.tgz ~/vite-plugin-svg-transformer.tgz",
-    "package": "npm run clean && npm run build && npm pack && npm run local",
-    "deploy": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
+    "play": "npm -C playground run dev",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp && npm publish",
+    "start": "esno src/index.ts",
+    "test": "vitest"
   },
-  "peerDependencies": {
-    "vite": "*"
+  "dependencies": {
+    "unplugin": "^1.3.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.7",
-    "@types/node": "^20.3.3",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "@vitest/coverage-v8": "^0.32.4",
-    "@vue/runtime-core": "^3.3.4",
-    "bumpp": "^9.1.1",
-    "eslint": "^8.44.0",
-    "ts-node": "^10.9.1",
-    "tsup": "^7.1.0",
-    "typescript": "^5.1.6",
-    "vitest": "^0.32.4",
-    "vue": "^3.3.4",
-    "vue-tsc": "^1.8.3"
+    "@antfu/eslint-config": "^0.39.5",
+    "@types/node": "^18.16.16",
+    "bumpp": "^9.1.0",
+    "chalk": "^5.2.0",
+    "eslint": "^8.42.0",
+    "esno": "^0.16.3",
+    "fast-glob": "^3.2.12",
+    "nodemon": "^2.0.22",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.23.1",
+    "tsup": "^6.7.0",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vitest": "^0.31.4",
+    "webpack": "^5.85.0"
   }
 }

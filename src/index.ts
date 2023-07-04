@@ -21,6 +21,7 @@ export default function vitePluginSvgTransformer(options?: Options): PluginOptio
       opts.iconsDir = FileUtils.fullPath(opts.iconsDir)
       opts.cacheDir = FileUtils.fullPath(opts.cacheDir)
       opts.filenamePath = FileUtils.fullPath(opts.filenamePath)
+      opts.gitignorePath = FileUtils.fullPath(opts.gitignorePath)
 
       await FileUtils.checkIfDirectoriesExists(opts.iconsDir, opts.cacheDir, opts.filenamePath)
 
@@ -37,7 +38,7 @@ export default function vitePluginSvgTransformer(options?: Options): PluginOptio
       await TsConverter.make(files, opts.iconsDir, opts.cacheDir, opts.filenamePath)
 
       // Add the cache directory to the .gitignore file.
-      await FileUtils.addPathToGitignoreIfNotExists(options?.cacheDir, options?.gitignorePath)
+      await FileUtils.addPathToGitignoreIfNotExists(opts.cacheDir, opts.gitignorePath)
     },
     handleHotUpdate({ file, server }) {
       if (file.endsWith('.svg'))
@@ -70,5 +71,5 @@ export interface Options {
    *
    * @default './.gitignore'
    */
-  gitignorePath?: string
+  gitignorePath: string
 }

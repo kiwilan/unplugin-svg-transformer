@@ -68,17 +68,14 @@ export const IconList: Record<IconType | string, Promise<{ default: string }>> =
   })
   it('can create the gitignore file', async () => {
     // delete `.gitignore` file
-    await fs.rm(gitignorePath)
+    await fs.rm(gitignorePath, { force: true })
 
     // create `.gitignore` file
-    await FileUtils.write(gitignorePath, '')
+    await fs.writeFile(gitignorePath, '')
 
-    const files = await SvgItem.toList(iconsDir, iconsDir)
-    await TsConverter.make(files, iconsDir, cacheDir, filenamePath)
+    await FileUtils.addPathToGitignoreIfNotExists(cacheDir, gitignorePath)
+    const content = await FileUtils.read(gitignorePath)
 
-    const path = './tests/icons/.gitignore'
-    const content = await FileUtils.read(path)
-
-    // expect(content).toBe(`# Ignore everything in this directory'
+    expect(content).toBe('\n/tests/icons/cache')
   })
 })

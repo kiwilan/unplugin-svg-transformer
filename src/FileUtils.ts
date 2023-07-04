@@ -86,6 +86,9 @@ export class FileUtils {
     if (!path)
       return
 
+    path = path.replace(process.cwd(), '')
+    gitignorePath = gitignorePath?.replace(process.cwd(), '')
+
     gitignorePath = join(process.cwd(), gitignorePath ?? '.gitignore')
     const content = await fs.readFile(gitignorePath, 'utf-8')
 

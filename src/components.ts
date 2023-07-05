@@ -1,5 +1,5 @@
 import SvgIcon from './components/SvgIcon'
 
-export default {
+export {
   SvgIcon,
 }

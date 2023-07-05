@@ -8,4 +8,7 @@ export default <Options>{
   format: ['cjs', 'esm'],
   dts: true,
   onSuccess: 'npm run build:fix',
+  external: [
+    'vue',
+  ],
 }

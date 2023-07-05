@@ -21,7 +21,7 @@ export class DefinitionFile {
       '  interface ComponentCustomProperties {',
       // 'declare module \'vue\' {',
       // '  export interface GlobalComponents {',
-      '    SvgIcon: typeof import(\'unplugin-svg-transformer/components\')[\'default\']',
+      '    SvgIcon: typeof import(\'unplugin-svg-transformer/components\')[\'SvgIcon\']',
       '  }',
       '}',
     ]

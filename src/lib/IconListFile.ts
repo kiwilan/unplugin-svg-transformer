@@ -39,7 +39,7 @@ export class IconListFile {
 
   private async setTypes(): Promise<string> {
     let content = ''
-    content += 'declare type IconType = '
+    content += 'export type IconType = '
     this.items.forEach((item, key) => {
       if (key > 0)
         content += ' | '

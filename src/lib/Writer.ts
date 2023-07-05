@@ -100,13 +100,22 @@ export class Writer {
   }
 
   private async writeDefinition(): Promise<boolean> {
-    const path = Utils.rootPath('icons.d.ts')
+    const definitionPath = Utils.rootPath('icons.d.ts')
 
-    if (await Utils.fileExists(path))
-      await Utils.rm(path)
+    if (await Utils.fileExists(definitionPath))
+      await Utils.rm(definitionPath)
 
-    const definition = await Utils.write(path, this.definition!.getDefinition())
-    const componentType = await Utils.write(path, this.definition!.getComponentType())
+    const definition = await Utils.write(definitionPath, this.definition!.getDefinition())
+
+    const pathComponentType = Utils.componentsPath()
+
+    if (!await Utils.fileExists(pathComponentType)) {
+      const dir = dirname(pathComponentType)
+      await Utils.directoryExists(dir)
+      await Utils.write(pathComponentType, '')
+    }
+
+    const componentType = await Utils.write(pathComponentType, this.definition!.getComponentType())
 
     if (definition && componentType)
       return true

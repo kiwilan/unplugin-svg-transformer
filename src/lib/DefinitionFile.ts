@@ -1,4 +1,3 @@
-import { dirname } from 'node:path'
 import { Utils } from './Utils'
 
 export class DefinitionFile {
@@ -48,12 +47,6 @@ export class DefinitionFile {
 
   private async setComponentType(): Promise<string> {
     const path = Utils.componentsPath()
-
-    if (!await Utils.fileExists(path)) {
-      const dir = dirname(path)
-      await Utils.directoryExists(dir)
-      await Utils.write(path, '')
-    }
     let content = await Utils.read(path)
     if (!content) {
       content = `import * as vue from 'vue';
@@ -76,10 +69,12 @@ declare const _default: vue.DefineComponent<{
 export { _default as SvgIcon };`
     }
 
-    content = content.replace(/^declare type IconType = .+$/m, '')
+    let types = this.componentType.replace(/^export type IconType = /, 'type IconType = ')
+    types = types.replace('\'default\' | \'default\'', '\'default\'')
+
+    content = content.replace(/^type IconType = .+$/m, '')
     content = content.replace(/type: PropType<string>;/g, 'type: PropType<IconType>;')
     content = content.replace(/\n\n/g, '\n')
-    const types = this.componentType
     content = content.replace('import { PropType } from \'vue\';', `import { PropType } from 'vue';\n${types}`)
 
     return content

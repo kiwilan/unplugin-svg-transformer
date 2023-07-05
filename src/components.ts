@@ -1,4 +1,4 @@
-import { SvgIcon } from './components/index'
+import SvgIcon from './components/SvgIcon'
 
 export {
   SvgIcon,

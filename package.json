@@ -63,11 +63,6 @@
       "require": "./dist/components.cjs",
       "import": "./dist/components.js"
     },
-    "./vue": {
-      "types": "./dist/vue/index.d.ts",
-      "require": "./dist/vue/index.cjs.js",
-      "import": "./dist/vue/index.es.js"
-    },
     "./*": "./*"
   },
   "main": "dist/index.cjs",
@@ -87,7 +82,7 @@
   "scripts": {
     "build:vite": "vite build",
     "build:unplugin": "tsup",
-    "build": "npm run clean && npm run build:unplugin && npm run build:vite",
+    "build": "npm run clean && npm run build:unplugin",
     "dev": "tsup --watch src",
     "build:fix": "esno scripts/postbuild.ts",
     "lint": "eslint .",

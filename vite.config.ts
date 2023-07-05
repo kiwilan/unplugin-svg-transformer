@@ -18,6 +18,7 @@ export default defineConfig({
   ],
   build: {
     outDir: 'dist/vue',
+    ssr: true,
     lib: {
       entry: resolve(__dirname, 'src/components/index.ts'),
       name: 'UnpluginSvgTransformer',

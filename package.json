@@ -58,10 +58,15 @@
       "require": "./dist/types.cjs",
       "import": "./dist/types.js"
     },
+    "./components": {
+      "types": "./dist/components.d.ts",
+      "require": "./dist/components.cjs",
+      "import": "./dist/components.js"
+    },
     "./vue": {
       "types": "./dist/vue/index.d.ts",
-      "require": "./dist/vue/vue.cjs.js",
-      "import": "./dist/vue/vue.es.js"
+      "require": "./dist/vue/index.cjs.js",
+      "import": "./dist/vue/index.es.js"
     },
     "./*": "./*"
   },

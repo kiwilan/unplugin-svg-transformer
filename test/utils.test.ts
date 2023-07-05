@@ -7,26 +7,20 @@ describe('utils', () => {
   it('can get the paths', () => {
     const paths = getPaths()
 
-    if (process.platform === 'win32') {
-      expect(paths.iconsDir).toBe(`${process.cwd()}\\test\\icons\\svg`)
-      expect(paths.cacheDir).toBe(`${process.cwd()}\\test\\icons\\cache`)
-      expect(paths.filenamePath).toBe(`${process.cwd()}\\test\\icons\\icons.ts`)
-      expect(paths.gitignorePath).toBe(`${process.cwd()}\\test\\icons\\.gitignore`)
-    }
-    else {
-      expect(paths.iconsDir).toBe(`${process.cwd()}/test/icons/svg`)
-      expect(paths.cacheDir).toBe(`${process.cwd()}/test/icons/cache`)
-      expect(paths.filenamePath).toBe(`${process.cwd()}/test/icons/icons.ts`)
-      expect(paths.gitignorePath).toBe(`${process.cwd()}/test/icons/.gitignore`)
-    }
+    expect(typeof paths).toBe('object')
+
+    expect(paths.iconsDir).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons`))
+    expect(paths.cacheDir).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/cache`))
+    expect(paths.filenamePath).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
+    expect(paths.gitignorePath).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
   })
 
-  it('can package paths', () => {
-    const packagePath = Utils.packagePath()
+  it('can get package paths', () => {
+    const packagePath = Utils.packagePath({ dist: false })
     const componentsPath = Utils.componentsPath()
 
-    expect(packagePath).toBe(Utils.normalizePath('/Users/ewilan/Workspace/vite-plugin-svg/node_modules/unplugin-svg-transformer'))
-    expect(componentsPath).toBe(Utils.normalizePath('/Users/ewilan/Workspace/vite-plugin-svg/node_modules/unplugin-svg-transformer/dist/components.d.ts'))
+    expect(packagePath).toBe(Utils.normalizePaths('/Users/ewilan/Workspace/vite-plugin-svg/node_modules/unplugin-svg-transformer'))
+    expect(componentsPath).toBe(Utils.normalizePaths('/Users/ewilan/Workspace/vite-plugin-svg/node_modules/unplugin-svg-transformer/dist/components.d.ts'))
   })
 
   it('can create the gitignore file', async () => {
@@ -39,7 +33,7 @@ describe('utils', () => {
     await Utils.ignorePath(getPaths().cacheDir, getPaths().gitignorePath)
     const content = await Utils.read(getPaths().gitignorePath)
 
-    const path = Utils.normalizePath('/test/icons/cache')
+    const path = Utils.normalizePaths('/test/icons/cache')
     expect(content).toBe(`\n${path}`)
   })
 })

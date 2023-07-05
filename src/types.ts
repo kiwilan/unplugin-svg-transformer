@@ -2,7 +2,7 @@ export interface Options {
   /**
    * Directory where the SVG files are located.
    *
-   * @default './src/icons/svg'
+   * @default './src/icons'
    */
   iconsDir: string
   /**

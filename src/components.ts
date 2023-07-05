@@ -1,4 +1,4 @@
-import SvgIcon from './components/SvgIcon'
+import SvgIcon from './vue/SvgIcon'
 
 export {
   SvgIcon,

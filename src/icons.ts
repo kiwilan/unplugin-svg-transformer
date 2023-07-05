@@ -1,0 +1,5 @@
+const IconList = {}
+
+export {
+  IconList,
+}

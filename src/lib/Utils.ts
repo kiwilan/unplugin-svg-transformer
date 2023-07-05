@@ -1,23 +1,46 @@
 import fs, { access, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 
+interface PackagePathOpts {
+  dist?: boolean
+  path?: string
+}
+
 export class Utils {
   public static fullPath(path: string): string {
     path = this.normalizePath(path)
     return join(process.cwd(), path)
   }
 
-  public static packagePath(dist = false): string {
+  public static rootPath(path?: string): string {
     const root = process.cwd()
-    const packagePath = Utils.normalizePath('./node_modules/unplugin-svg-transformer')
-    if (dist)
-      return join(root, packagePath, 'dist')
 
-    return join(root, packagePath)
+    if (path)
+      return Utils.normalizePath(join(root, path))
+
+    return root
+  }
+
+  public static relativeToRoot(path: string): string {
+    const root = process.cwd()
+    path = Utils.normalizePath(path)
+
+    return path.replace(root, '')
+  }
+
+  public static packagePath(opts: PackagePathOpts = { dist: true }): string {
+    const root = process.cwd()
+    const packagePath = 'node_modules/unplugin-svg-transformer'
+    const dist = opts.dist ? 'dist' : ''
+    const optsPath = opts.path ?? ''
+    let path = join(root, packagePath, dist, optsPath)
+    path = Utils.normalizePath(path)
+
+    return path
   }
 
   public static componentsPath(): string {
-    const packagePath = Utils.packagePath(true)
+    const packagePath = Utils.packagePath()
     const componentsPath = Utils.normalizePath('./components.d.ts')
 
     return join(packagePath, componentsPath)
@@ -68,20 +91,21 @@ export class Utils {
     }
   }
 
-  public static async directoriesExists(icons: string, cache: string, filename: string): Promise<void> {
-    await Utils.directoryExists(icons)
-    await Utils.directoryExists(cache)
-    const dir = filename.substring(0, filename.lastIndexOf('/'))
-    await Utils.directoryExists(dir)
+  private static normalizePath(path: string): string {
+    path = path.replace(/\/\//g, '/')
+
+    if (process.platform === 'win32')
+      return path.replace(/\//g, '\\')
+
+    return path
   }
 
-  public static normalizePath(path: string, double = false): string {
-    if (process.platform === 'win32') {
-      if (double)
-        return path.replace(/\\/g, '\\\\')
+  public static normalizePaths(paths: string[] | string): string {
+    if (typeof paths === 'string')
+      return this.normalizePath(paths)
 
-      return path.replace(/\//g, '\\')
-    }
+    let path = paths.map(path => this.normalizePath(path)).join('/')
+    path = path.replace(/\/\//g, '/')
 
     return path
   }

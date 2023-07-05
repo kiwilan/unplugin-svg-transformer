@@ -1,9 +1,7 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
-import { Utils } from './Utils'
 
 export class SvgItem {
-  protected constructor(
+  public constructor(
     protected basename?: string,
     protected filename?: string,
     protected name?: string,
@@ -24,56 +22,6 @@ export class SvgItem {
     self.content = await self.svgContent()
 
     return self
-  }
-
-  public static async toList(directoryPath: string, rootPath?: string): Promise<SvgItem[]> {
-    const svgFiles: SvgItem[] = []
-    if (!rootPath)
-      rootPath = directoryPath
-
-    const files = await fs.readdir(directoryPath)
-    for (const file of files) {
-      const filePath = path.join(directoryPath, file)
-      const stats = await fs.stat(filePath)
-
-      if (stats.isDirectory()) {
-        const subFiles = await SvgItem.toList(filePath, rootPath)
-        svgFiles.push(...subFiles)
-      }
-      else if (path.extname(file) === '.svg') {
-        const item: SvgItem = await SvgItem.make(filePath, rootPath)
-        svgFiles.push(item)
-      }
-    }
-
-    return svgFiles
-  }
-
-  public static async listToTsFiles(files: SvgItem[], cacheDir: string): Promise<void> {
-    cacheDir = Utils.normalizePath(cacheDir)
-    let packagePath = Utils.packagePath(true)
-    packagePath = Utils.normalizePath(`${packagePath}/cache`)
-
-    async function copy(basePath: string) {
-      await Promise.all(files.map(async (file) => {
-        let path = file.getPath()
-        path = `${basePath}${path}`
-        path = path.replace('.svg', '.ts')
-
-        let dir = path.substring(0, path.lastIndexOf('/'))
-        if (process.platform === 'win32')
-          dir = path.substring(0, path.lastIndexOf('\\'))
-
-        await Utils.directoryExists(dir)
-
-        let content = file.getContent()
-        content = `export default '${content}'\n`
-
-        await Utils.write(path, content)
-      }))
-    }
-    await copy(cacheDir)
-    await copy(packagePath)
   }
 
   /**
@@ -139,6 +87,10 @@ export class SvgItem {
     return this.content ?? 'undefined'
   }
 
+  public async setContent(content: string): Promise<void> {
+    this.content = await this.svgContent(content)
+  }
+
   private nameFromPath(): string {
     let name = this.path!
     if (process.platform === 'win32')
@@ -147,23 +99,9 @@ export class SvgItem {
     if (name.startsWith('/') || name.startsWith('\\'))
       name = name.substring(1)
     name = name.replace(/\.svg$/, '')
-    // name = name.replace(/[^\w\s]/gi, '-')
-    // name = name.replace(/\\/g, '-')
+    name = name.replace(/ /g, '-')
 
     return name
-  }
-
-  public static async defaultSvg(): Promise<SvgItem> {
-    const content = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
-
-    const self = new SvgItem()
-    self.name = 'default'
-    self.title = 'Default'
-    self.path = ''
-    self.fullPath = ''
-    self.content = await self.svgContent(content)
-
-    return self
   }
 
   private async svgContent(content?: string): Promise<string | undefined> {
@@ -191,7 +129,16 @@ export class SvgItem {
     if (/<title>.*?<\/title>/.test(content))
       return content
 
-    return content.replace(/<svg(?![^>]*\s)([^>]*)/, `<svg$1><title>${this.title}</title>`)
+    const svgTagRegex = /<svg([^>]*)>/i
+    const match = svgTagRegex.exec(content)
+    if (!match)
+      return content
+
+    const svgAttrs = match[1]
+    const titleElement = `<title>${this.title}</title>`
+    const newContent = content.replace(svgTagRegex, `<svg${svgAttrs}>${titleElement}`)
+
+    return newContent
   }
 
   private setTitle(): string {

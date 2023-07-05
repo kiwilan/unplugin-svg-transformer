@@ -1,12 +1,10 @@
 import { createUnplugin } from 'unplugin'
 import type { Options } from './types'
 import { Utils } from './lib/Utils'
-import { SvgItem } from './lib/SvgItem'
-import { ListFile } from './lib/ListFile'
-import { DefinitionFile } from './lib/DefinitionFile'
+import { Writer } from './lib/Writer'
 
 export const DEFAULT_OPTIONS: Options = {
-  iconsDir: './src/icons/svg',
+  iconsDir: './src/icons',
   cacheDir: './src/icons/cache',
   filenamePath: './src/icons.ts',
   gitignorePath: './.gitignore',
@@ -21,24 +19,7 @@ export default createUnplugin<Options | undefined>(options => ({
     opts.filenamePath = Utils.fullPath(opts.filenamePath)
     opts.gitignorePath = Utils.fullPath(opts.gitignorePath)
 
-    await Utils.directoriesExists(opts.iconsDir, opts.cacheDir, opts.filenamePath)
-
-    // Remove the cache directory and create it again.
-    await Utils.rmDirectory(opts.cacheDir)
-
-    // Get all SVG files from the icons directory.
-    const files = await SvgItem.toList(opts.iconsDir)
-
-    // Write each SVG file to a TS file into the cache directory.
-    await SvgItem.listToTsFiles(files, opts.cacheDir)
-
-    // Create the TS file with the list of icons.
-    const list = await ListFile.make(files, opts.iconsDir, opts.cacheDir, opts.filenamePath)
-
-    // Add the cache directory to the .gitignore file.
-    await Utils.ignorePath(opts.cacheDir, opts.gitignorePath)
-
-    await DefinitionFile.make(list.getTypes())
+    await Writer.make(opts)
   },
   vite: {
     handleHotUpdate({ file, server }) {

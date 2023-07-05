@@ -1,20 +1,14 @@
-import { dirname, join } from 'node:path'
+import { dirname } from 'node:path'
 import { Utils } from './Utils'
 
 export class DefinitionFile {
   protected constructor(
-    protected types: string,
+    protected componentType: string,
+    protected definition?: string,
   ) {}
 
-  public static async make(types: string) {
+  public static async make(types: string): Promise<DefinitionFile> {
     const self = new DefinitionFile(types)
-
-    const rootPath = process.cwd()
-    const filename = 'icons.d.ts'
-    const path = join(rootPath, filename)
-
-    if (await Utils.fileExists(path))
-      await Utils.rm(path)
 
     const contents = [
       '/* eslint-disable */',
@@ -28,14 +22,31 @@ export class DefinitionFile {
       '    SvgIcon: typeof import(\'unplugin-svg-transformer/components\')[\'SvgIcon\']',
       '  }',
       '}',
+      '',
+      'declare global {',
+      '  interface Window {',
+      '    iconList: Record<IconType | string, Promise<{ default: string }>>',
+      '  }',
+      '}',
+      '',
+      'window.iconList = window.iconList || {}',
     ]
 
-    const content = contents.join('\n')
-    await Utils.write(path, content)
-    await self.type()
+    self.definition = contents.join('\n')
+    self.componentType = await self.setComponentType()
+
+    return self
   }
 
-  private async type(): Promise<void> {
+  public getComponentType(): string {
+    return this.componentType
+  }
+
+  public getDefinition(): string {
+    return this.definition!
+  }
+
+  private async setComponentType(): Promise<string> {
     const path = Utils.componentsPath()
     if (!await Utils.fileExists(path)) {
       const dir = dirname(path)
@@ -47,7 +58,9 @@ export class DefinitionFile {
     content = content.replace(/^declare type IconType = .+$/m, '')
     content = content.replace(/type: PropType<string>;/g, 'type: PropType<IconType>;')
     content = content.replace(/\n\n/g, '\n')
-    content = content.replace('import { PropType } from \'vue\';', `import { PropType } from 'vue';\n${this.types}`)
-    await Utils.write(path, content)
+    const types = '' // TODO
+    content = content.replace('import { PropType } from \'vue\';', `import { PropType } from 'vue';\n${types}`)
+
+    return content
   }
 }

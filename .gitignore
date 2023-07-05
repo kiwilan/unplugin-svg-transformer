@@ -87,5 +87,5 @@ test/icons/cache
 test/icons/.gitignore
 test/icons/icons.ts
 icons.d.ts
-icons.ts
+./icons.ts
 cache

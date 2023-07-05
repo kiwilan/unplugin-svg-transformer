@@ -63,6 +63,12 @@
       "require": "./dist/components.cjs",
       "import": "./dist/components.js"
     },
+    "./vue": {
+      "types": "./dist/vue.d.ts",
+      "require": "./dist/vue.cjs",
+      "import": "./dist/vue.js"
+    },
+    "./icons": "./dist/icons",
     "./*": "./*"
   },
   "main": "dist/index.cjs",

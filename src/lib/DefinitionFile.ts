@@ -44,7 +44,7 @@ export class DefinitionFile {
     }
     let content = await Utils.read(path)
 
-    content = content.replace('type: PropType<string>;', 'type: PropType<IconType>;')
+    content = content.replace(/type: PropType<string>;/g, 'type: PropType<IconType>;')
     content = content.replace('import { PropType } from \'vue\';', `import { PropType } from 'vue';\n${this.types}`)
     await Utils.write(path, content)
   }

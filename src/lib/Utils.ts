@@ -6,6 +6,21 @@ interface PackagePathOpts {
   path?: string
 }
 
+interface ViteConfig {
+  origin: {
+    iconsDir: string
+    cacheDir: string
+    filenamePath: string
+    gitignorePath: string
+  }
+  writer: {
+    iconsDir: string
+    cacheDir: string
+    filenamePath: string
+    gitignorePath: string
+  }
+}
+
 export class Utils {
   public static fullPath(path: string): string {
     path = this.normalizePath(path)
@@ -26,6 +41,17 @@ export class Utils {
     path = Utils.normalizePath(path)
 
     return path.replace(root, '')
+  }
+
+  public static viteConfig(): string {
+    const path = Utils.packagePath({ path: 'config.json' })
+    return path
+  }
+
+  public static async getViteConfig(): Promise<ViteConfig> {
+    const content = await Utils.read(Utils.viteConfig())
+
+    return JSON.parse(content) as ViteConfig
   }
 
   public static packagePath(opts: PackagePathOpts = { dist: true }): string {
@@ -84,7 +110,7 @@ export class Utils {
   public static async rm(path: string): Promise<void> {
     path = this.normalizePath(path)
     try {
-      await rm(path)
+      await rm(path, { force: true })
     }
     catch (err) {
       console.error('Unable to remove file:', err, path)

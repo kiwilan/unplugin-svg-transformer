@@ -9,20 +9,18 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props, { slots, attrs }) {
+  setup(props, { attrs }) {
     const current = ref<string>(props.name)
 
     async function getSvg() {
-      // const path = '../icons'
-      // const list = await import(path)
-      console.log(process.cwd())
-      // console.log(list)
+      // @ts-expect-error - window is global
+      const list = window.iconList
 
-      // let svg = await IconList[props.name]
-      // if (!svg)
-      //   svg = await IconList.default
+      let svg = await list[props.name]
+      if (!svg)
+        svg = await list.default
 
-      // current.value = svg.default
+      current.value = svg.default
     }
 
     watch(() => props.name, async () => {
@@ -52,8 +50,6 @@ export default defineComponent({
     //   return h('span', { class: 'highlight' }, content)
     // })
 
-    // return () => h(props.as, { ...attrs }, formatted)
-
-    return () => h('div', props.name ? props.name : 'name')
+    return () => h('span', { ...attrs, innerHTML: current.value })
   },
 })

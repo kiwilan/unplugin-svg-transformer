@@ -25,5 +25,7 @@ export const IconList: Record<IconType | string, Promise<{ default: string }>> =
   'default': import('./node_modules/unplugin-svg-transformer/cache/default'),
 }
 
-// @ts-expect-error type is global
-window.iconList = IconList
+if (typeof window !== 'undefined') {
+  // @ts-expect-error type is global
+  window.iconList = IconList
+}

@@ -72,8 +72,10 @@ export class IconListFile {
 
     content += '}\n'
     content += '\n'
-    content += '// @ts-expect-error type is global\n'
-    content += 'window.iconList = IconList\n'
+    content += 'if (typeof window !== \'undefined\') {\n'
+    content += '  // @ts-expect-error type is global\n'
+    content += '  window.iconList = IconList\n'
+    content += '}\n'
 
     return content
   }

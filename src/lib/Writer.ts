@@ -29,6 +29,7 @@ export class Writer {
       gitignorePath: self.paths.gitignorePath,
     }
 
+    await self.writeViteConfig(paths, self.paths)
     await Utils.rmDirectory(paths.cacheDir)
 
     await Utils.directoryExists(self.paths.iconsDir)
@@ -44,6 +45,30 @@ export class Writer {
     await self.writeDefinition()
 
     return self
+  }
+
+  private async writeViteConfig(paths: Paths, writer: Paths): Promise<boolean> {
+    const path = Utils.viteConfig()
+
+    if (await Utils.fileExists(path))
+      await Utils.rm(path)
+
+    let content = '{\n'
+    content += '  "origin": {\n'
+    content += `    "iconsDir": "${paths.iconsDir}",\n`
+    content += `    "cacheDir": "${paths.cacheDir}",\n`
+    content += `    "filenamePath": "${paths.filenamePath}",\n`
+    content += `    "gitignorePath": "${paths.gitignorePath}"\n`
+    content += '  },\n'
+    content += '  "writer": {\n'
+    content += `    "iconsDir": "${writer.iconsDir}",\n`
+    content += `    "cacheDir": "${writer.cacheDir}",\n`
+    content += `    "filenamePath": "${writer.filenamePath}",\n`
+    content += `    "gitignorePath": "${writer.gitignorePath}"\n`
+    content += '  }\n'
+    content += '}\n'
+
+    return await Utils.write(path, content)
   }
 
   private async writeIconFiles(): Promise<boolean> {
@@ -80,6 +105,12 @@ export class Writer {
     if (await Utils.fileExists(path))
       await Utils.rm(path)
 
-    return await Utils.write(path, this.definition!.getDefinition())
+    const definition = await Utils.write(path, this.definition!.getDefinition())
+    const componentType = await Utils.write(path, this.definition!.getComponentType())
+
+    if (definition && componentType)
+      return true
+
+    return false
   }
 }

@@ -4,6 +4,27 @@ import { Utils } from '../src/lib/Utils'
 import { getPaths } from './methods'
 
 describe('utils', () => {
+  it('can get config', async () => {
+    const config = await Utils.getViteConfig()
+    const iconsFile = await import(config.writer.filenamePath)
+
+    const list: Record<string, Promise<{ default: string }>> = iconsFile.IconList
+
+    expect(typeof config).toBe('object')
+
+    expect(typeof config.origin.cacheDir).toBe('string')
+    expect(typeof config.origin.filenamePath).toBe('string')
+    expect(typeof config.origin.gitignorePath).toBe('string')
+    expect(typeof config.origin.iconsDir).toBe('string')
+
+    expect(typeof config.writer.cacheDir).toBe('string')
+    expect(typeof config.writer.filenamePath).toBe('string')
+    expect(typeof config.writer.gitignorePath).toBe('string')
+    expect(typeof config.writer.iconsDir).toBe('string')
+
+    expect(typeof list.download).toBe('object')
+  })
+
   it('can get the paths', () => {
     const paths = getPaths()
 

@@ -7,6 +7,22 @@ export class Utils {
     return join(process.cwd(), path)
   }
 
+  public static packagePath(dist = false): string {
+    const root = process.cwd()
+    const packagePath = Utils.normalizePath('./node_modules/unplugin-svg-transformer')
+    if (dist)
+      return join(root, packagePath, 'dist')
+
+    return join(root, packagePath)
+  }
+
+  public static componentsPath(): string {
+    const packagePath = Utils.packagePath(true)
+    const componentsPath = Utils.normalizePath('./components.d.ts')
+
+    return join(packagePath, componentsPath)
+  }
+
   public static async read(path: string): Promise<string> {
     path = this.normalizePath(path)
     try {

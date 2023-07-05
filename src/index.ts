@@ -28,16 +28,17 @@ export default createUnplugin<Options | undefined>(options => ({
 
     // Get all SVG files from the icons directory.
     const files = await SvgItem.toList(opts.iconsDir)
-    await DefinitionFile.make()
 
     // Write each SVG file to a TS file into the cache directory.
     await SvgItem.listToTsFiles(files, opts.cacheDir)
 
     // Create the TS file with the list of icons.
-    await ListFile.make(files, opts.iconsDir, opts.cacheDir, opts.filenamePath)
+    const list = await ListFile.make(files, opts.iconsDir, opts.cacheDir, opts.filenamePath)
 
     // Add the cache directory to the .gitignore file.
     await Utils.ignorePath(opts.cacheDir, opts.gitignorePath)
+
+    await DefinitionFile.make(list.getTypes())
   },
   vite: {
     handleHotUpdate({ file, server }) {

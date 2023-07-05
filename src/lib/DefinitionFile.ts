@@ -1,8 +1,14 @@
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { Utils } from './Utils'
 
 export class DefinitionFile {
-  public static async make(): Promise<void> {
+  protected constructor(
+    protected types: string,
+  ) {}
+
+  public static async make(types: string) {
+    const self = new DefinitionFile(types)
+
     const rootPath = process.cwd()
     const filename = 'icons.d.ts'
     const path = join(rootPath, filename)
@@ -25,6 +31,21 @@ export class DefinitionFile {
     ]
 
     const content = contents.join('\n')
+    await Utils.write(path, content)
+    await self.type()
+  }
+
+  private async type(): Promise<void> {
+    const path = Utils.componentsPath()
+    if (!await Utils.fileExists(path)) {
+      const dir = dirname(path)
+      await Utils.directoryExists(dir)
+      await Utils.write(path, '')
+    }
+    let content = await Utils.read(path)
+
+    content = content.replace('type: PropType<string>;', 'type: PropType<IconType>;')
+    content = content.replace('import { PropType } from \'vue\';', `import { PropType } from 'vue';\n${this.types}`)
     await Utils.write(path, content)
   }
 }

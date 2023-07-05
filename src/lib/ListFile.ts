@@ -27,6 +27,10 @@ export class ListFile {
     return self
   }
 
+  public getTypes(): string {
+    return this.types!
+  }
+
   private async defaultSvgFile() {
     const item = await SvgItem.defaultSvg()
 

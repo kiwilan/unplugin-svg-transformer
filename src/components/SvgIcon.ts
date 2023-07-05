@@ -1,19 +1,14 @@
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 
-export interface Props {
-  msg?: string[]
-}
-
 export default defineComponent({
   name: 'SvgIcon',
-
   props: {
-    // text: { type: String, required: false, default: 'defineComponent' },
-    // as: { type: String, default: 'span' },
-    msg: Object as PropType<string[]>,
+    name: {
+      type: String as PropType<string>,
+      required: true,
+    },
   },
-
   setup(props, { slots, attrs }) {
     // // Split all of the brackets. Each 2n element must be highligthed
     // const highlightRegex = /\[(.*?)\]/g
@@ -37,6 +32,6 @@ export default defineComponent({
 
     // return () => h(props.as, { ...attrs }, formatted)
 
-    return () => h('div', props.msg ? props.msg.join(', ') : 'msg')
+    return () => h('div', props.name ? props.name : 'name')
   },
 })

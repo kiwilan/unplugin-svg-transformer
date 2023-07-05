@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { Utils } from './Utils'
 
 export class SvgItem {
   protected constructor(
@@ -25,8 +26,10 @@ export class SvgItem {
     return self
   }
 
-  public static async toList(directoryPath: string, rootPath: string): Promise<SvgItem[]> {
+  public static async toList(directoryPath: string, rootPath?: string): Promise<SvgItem[]> {
     const svgFiles: SvgItem[] = []
+    if (!rootPath)
+      rootPath = directoryPath
 
     const files = await fs.readdir(directoryPath)
     for (const file of files) {
@@ -44,6 +47,26 @@ export class SvgItem {
     }
 
     return svgFiles
+  }
+
+  public static async listToTsFiles(files: SvgItem[], cacheDir: string): Promise<void> {
+    cacheDir = Utils.normalizePath(cacheDir)
+    await Promise.all(files.map(async (file) => {
+      let path = file.getPath()
+      path = `${cacheDir}${path}`
+      path = path.replace('.svg', '.ts')
+
+      let dir = path.substring(0, path.lastIndexOf('/'))
+      if (process.platform === 'win32')
+        dir = path.substring(0, path.lastIndexOf('\\'))
+
+      await Utils.directoryExists(dir)
+
+      let content = file.getContent()
+      content = `export default '${content}'\n`
+
+      await Utils.write(path, content)
+    }))
   }
 
   /**
@@ -111,11 +134,14 @@ export class SvgItem {
 
   private nameFromPath(): string {
     let name = this.path!
+    if (process.platform === 'win32')
+      name = name.replace(/\\/g, '/')
+
     if (name.startsWith('/') || name.startsWith('\\'))
       name = name.substring(1)
     name = name.replace(/\.svg$/, '')
-    name = name.replace(/[^\w\s]/gi, '-')
-    name = name.replace(/\\/g, '-')
+    // name = name.replace(/[^\w\s]/gi, '-')
+    // name = name.replace(/\\/g, '-')
 
     return name
   }

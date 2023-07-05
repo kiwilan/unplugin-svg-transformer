@@ -1,28 +1,28 @@
 import path from 'node:path'
-import { FileUtils } from './FileUtils'
+import { Utils } from './Utils'
 import { SvgItem } from './SvgItem'
 
-export class TsConverter {
+export class ListFile {
   protected constructor(
     protected items: SvgItem[] = [],
-    protected types?: string,
     protected list?: string,
+    protected types?: string,
     protected iconsDir?: string,
     protected cacheDir?: string,
     protected filenamePath?: string,
   ) { }
 
-  public static async make(items: SvgItem[], iconsDir: string, cacheDir: string, filenamePath: string): Promise<TsConverter> {
-    const self = new TsConverter(items)
+  public static async make(items: SvgItem[], iconsDir: string, cacheDir: string, filenamePath: string): Promise<ListFile> {
+    const self = new ListFile(items)
 
     self.iconsDir = iconsDir
     self.cacheDir = cacheDir
     self.filenamePath = filenamePath
-    self.types = await self.setTypes()
     self.list = await self.setList()
+    self.types = await self.setTypes()
     await self.defaultSvgFile()
 
-    await FileUtils.write(self.filenamePath, self.types + self.list)
+    await Utils.write(self.filenamePath, self.types + self.list)
 
     return self
   }
@@ -31,17 +31,17 @@ export class TsConverter {
     const item = await SvgItem.defaultSvg()
 
     const directoryPath = this.cacheDir!
-    await FileUtils.checkIfDirectoryExists(directoryPath)
+    await Utils.directoryExists(directoryPath)
 
     const filePath = path.join(directoryPath, `${item.getName()}.ts`)
     const contentTs = `export default '${item.getContent()}'\n`
 
-    return FileUtils.write(filePath, contentTs)
+    return Utils.write(filePath, contentTs)
   }
 
-  private async setTypes() {
+  private async setTypes(): Promise<string> {
     let content = ''
-    content += 'export type IconType = '
+    content += 'declare type IconType = '
     this.items.forEach((item, key) => {
       if (key > 0)
         content += ' | '
@@ -71,13 +71,13 @@ export class TsConverter {
       let path = item.getPath()
       path = path.replace('.svg', '')
       path = `${relativePath}${path}`
-      path = FileUtils.convertDirectorySeparator(path, true)
+      // path = Utils.normalizePath(path, true)
 
       content += `  '${item.getName()}': import('${path}'),\n`
     })
 
-    const baseDefaultPath = FileUtils.convertDirectorySeparator('/default')
-    const defaultPath = FileUtils.convertDirectorySeparator(`${relativePath}${baseDefaultPath}`, true)
+    const baseDefaultPath = Utils.normalizePath('/default')
+    const defaultPath = Utils.normalizePath(`${relativePath}${baseDefaultPath}`, true)
 
     content += `  'default': import('${defaultPath}'),\n`
     content += '}\n'

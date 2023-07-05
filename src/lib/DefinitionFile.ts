@@ -22,13 +22,13 @@ export class DefinitionFile {
       '  }',
       '}',
       '',
-      'declare global {',
-      '  interface Window {',
-      '    iconList: Record<IconType | string, Promise<{ default: string }>>',
-      '  }',
-      '}',
-      '',
-      'window.iconList = window.iconList || {}',
+      // 'declare global {',
+      // '  interface Window {',
+      // '    iconList: Record<IconType | string, Promise<{ default: string }>>',
+      // '  }',
+      // '}',
+      // '',
+      // 'window.iconList = window.iconList || {}',
     ]
 
     self.definition = contents.join('\n')
@@ -69,10 +69,11 @@ declare const _default: vue.DefineComponent<{
 export { _default as SvgIcon };`
     }
 
-    let types = this.componentType.replace(/^export type IconType = /, 'type IconType = ')
-    types = types.replace('\'default\' | \'default\'', '\'default\'')
+    // let types = this.componentType.replace(/^export type IconType = /, 'declare type IconType = ')
+    const types = 'import type { IconType } from \'../../../../../../icons\''
+    // types = types.replace('\'default\' | \'default\'', '\'default\'')
 
-    content = content.replace(/^type IconType = .+$/m, '')
+    content = content.replace(/^declare type IconType = .+$/m, '')
     content = content.replace(/type: PropType<string>;/g, 'type: PropType<IconType>;')
     content = content.replace(/\n\n/g, '\n')
     content = content.replace('import { PropType } from \'vue\';', `import { PropType } from 'vue';\n${types}`)

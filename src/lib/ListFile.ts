@@ -1,4 +1,4 @@
-import path from 'node:path'
+import path, { join } from 'node:path'
 import { Utils } from './Utils'
 import { SvgItem } from './SvgItem'
 
@@ -27,7 +27,6 @@ export class ListFile {
 
     let indexPath = Utils.packagePath(true)
     indexPath = Utils.normalizePath(`${indexPath}/index-icons.ts`)
-    console.log(indexPath)
 
     await Utils.write(self.filenamePath, self.types + self.list)
     const list = await self.setList('./cache')
@@ -40,16 +39,19 @@ export class ListFile {
     return this.types!
   }
 
-  private async defaultSvgFile() {
+  private async defaultSvgFile(): Promise<void> {
     const item = await SvgItem.defaultSvg()
 
     const directoryPath = this.cacheDir!
     await Utils.directoryExists(directoryPath)
 
-    const filePath = path.join(directoryPath, `${item.getName()}.ts`)
+    const filePath = join(directoryPath, `${item.getName()}.ts`)
     const contentTs = `export default '${item.getContent()}'\n`
 
-    return Utils.write(filePath, contentTs)
+    let path = Utils.packagePath(true)
+    path = Utils.normalizePath(`${path}/cache/default.ts`)
+    await Utils.write(filePath, contentTs)
+    await Utils.write(path, contentTs)
   }
 
   private async setTypes(): Promise<string> {

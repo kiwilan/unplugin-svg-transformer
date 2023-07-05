@@ -72,7 +72,6 @@ export class SvgItem {
         await Utils.write(path, content)
       }))
     }
-    console.log(packagePath)
     await copy(cacheDir)
     await copy(packagePath)
   }

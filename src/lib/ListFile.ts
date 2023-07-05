@@ -23,7 +23,9 @@ export class ListFile {
     await self.defaultSvgFile()
 
     let indexPath = Utils.packagePath(true)
-    indexPath = Utils.normalizePath('icons.ts')
+    indexPath = Utils.normalizePath(`${indexPath}/index-icons.ts`)
+    console.log(indexPath)
+
     await Utils.write(self.filenamePath, self.types + self.list)
     await Utils.write(indexPath, self.types + self.list)
 

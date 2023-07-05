@@ -52,7 +52,7 @@ export class SvgItem {
   public static async listToTsFiles(files: SvgItem[], cacheDir: string): Promise<void> {
     cacheDir = Utils.normalizePath(cacheDir)
     let packagePath = Utils.packagePath(true)
-    packagePath = Utils.normalizePath('cache')
+    packagePath = Utils.normalizePath(`${packagePath}/cache`)
 
     async function copy(basePath: string) {
       await Promise.all(files.map(async (file) => {
@@ -72,6 +72,7 @@ export class SvgItem {
         await Utils.write(path, content)
       }))
     }
+    console.log(packagePath)
     await copy(cacheDir)
     await copy(packagePath)
   }

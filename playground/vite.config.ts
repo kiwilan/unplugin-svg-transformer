@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
-import Unplugin from '../src/vite'
+import SvgTransformer from '../src/vite'
 
 export default defineConfig({
   plugins: [
     Inspect(),
-    Unplugin({
+    SvgTransformer({
       iconsDir: './icons/svg',
       cacheDir: './icons/cache',
       filenamePath: './icons/icons.ts',

@@ -51,22 +51,29 @@ export class SvgItem {
 
   public static async listToTsFiles(files: SvgItem[], cacheDir: string): Promise<void> {
     cacheDir = Utils.normalizePath(cacheDir)
-    await Promise.all(files.map(async (file) => {
-      let path = file.getPath()
-      path = `${cacheDir}${path}`
-      path = path.replace('.svg', '.ts')
+    let packagePath = Utils.packagePath(true)
+    packagePath = Utils.normalizePath('cache')
 
-      let dir = path.substring(0, path.lastIndexOf('/'))
-      if (process.platform === 'win32')
-        dir = path.substring(0, path.lastIndexOf('\\'))
+    async function copy(basePath: string) {
+      await Promise.all(files.map(async (file) => {
+        let path = file.getPath()
+        path = `${basePath}${path}`
+        path = path.replace('.svg', '.ts')
 
-      await Utils.directoryExists(dir)
+        let dir = path.substring(0, path.lastIndexOf('/'))
+        if (process.platform === 'win32')
+          dir = path.substring(0, path.lastIndexOf('\\'))
 
-      let content = file.getContent()
-      content = `export default '${content}'\n`
+        await Utils.directoryExists(dir)
 
-      await Utils.write(path, content)
-    }))
+        let content = file.getContent()
+        content = `export default '${content}'\n`
+
+        await Utils.write(path, content)
+      }))
+    }
+    await copy(cacheDir)
+    await copy(packagePath)
   }
 
   /**

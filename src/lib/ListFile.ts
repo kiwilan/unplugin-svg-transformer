@@ -22,7 +22,10 @@ export class ListFile {
     self.types = await self.setTypes()
     await self.defaultSvgFile()
 
+    let indexPath = Utils.packagePath(true)
+    indexPath = Utils.normalizePath('icons.ts')
     await Utils.write(self.filenamePath, self.types + self.list)
+    await Utils.write(indexPath, self.types + self.list)
 
     return self
   }

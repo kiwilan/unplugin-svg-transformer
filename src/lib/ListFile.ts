@@ -18,7 +18,10 @@ export class ListFile {
     self.iconsDir = iconsDir
     self.cacheDir = cacheDir
     self.filenamePath = filenamePath
-    self.list = await self.setList()
+
+    const relativePath = path.relative(self.filenamePath, self.cacheDir)
+    self.list = await self.setList(relativePath.substring(1))
+
     self.types = await self.setTypes()
     await self.defaultSvgFile()
 
@@ -27,7 +30,8 @@ export class ListFile {
     console.log(indexPath)
 
     await Utils.write(self.filenamePath, self.types + self.list)
-    await Utils.write(indexPath, self.types + self.list)
+    const list = await self.setList('./cache')
+    await Utils.write(indexPath, self.types + list)
 
     return self
   }
@@ -68,12 +72,7 @@ export class ListFile {
     return content
   }
 
-  private async setList() {
-    const filenamePath = this.filenamePath!
-    const cachePath = this.cacheDir!
-    let relativePath = path.relative(filenamePath, cachePath)
-    relativePath = relativePath.substring(1)
-
+  private async setList(relativePath: string) {
     let content = 'export const IconList: Record<IconType | string, Promise<{ default: string }>> = {\n'
 
     this.items.forEach((item) => {

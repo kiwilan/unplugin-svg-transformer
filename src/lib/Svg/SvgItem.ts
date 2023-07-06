@@ -178,7 +178,7 @@ export class SvgItem {
 
   private addDefaultStyle(content: string) {
     const styles = [
-      'display: inline-block;',
+      // 'display: inline-block;',
       'height: inherit;',
       'width: inherit;',
     ]

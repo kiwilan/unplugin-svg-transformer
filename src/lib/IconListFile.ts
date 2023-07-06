@@ -57,7 +57,7 @@ export class IconListFile {
     return content
   }
 
-  private async setList(basePath = '', window = false) {
+  private async setList(basePath = '', window = true) {
     let content = 'export const IconList: Record<IconType | string, Promise<{ default: string }>> = {\n'
 
     this.items.forEach((item) => {
@@ -71,9 +71,9 @@ export class IconListFile {
     })
 
     content += '}\n'
-    content += '\n'
 
     if (window) {
+      content += '\n'
       content += 'if (typeof window !== \'undefined\') {\n'
       content += '  // @ts-expect-error type is global\n'
       content += '  window.iconList = IconList\n'

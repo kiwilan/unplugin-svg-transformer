@@ -28,6 +28,7 @@ it('can write svg as ts files', async () => {
     gitignorePath: paths.gitignorePath,
   })
 
+  expect(typeof writer).toBe('object')
   //   const files = await SvgItem.toList(getPaths().iconsDir)
   //   await SvgItem.listToTsFiles(files, getPaths().cacheDir)
 

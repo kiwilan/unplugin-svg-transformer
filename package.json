@@ -68,7 +68,7 @@
       "require": "./dist/vue.cjs",
       "import": "./dist/vue.js"
     },
-    "./icons": "./dist/icons",
+    "./icons": "./dist/icons-index.ts",
     "./*": "./*"
   },
   "main": "dist/index.cjs",
@@ -92,6 +92,7 @@
     "dev": "tsup --watch src",
     "build:fix": "esno scripts/postbuild.ts",
     "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix",
     "play": "npm -C playground run dev",
     "play:vue": "npm -C examples/vue3 run dev",
     "prepublishOnly": "npm run build",

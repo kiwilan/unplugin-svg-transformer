@@ -41,7 +41,8 @@ export class Writer {
     self.definition = await DefinitionFile.make(self.iconList.getTypes())
 
     await self.writeIconFiles()
-    await self.writeIconList()
+    await self.writeIconList(Utils.rootPath('icons.ts'), self.paths.cacheDir)
+    await self.writeIconList(Utils.packagePath({ dist: true, path: 'icons-index.ts' }), './cache')
     await self.writeDefinition()
 
     return self
@@ -87,16 +88,14 @@ export class Writer {
     return await Promise.all(promises).then(() => true)
   }
 
-  private async writeIconList(): Promise<boolean> {
-    const path = Utils.rootPath('icons.ts')
+  private async writeIconList(filePath: string, cachePath: string): Promise<boolean> {
+    if (await Utils.fileExists(filePath))
+      await Utils.rm(filePath)
 
-    if (await Utils.fileExists(path))
-      await Utils.rm(path)
-
-    await this.iconList?.udpatePaths(this.paths.cacheDir)
+    await this.iconList?.udpatePaths(cachePath)
     const content = this.iconList!.getTypes() + this.iconList!.getList()
 
-    return await Utils.write(path, content)
+    return await Utils.write(filePath, content)
   }
 
   private async writeDefinition(): Promise<boolean> {

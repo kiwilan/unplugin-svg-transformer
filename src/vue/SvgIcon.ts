@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { defineComponent, h, onMounted, ref, watch } from 'vue'
+import { defineComponent, h, inject, onMounted, ref, watch } from 'vue'
 
 export default defineComponent({
   name: 'SvgIcon',
@@ -13,11 +13,11 @@ export default defineComponent({
     const current = ref<string>(props.name)
 
     async function getSvg() {
-      const list = window.iconList
+      const icons = inject('$icons') as Record<any, Promise<{ default: string }>>
 
-      let svg = await list[props.name]
+      let svg = await icons[props.name]
       if (!svg)
-        svg = await list.default
+        svg = await icons.default
 
       current.value = svg.default
     }

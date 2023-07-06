@@ -1,10 +1,18 @@
 import { rm, writeFile } from 'node:fs/promises'
 import { describe, expect, it } from 'vitest'
 import { Utils } from '../src/lib/Utils'
+import { Writer } from '../src/lib/Writer'
 import { getPaths } from './methods'
 
 describe('utils', () => {
   it('can get config', async () => {
+    const paths = getPaths()
+    await Writer.make({
+      iconsDir: paths.iconsDir,
+      cacheDir: paths.cacheDir,
+      filenamePath: paths.filenamePath,
+      gitignorePath: paths.gitignorePath,
+    })
     const config = await Utils.getViteConfig()
     const iconsFile = await import(config.writer.filenamePath)
 

@@ -27,8 +27,8 @@ Use SVG with frontend framework like Vue, React, Svelte is not easy, especially 
 - 🗃️ Index to list all SVG to import them easily
 - 🗂 Seperated cache SVG files
 - 📦 Components ready, no import needed, SVG directly injected
-  - [ ] [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component
-  - [ ] [React](https://react.dev/) component
+  - [x] [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component
+  - [x] [React](https://react.dev/) component
   - [ ] [Svelte](https://svelte.dev/) component
 - 🎆 Can be import into any JS / TS file to be use as a SVG loader
 - 🎨 Options to add or clear `style` and `class` global attributes
@@ -38,8 +38,9 @@ Use SVG with frontend framework like Vue, React, Svelte is not easy, especially 
 
 - [x] move files into `src` by default (for Nuxt use `assets`)
 - [x] allow JS file instead of TS
-- [ ] fix type bug
+- [x] fix type bug
 - [x] parse repo to find `node_modules` and package dir
+- [ ] fix delete svg bug
 
 ## Install
 

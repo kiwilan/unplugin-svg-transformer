@@ -161,9 +161,6 @@ importers:
       typescript:
         specifier: ^5.0.2
         version: 5.1.3
-      unplugin-svg-transformer:
-        specifier: file:~/unplugin-svg-transformer.tgz
-        version: file:../../unplugin-svg-transformer.tgz
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@18.16.16)
@@ -5828,6 +5825,7 @@ packages:
       chokidar: 3.5.3
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.5.0
+    dev: false
 
   /untildify@4.0.0:
     resolution: {integrity: sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==}
@@ -6158,6 +6156,7 @@ packages:
 
   /webpack-virtual-modules@0.5.0:
     resolution: {integrity: sha512-kyDivFZ7ZM0BVOUteVbDFhlRt7Ah/CSPwJdi8hBpkK7QLumUqdLtVfm/PX/hkcnrvr0i77fO5+TjZ94Pe+C9iw==}
+    dev: false
 
   /webpack@5.85.0(esbuild@0.17.19):
     resolution: {integrity: sha512-7gazTiYqwo5OSqwH1tigLDL2r3qDeP2dOKYgd+LlXpsUMqDTklg6tOghexqky0/+6QY38kb/R/uRPUleuL43zg==}
@@ -6341,12 +6340,4 @@ packages:
   /yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
-    dev: true
-
-  file:../../unplugin-svg-transformer.tgz:
-    resolution: {integrity: sha512-9vtjAGJ4i8TpDwyhmZm7xMd9cYOSEe9acSbW7NiPhPOZxFCBPXe4fXaOy3r3wzitKCBBEs+u21/0nmoRrNNteg==, tarball: file:../../unplugin-svg-transformer.tgz}
-    name: unplugin-svg-transformer
-    version: 0.2.1
-    dependencies:
-      unplugin: 1.3.1
     dev: true

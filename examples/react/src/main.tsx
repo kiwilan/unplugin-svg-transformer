@@ -1,13 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import { SvgIconReact } from '../../../dist/components'
+import { ReactSvg } from '../../../src/components'
 import './index.css'
 import './icons'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root') as HTMLElement
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <App />
-    <SvgIconReact name="download" />
+    {/* <App /> */}
+    hello
+    <ReactSvg name="download" className='icon' />
   </React.StrictMode>,
 )

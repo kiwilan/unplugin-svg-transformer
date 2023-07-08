@@ -5,8 +5,10 @@
 export {}
 
 declare global {
+  export type IconType = 'download' | 'social/twitter' | 'default'
+
   interface Window {
-    iconList: Record<string, Promise<{ default: string }>>
+    iconList: Record<IconType, Promise<{ default: string }>>
   }
 }
 

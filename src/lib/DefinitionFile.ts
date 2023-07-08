@@ -2,12 +2,15 @@ import { Utils } from './Utils'
 
 export class DefinitionFile {
   protected constructor(
-    protected componentType: string,
+    protected types: string,
+    protected componentType?: string,
     protected definition?: string,
   ) {}
 
   public static async make(types: string): Promise<DefinitionFile> {
     const self = new DefinitionFile(types)
+
+    self.types = self.types.replace('\'default\' | \'default\'', '\'default\'')
 
     const contents = [
       '/* eslint-disable */',
@@ -17,8 +20,9 @@ export class DefinitionFile {
       'export {}',
       '',
       'declare global {',
+      `  ${self.types}`,
       '  interface Window {',
-      '    iconList: Record<string, Promise<{ default: string }>>',
+      '    iconList: Record<IconType, Promise<{ default: string }>>',
       '  }',
       '}',
       '',
@@ -39,7 +43,7 @@ export class DefinitionFile {
   }
 
   public getComponentType(): string {
-    return this.componentType
+    return this.componentType!
   }
 
   public getDefinition(): string {
@@ -54,10 +58,8 @@ export class DefinitionFile {
 
     let content = await Utils.read(path)
 
-    const types = 'import type { IconType } from \'../../../../icons\''
     content = content.replace(/type: PropType<string>;/g, 'type: PropType<IconType>;')
-    // content = content.replace(/\n\n/g, '\n')
-    content = content.replace('import { PropType } from \'vue\';\nimport React from \'react\';', `import { PropType } from 'vue';\n${types}\nimport React from 'react';`)
+    content = content.replace(/name: string;/g, 'name: IconType;')
 
     return content
   }

@@ -110,11 +110,6 @@ export class Writer {
   private async writeDefinition(): Promise<boolean> {
     const definitionPath = Utils.rootPath('icons.d.ts')
 
-    const packagePath = Utils.packagePath({ dist: false })
-    console.log(packagePath)
-    const dirs = await Utils.listDirectories(`${packagePath}`)
-    console.log(dirs)
-
     if (await Utils.fileExists(definitionPath))
       await Utils.rm(definitionPath)
 

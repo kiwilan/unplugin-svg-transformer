@@ -67,3 +67,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.icon {
+  height: 1rem;
+  width: 1rem;
+}

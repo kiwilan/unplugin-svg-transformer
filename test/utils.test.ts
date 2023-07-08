@@ -42,7 +42,10 @@ describe('utils', () => {
     const packagePath = Utils.packagePath({ dist: false })
     const componentsPath = Utils.componentsPath()
 
-    expect(packagePath).toBe(Utils.normalizePaths('/Users/ewilan/Workspace/vite-plugin-svg/node_modules/unplugin-svg-transformer'))
-    expect(componentsPath).toBe(Utils.normalizePaths('/Users/ewilan/Workspace/vite-plugin-svg/node_modules/unplugin-svg-transformer/dist/components.d.ts'))
+    const packagePathExpect = Utils.normalizePaths('vite-plugin-svg/node_modules/unplugin-svg-transformer')
+    const componentsPathExpect = Utils.normalizePaths('vite-plugin-svg/node_modules/unplugin-svg-transformer/dist/components.d.ts')
+
+    expect(packagePath.includes(packagePathExpect)).toBe(true)
+    expect(componentsPath.includes(componentsPathExpect)).toBe(true)
   })
 })

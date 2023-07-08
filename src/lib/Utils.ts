@@ -96,10 +96,7 @@ export class Utils {
       content += 'node_modules'
     }
 
-    content = `${content}/unplugin-svg-transformer/cache`
-    console.log(content)
-
-    return content
+    return `${content}/unplugin-svg-transformer/cache`
   }
 
   public static viteConfig(): string {

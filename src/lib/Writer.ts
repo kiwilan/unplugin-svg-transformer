@@ -44,7 +44,7 @@ export class Writer {
 
     const cache = await Utils.relativeToNodeModules(rootLibraryDir)
     await self.writeLibrary(rootLibraryDir, 'icons', cache)
-    await self.writeLibrary(packageLibraryDir, 'icons-index', './cache')
+    await self.writeLibrary(packageLibraryDir, 'icons-index', '../cache')
 
     if (self.options.typescript)
       await self.writeDefinition()

@@ -23,6 +23,7 @@ interface Props {
 
 function ReactSvg({ className, style, name, display }: Props): JSX.Element {
   const svgStyle: React.CSSProperties = {
+    display: display || 'inline-block',
     // color: 'red',
     // fontSize: '24px',
   }

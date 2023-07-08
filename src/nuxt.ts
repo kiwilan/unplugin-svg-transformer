@@ -25,10 +25,10 @@ export default function (options: Options = DEFAULT_OPTIONS, nuxt: any) {
     config.plugins.push(unplugin.vite(options))
   })
 
-  nuxt.hook('builder:watch', async (event: any, path: string) => {
-    // if (path.startsWith(`${opts.assetsDir}/svg`))
-    //   await Icons.make(opts)
-  })
+  // nuxt.hook('builder:watch', async (event: any, path: string) => {
+  //   if (path.startsWith(`${opts.assetsDir}/svg`))
+  //     await Icons.make(opts)
+  // })
 
   // const resolver = createResolver(import.meta.url)
 

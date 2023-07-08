@@ -1,3 +1,5 @@
 coverage
 resources
 *.md
+examples
+playground

@@ -8,17 +8,18 @@ const DEFAULT_OPTIONS: Options = {
   cacheDir: './src/icons/cache',
   filenamePath: './src/icons.ts',
   gitignorePath: './.gitignore',
-  fileType: 'ts',
+  typescript: true,
+  windowInject: true,
 }
 
 export default createUnplugin<Options | undefined>(options => ({
   name: 'unplugin-svg-transformer',
   async buildStart() {
     const opts: Options = Object.assign({}, DEFAULT_OPTIONS, options)
-    opts.iconsDir = Utils.fullPath(opts.iconsDir)
-    opts.cacheDir = Utils.fullPath(opts.cacheDir)
-    opts.filenamePath = Utils.fullPath(opts.filenamePath)
-    opts.gitignorePath = Utils.fullPath(opts.gitignorePath)
+    opts.iconsDir = Utils.fullPath(opts.iconsDir || DEFAULT_OPTIONS.iconsDir!)
+    opts.cacheDir = Utils.fullPath(opts.cacheDir || DEFAULT_OPTIONS.cacheDir!)
+    opts.filenamePath = Utils.fullPath(opts.filenamePath || DEFAULT_OPTIONS.filenamePath!)
+    opts.gitignorePath = Utils.fullPath(opts.gitignorePath || DEFAULT_OPTIONS.gitignorePath!)
 
     await Writer.make(opts)
   },

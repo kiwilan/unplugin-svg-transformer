@@ -47,6 +47,10 @@ export class DefinitionFile {
 
   private async setComponentType(): Promise<string> {
     const path = Utils.componentsPath()
+
+    if (!await Utils.fileExists(path))
+      return ''
+
     let content = await Utils.read(path)
     if (!content) {
       content = `import * as vue from 'vue';

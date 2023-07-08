@@ -15,24 +15,25 @@ import SvgIcon from './SvgIcon'
 //   },
 // }
 
-interface SvgTransformerPluginOptions {
-  list: Record<any, Promise<{ default: string }>>
-}
+// interface SvgTransformerPluginOptions {
+//   list: Record<any, Promise<{ default: string }>>
+// }
 
-interface MyGlobalProperties {
-  $icons: Record<any, Promise<{ default: string }>>
-}
+// interface MyGlobalProperties {
+//   $icons: Record<any, Promise<{ default: string }>>
+// }
 
-declare module '@vue/runtime-core' {
-  interface App extends MyGlobalProperties {}
-}
+// declare module '@vue/runtime-core' {
+//   interface App extends MyGlobalProperties {}
+// }
 
 // @ts-expect-error missing types
 interface SvgTransformerPlugin extends Plugin {
-  install: (app: App, options: SvgTransformerPluginOptions) => void
+  // install: (app: App, options: SvgTransformerPluginOptions) => void
+  install: (app: App, options: Record<any, Promise<{ default: string }>>) => void
 }
 
-export const svgTransformer: SvgTransformerPlugin = {
+export const SvgTransformer: SvgTransformerPlugin = {
   install: (app, options) => {
     app.component('SvgIcon', SvgIcon)
     app.provide('$icons', options.list)

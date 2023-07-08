@@ -109,11 +109,29 @@ export class Utils {
 
   public static async rm(path: string): Promise<void> {
     path = this.normalizePath(path)
+    // if (await Utils.isDirectory(path))
+    //   return
+
+    if (!await Utils.fileExists(path))
+      return
+
     try {
       await rm(path, { force: true })
     }
     catch (err) {
       console.error('Unable to remove file:', err, path)
+    }
+  }
+
+  public static async isDirectory(path: string): Promise<boolean> {
+    path = this.normalizePath(path)
+    try {
+      const stats = await fs.stat(path)
+      return stats.isDirectory()
+    }
+    catch (err) {
+      console.error('Unable to check if directory:', err, path)
+      return false
     }
   }
 

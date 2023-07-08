@@ -1,5 +1,4 @@
-export type IconType = 'download' | 'social/twitter' | 'default' | 'default'
-export const IconList: Record<IconType | string, Promise<{ default: string }>> = {
+export const IconList = {
   'download': import('./node_modules/unplugin-svg-transformer/cache/download'),
   'social/twitter': import('./node_modules/unplugin-svg-transformer/cache/social/twitter'),
   'default': import('./node_modules/unplugin-svg-transformer/cache/default'),

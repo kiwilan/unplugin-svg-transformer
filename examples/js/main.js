@@ -1,6 +1,6 @@
 import { IconList } from './icons'
 
-document.getElementById('app')!.innerHTML = '__UNPLUGIN__'
+document.getElementById('app').innerHTML = '__UNPLUGIN__'
 
 const icon = document.getElementById('icon')
 const name = icon?.getAttribute('name')

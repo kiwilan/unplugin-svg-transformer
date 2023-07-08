@@ -17,17 +17,20 @@ Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
 Use SVG with frontend framework like Vue, React, Svelte is not easy, especially when you want to use SVG as component. This plugin will help you to import SVG as component. But you can also just use this plugin as a SVG loader, and create your own component.
 
-Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
+> Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
 
 ## Features
 
 - 🟨 [unplugin](https://github.com/unjs/unplugin): [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/guide/en/), [Webpack](https://webpack.js.org/), [esbuild](https://esbuild.github.io/) support
-  - [ ] [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component ready with `SvgIcon`
-  - [ ] [React](https://react.dev/) component ready with `SvgIcon`
 - 🔥 Hot reloading when SVG updated
 - 🤙🏻 Reactivity option
-- 🗂 Seperated index SVG files
-- 📦 No import needed, SVG directly injected
+- 🗃️ Index to list all SVG to import them easily
+- 🗂 Seperated cache SVG files
+- 📦 Components ready, no import needed, SVG directly injected
+  - [ ] [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component
+  - [ ] [React](https://react.dev/) component
+  - [ ] [Svelte](https://svelte.dev/) component
+- 🎆 Can be import into any JS / TS file to be use as a SVG loader
 - 🎨 Options to add or clear `style` and `class` global attributes
 - 🦾 SVG typed, validate by `name` prop (`typescript` required)
 
@@ -159,7 +162,46 @@ build({
 
 ## Usage
 
-### Vue 3 / Nuxt 3
+### Vue 3 / Inertia
+
+```ts
+// main.ts
+import { createApp } from "vue";
+import App from "./App.vue";
+import SvgIcon from "./components/SvgIcon.vue";
+import SvgTransformer from "unplugin-svg-transformer/vite";
+
+createApp(App)
+  .use(svgTransformer, IconList)
+  .component("svg-icon", SvgIcon)
+  .mount("#app");
+```
+
+#### Inertia
+
+Example here with Laravel Jetstream.
+
+````ts
+// app.ts
+import type { DefineComponent } from 'vue'
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import { SvgTransformer } from 'unplugin-svg-transformer/vue'
+import { IconList } from 'unplugin-svg-transformer/icons'
+
+createInertiaApp({
+  title: title => `${title} - P1PDD`,
+  resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')) as Promise<DefineComponent>,
+  setup({ el, App, props, plugin }) {
+    const pinia = createPinia()
+    const app = createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .use(SvgTransformer, IconList)
+
+    app.mount(el)
+  },
+})
 
 ```vue
 <template>
@@ -167,7 +209,7 @@ build({
     <svg-icon name="logo" />
   </div>
 </template>
-```
+````
 
 ## Testing
 

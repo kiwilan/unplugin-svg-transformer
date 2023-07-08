@@ -1,15 +1,15 @@
 import type { SvgItem } from './Svg/SvgItem'
 import { Utils } from './Utils'
 
-export class IconListFile {
+export class LibraryFile {
   protected constructor(
     protected items: SvgItem[] = [],
     protected list?: string,
     protected types?: string,
   ) { }
 
-  public static async make(items: SvgItem[]): Promise<IconListFile> {
-    const self = new IconListFile(items)
+  public static async make(items: SvgItem[]): Promise<LibraryFile> {
+    const self = new LibraryFile(items)
 
     // const relativePath = path.relative(self.filenamePath, self.cacheDir)
     self.list = await self.setList()
@@ -31,8 +31,14 @@ export class IconListFile {
     return this.types!
   }
 
-  public async udpatePaths(path: string): Promise<string> {
-    this.list = await this.setList(path)
+  public content(): string {
+    return this.types! + this.list!
+  }
+
+  public async update(path: string, window = true, typescript = true): Promise<string> {
+    this.list = await this.setList(path, window, typescript)
+    if (!typescript)
+      this.types = ''
 
     return this.list
   }
@@ -57,8 +63,10 @@ export class IconListFile {
     return content
   }
 
-  private async setList(basePath = '', window = true) {
+  private async setList(basePath = '', window = true, typescript = true): Promise<string> {
     let content = 'export const IconList: Record<IconType | string, Promise<{ default: string }>> = {\n'
+    if (!typescript)
+      content = 'export const IconList = {\n'
 
     this.items.forEach((item) => {
       const localPath = item.getPath()

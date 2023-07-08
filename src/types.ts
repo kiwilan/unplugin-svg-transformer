@@ -4,30 +4,37 @@ export interface Options {
    *
    * @default './src/icons'
    */
-  iconsDir: string
+  iconsDir?: string
   /**
    * Directory where the cache files will be created.
    *
    * @default './src/icons/cache'
    */
-  cacheDir: string
+  cacheDir?: string
   /**
    * File where the types and list of icons will be created.
    *
    * @default './src/icons.ts'
    */
-  filenamePath: string
+  filenamePath?: string
   /**
    * Path to the .gitignore file.
    *
    * @default './.gitignore'
    */
-  gitignorePath: string
+  gitignorePath?: string
   /**
-   * File type, if you want to use JavaScript instead of TypeScript.
+   * Use TypeScript or not, if you want to use JavaScript instead of TypeScript.
    * You can't have autocompletion with JavaScript.
    *
-   * @default 'ts'
+   * @default true
    */
-  fileType: 'ts' | 'js'
+  typescript?: boolean
+  /**
+   * Inject the window object in the SVG files.
+   * This is useful if you want to use the SVG files in the browser.
+   *
+   * @default true
+   */
+  windowInject?: boolean
 }

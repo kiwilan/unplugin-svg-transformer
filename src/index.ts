@@ -3,11 +3,12 @@ import type { Options } from './types'
 import { Utils } from './lib/Utils'
 import { Writer } from './lib/Writer'
 
-export const DEFAULT_OPTIONS: Options = {
+const DEFAULT_OPTIONS: Options = {
   iconsDir: './src/icons',
   cacheDir: './src/icons/cache',
   filenamePath: './src/icons.ts',
   gitignorePath: './.gitignore',
+  fileType: 'ts',
 }
 
 export default createUnplugin<Options | undefined>(options => ({

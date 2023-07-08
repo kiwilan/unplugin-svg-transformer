@@ -15,13 +15,28 @@
 
 Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
+Use SVG with frontend framework like Vue, React, Svelte is not easy, especially when you want to use SVG as component. This plugin will help you to import SVG as component. But you can also just use this plugin as a SVG loader, and create your own component.
+
+Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
+
 ## Features
 
-// TODO
+- 🟨 [unplugin](https://github.com/unjs/unplugin): [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/guide/en/), [Webpack](https://webpack.js.org/), [esbuild](https://esbuild.github.io/) support
+  - [ ] [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component ready with `SvgIcon`
+  - [ ] [React](https://react.dev/) component ready with `SvgIcon`
+- 🔥 Hot reloading when SVG updated
+- 🤙🏻 Reactivity option
+- 🗂 Seperated index SVG files
+- 📦 No import needed, SVG directly injected
+- 🎨 Options to add or clear `style` and `class` global attributes
+- 🦾 SVG typed, validate by `name` prop (`typescript` required)
 
 ### Roadmap
 
-// TODO
+- [ ] move files into `src` by default (for Nuxt use `assets`)
+- [ ] allow JS file instead of TS
+- [ ] fix type bug
+- [ ] parse repo to find `node_modules` and package dir
 
 ## Install
 
@@ -144,7 +159,15 @@ build({
 
 ## Usage
 
-// TODO
+### Vue 3 / Nuxt 3
+
+```vue
+<template>
+  <div>
+    <svg-icon name="logo" />
+  </div>
+</template>
+```
 
 ## Testing
 

@@ -22,9 +22,11 @@ export default defineComponent({
       ...(attrs as Record<string, any>),
       style: {
         ...(attrs as Record<string, any>).style,
-        display: props.display,
       },
     })
+
+    if (props.display !== false)
+      attributes.value.style.display = props.display
 
     async function getSvg() {
       // const icons = inject('$icons') as Record<any, Promise<{ default: string }>>

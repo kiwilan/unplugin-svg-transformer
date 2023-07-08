@@ -23,4 +23,11 @@ export interface Options {
    * @default './.gitignore'
    */
   gitignorePath: string
+  /**
+   * File type, if you want to use JavaScript instead of TypeScript.
+   * You can't have autocompletion with JavaScript.
+   *
+   * @default 'ts'
+   */
+  fileType: 'ts' | 'js'
 }

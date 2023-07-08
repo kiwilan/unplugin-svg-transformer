@@ -45,9 +45,6 @@ describe('utils', () => {
     const packagePathExpect = Utils.normalizePaths('vite-plugin-svg/node_modules/unplugin-svg-transformer')
     const componentsPathExpect = Utils.normalizePaths('vite-plugin-svg/node_modules/unplugin-svg-transformer/dist/components.d.ts')
 
-    console.log(packagePath)
-    console.log(packagePathExpect)
-
     expect(packagePath.includes(packagePathExpect)).toBe(true)
     expect(componentsPath.includes(componentsPathExpect)).toBe(true)
   })

@@ -1,4 +1,4 @@
-import fs, { access, rm } from 'node:fs/promises'
+import fs, { access, readdir, rm } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 
 interface PackagePathOpts {
@@ -97,6 +97,26 @@ export class Utils {
     }
 
     return `${content}/unplugin-svg-transformer/cache`
+  }
+
+  public static async listDirectories(path: string): Promise<string[]> {
+    path = Utils.normalizePath(path)
+    const directories: string[] = []
+
+    try {
+      const files = await readdir(path)
+      for (const file of files) {
+        const filePath = join(path, file)
+        const stats = await fs.stat(filePath)
+        if (stats.isDirectory())
+          directories.push(file)
+      }
+    }
+    catch (err) {
+      console.error('Unable to list directories:', err, path)
+    }
+
+    return directories
   }
 
   public static viteConfig(): string {

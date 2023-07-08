@@ -28,6 +28,8 @@ export interface Options {
    * Inject the window object in the SVG files.
    * This is useful if you want to use the SVG files in the browser.
    *
+   * You can access to this window object with `window.iconList`.
+   *
    * @default true
    */
   windowInject?: boolean

@@ -10,5 +10,7 @@ export default <Options>{
   onSuccess: 'npm run build:fix',
   external: [
     'vue',
+    'react',
+    'svelte',
   ],
 }

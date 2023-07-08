@@ -23,9 +23,10 @@ it('can write svg as ts files', async () => {
   const paths = getPaths()
   const writer = await Writer.make({
     iconsDir: paths.iconsDir,
-    cacheDir: paths.cacheDir,
-    filenamePath: paths.filenamePath,
+    libraryDir: paths.libraryDir,
     gitignorePath: paths.gitignorePath,
+    typescript: true,
+    windowInject: true,
   })
 
   expect(typeof writer).toBe('object')
@@ -41,7 +42,7 @@ it('can write svg as ts files', async () => {
 // it('can create the icons file', async () => {
 //   const files = await SvgItem.toList(getPaths().iconsDir)
 //   await DefinitionFile.make()
-//   await IconListFile.make(files, getPaths().iconsDir, getPaths().cacheDir, getPaths().filenamePath)
+//   await IconListFile.make(files, getPaths().iconsDir, getPaths().cacheDir, getPaths().libraryDir)
 
 //   const path = './test/icons/icons.ts'
 //   const content = await Utils.read(path)

@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import './style.css'
-import { SvgIcon } from 'unplugin-svg-transformer/components'
+import { SvgTransformer } from '../../../src/vue'
+import { IconList } from './icons'
 import App from './App.vue'
 
 createApp(App)
-  .component('SvgIcon', SvgIcon)
+  .use(SvgTransformer, IconList)
   .mount('#app')

@@ -1,5 +1,5 @@
-import { svgTransformer } from './vue/VuePlugin'
+import { SvgTransformer } from './vue/VuePlugin'
 
 export {
-  svgTransformer,
+  SvgTransformer,
 }

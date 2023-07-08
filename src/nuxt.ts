@@ -6,8 +6,7 @@ import unplugin from '.'
 
 const DEFAULT_OPTIONS: Options = {
   iconsDir: './assets/icons',
-  cacheDir: './src/icons/cache',
-  filenamePath: './src/icons.ts',
+  libraryDir: './src',
   gitignorePath: './.gitignore',
   typescript: true,
   windowInject: true,

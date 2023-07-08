@@ -4,6 +4,6 @@
 <template>
   <div>
     Vue 3
-    <SvgIcon name="logo" />
+    <SvgIcon name="download" />
   </div>
 </template>

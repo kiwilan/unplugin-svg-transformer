@@ -36,10 +36,10 @@ Use SVG with frontend framework like Vue, React, Svelte is not easy, especially 
 
 ### Roadmap
 
-- [ ] move files into `src` by default (for Nuxt use `assets`)
-- [ ] allow JS file instead of TS
+- [x] move files into `src` by default (for Nuxt use `assets`)
+- [x] allow JS file instead of TS
 - [ ] fix type bug
-- [ ] parse repo to find `node_modules` and package dir
+- [x] parse repo to find `node_modules` and package dir
 
 ## Install
 

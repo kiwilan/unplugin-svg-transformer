@@ -1,5 +1,5 @@
 import { dirname } from 'node:path'
-import type { Options } from '../types'
+import type { Options, OptionsExtended } from '../types'
 import { DefinitionFile } from './DefinitionFile'
 import { LibraryFile } from './LibraryFile'
 import { SvgCollection } from './Svg/SvgCollection'
@@ -7,38 +7,45 @@ import { Utils } from './Utils'
 
 export class Writer {
   protected constructor(
-    protected options: Options,
+    protected options: OptionsExtended,
+    protected cacheDir: string,
     protected collect?: SvgCollection,
     protected library?: LibraryFile,
     protected definition?: DefinitionFile,
   ) { }
 
-  public static async make(options: Options): Promise<Writer> {
-    const self = new Writer(options)
+  public static async make(options: OptionsExtended): Promise<Writer> {
+    const self = new Writer(options, Utils.packagePath({ path: 'cache' }))
 
     self.options = {
       iconsDir: self.options.iconsDir,
-      cacheDir: Utils.packagePath({ path: 'cache' }),
-      filenamePath: Utils.rootPath(self.options.typescript ? 'icons.ts' : 'icons.js'),
+      libraryDir: self.options.libraryDir,
       gitignorePath: self.options.gitignorePath,
       typescript: self.options.typescript,
       windowInject: self.options.windowInject,
+      nodeModulesDir: self.options.nodeModulesDir,
     }
 
     await self.writeViteConfig(options, self.options)
-    await Utils.rmDirectory(options.cacheDir!)
+    await Utils.rmDirectory(self.cacheDir)
 
     await Utils.directoryExists(self.options.iconsDir!)
-    await Utils.directoryExists(self.options.cacheDir!)
-    await Utils.directoryExists(self.options.filenamePath!.substring(0, self.options.filenamePath!.lastIndexOf('/')))
+    await Utils.directoryExists(self.cacheDir)
+    await Utils.directoryExists(self.options.libraryDir!)
 
     self.collect = await SvgCollection.make(options.iconsDir!)
     self.library = await LibraryFile.make(self.collect.getItems())
     self.definition = await DefinitionFile.make(self.library.getTypes())
 
     await self.writeIconFiles()
-    await self.writeLibrary(Utils.rootPath('icons'), self.options.cacheDir!)
-    await self.writeLibrary(Utils.packagePath({ dist: true, path: 'icons-index' }), './cache')
+
+    const rootLibraryDir = self.options.libraryDir!
+    const packageLibraryDir = Utils.packagePath({ dist: true })
+
+    const cache = await Utils.relativeToNodeModules(rootLibraryDir)
+    await self.writeLibrary(rootLibraryDir, 'icons', cache)
+    await self.writeLibrary(packageLibraryDir, 'icons-index', './cache')
+
     if (self.options.typescript)
       await self.writeDefinition()
 
@@ -54,14 +61,12 @@ export class Writer {
     let content = '{\n'
     content += '  "origin": {\n'
     content += `    "iconsDir": "${options.iconsDir}",\n`
-    content += `    "cacheDir": "${options.cacheDir}",\n`
-    content += `    "filenamePath": "${options.filenamePath}",\n`
+    content += `    "libraryDir": "${options.libraryDir}",\n`
     content += `    "gitignorePath": "${options.gitignorePath}"\n`
     content += '  },\n'
     content += '  "writer": {\n'
     content += `    "iconsDir": "${writer.iconsDir}",\n`
-    content += `    "cacheDir": "${writer.cacheDir}",\n`
-    content += `    "filenamePath": "${writer.filenamePath}",\n`
+    content += `    "libraryDir": "${writer.libraryDir}",\n`
     content += `    "gitignorePath": "${writer.gitignorePath}"\n`
     content += '  }\n'
     content += '}\n'
@@ -70,7 +75,7 @@ export class Writer {
   }
 
   private async writeIconFiles(): Promise<boolean> {
-    const basePath = this.options.cacheDir
+    const basePath = this.cacheDir
     const promises = this.collect!.getItems().map(async (item) => {
       let path = item.getPath().replace('.svg', this.options.typescript ? '.ts' : '.js')
       path = `${basePath}${path}`
@@ -85,19 +90,21 @@ export class Writer {
     return await Promise.all(promises).then(() => true)
   }
 
-  private async writeLibrary(filePath: string, cachePath: string): Promise<boolean> {
-    filePath = this.options.typescript ? `${filePath}.ts` : `${filePath}.js`
+  private async writeLibrary(directory: string, filename: string, cache: string): Promise<boolean> {
+    directory = Utils.normalizePaths(`${directory}/`)
+    filename = this.options.typescript ? `${filename}.ts` : `${filename}.js`
+    const path = `${directory}${filename}`
 
-    if (await Utils.fileExists(filePath))
-      await Utils.rm(filePath)
+    if (await Utils.fileExists(path))
+      await Utils.rm(path)
 
-    await this.library?.update(cachePath, this.options.windowInject, this.options.typescript)
+    await this.library?.update(cache, this.options.windowInject, this.options.typescript)
     const content = this.library!.content()
 
-    const dir = dirname(filePath)
+    const dir = dirname(path)
     await Utils.directoryExists(dir)
 
-    return await Utils.write(filePath, content)
+    return await Utils.write(path, content)
   }
 
   private async writeDefinition(): Promise<boolean> {

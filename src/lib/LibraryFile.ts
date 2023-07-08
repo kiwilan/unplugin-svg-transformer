@@ -11,14 +11,8 @@ export class LibraryFile {
   public static async make(items: SvgItem[]): Promise<LibraryFile> {
     const self = new LibraryFile(items)
 
-    // const relativePath = path.relative(self.filenamePath, self.cacheDir)
     self.list = await self.setList()
     self.types = await self.setTypes()
-
-    // const indexPath = Utils.packagePath({ path: 'index-icons.ts' })
-
-    // await Utils.write(self.filenamePath, self.types + self.list)
-    // await Utils.write(indexPath, self.types + list)
 
     return self
   }
@@ -71,8 +65,6 @@ export class LibraryFile {
     this.items.forEach((item) => {
       const localPath = item.getPath()
       let path = Utils.normalizePaths([basePath, localPath])
-      path = Utils.relativeToRoot(path)
-      path = `.${path}`
       path = path.replace('.svg', '')
 
       content += `  '${item.getName()}': import('${path}'),\n`

@@ -6,6 +6,12 @@ import SvgTransformer from '../../src/vite'
 export default defineConfig({
   plugins: [
     vue(),
-    SvgTransformer(),
+    SvgTransformer({
+      // iconsDir: './src/icons',
+      // libraryDir: './',
+      // gitignorePath: './.gitignore',
+      // typescript: true,
+      // windowInject: true,
+    }),
   ],
 })

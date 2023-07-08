@@ -1,5 +1,5 @@
 import fs, { access, rm } from 'node:fs/promises'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 
 interface PackagePathOpts {
   dist?: boolean
@@ -9,14 +9,12 @@ interface PackagePathOpts {
 interface ViteConfig {
   origin: {
     iconsDir: string
-    cacheDir: string
-    filenamePath: string
+    libraryDir: string
     gitignorePath: string
   }
   writer: {
     iconsDir: string
-    cacheDir: string
-    filenamePath: string
+    libraryDir: string
     gitignorePath: string
   }
 }
@@ -36,11 +34,72 @@ export class Utils {
     return root
   }
 
+  public static async findNodeModules(): Promise<string> {
+    const root = process.cwd()
+    let currentDir = root
+    while (currentDir !== '/') {
+      const nodeModulesDir = join(currentDir, 'node_modules')
+      if (await Utils.existsAsync(nodeModulesDir))
+        return nodeModulesDir
+
+      currentDir = dirname(currentDir)
+    }
+
+    return `${root}/node_modules`
+  }
+
+  public static async existsAsync(path: string): Promise<boolean> {
+    try {
+      await access(path)
+      return true
+    }
+    catch (error) {
+      return false
+    }
+  }
+
   public static relativeToRoot(path: string): string {
     const root = process.cwd()
     path = Utils.normalizePath(path)
 
     return path.replace(root, '')
+  }
+
+  public static async relativeToNodeModules(path: string): Promise<string> {
+    const nodeModulesPath = await Utils.findNodeModules()
+    let commonPrefix = ''
+    for (let i = 0; i < Math.min(path.length, nodeModulesPath.length); i++) {
+      if (path[i] === nodeModulesPath[i])
+        commonPrefix += path[i]
+
+      else
+        break
+    }
+
+    const fullPath = path.replace(commonPrefix, '').trim()
+
+    let content = ''
+    if (fullPath === '') {
+      content = './node_modules'
+    }
+    else {
+      const parts = fullPath.split('/')
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i]
+        if (part === '')
+          continue
+
+        content += '../'
+      }
+
+      content += 'node_modules'
+    }
+
+    content = `${content}/unplugin-svg-transformer/cache`
+    console.log(content)
+
+    return content
   }
 
   public static viteConfig(): string {

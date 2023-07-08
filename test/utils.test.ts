@@ -9,24 +9,21 @@ describe('utils', () => {
     const paths = getPaths()
     await Writer.make({
       iconsDir: paths.iconsDir,
-      cacheDir: paths.cacheDir,
-      filenamePath: paths.filenamePath,
+      libraryDir: paths.libraryDir,
       gitignorePath: paths.gitignorePath,
     })
     const config = await Utils.getViteConfig()
-    const iconsFile = await import(config.writer.filenamePath)
+    const iconsFile = await import(config.writer.libraryDir)
 
     const list: Record<string, Promise<{ default: string }>> = iconsFile.IconList
 
     expect(typeof config).toBe('object')
 
-    expect(typeof config.origin.cacheDir).toBe('string')
-    expect(typeof config.origin.filenamePath).toBe('string')
+    expect(typeof config.origin.libraryDir).toBe('string')
     expect(typeof config.origin.gitignorePath).toBe('string')
     expect(typeof config.origin.iconsDir).toBe('string')
 
-    expect(typeof config.writer.cacheDir).toBe('string')
-    expect(typeof config.writer.filenamePath).toBe('string')
+    expect(typeof config.writer.libraryDir).toBe('string')
     expect(typeof config.writer.gitignorePath).toBe('string')
     expect(typeof config.writer.iconsDir).toBe('string')
 
@@ -39,8 +36,7 @@ describe('utils', () => {
     expect(typeof paths).toBe('object')
 
     expect(paths.iconsDir).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons`))
-    expect(paths.cacheDir).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/cache`))
-    expect(paths.filenamePath).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
+    expect(paths.libraryDir).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
     expect(paths.gitignorePath).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
   })
 
@@ -59,7 +55,7 @@ describe('utils', () => {
     // create `.gitignore` file
     await writeFile(getPaths().gitignorePath, '')
 
-    await Utils.ignorePath(getPaths().cacheDir, getPaths().gitignorePath)
+    await Utils.ignorePath(getPaths().gitignorePath)
     const content = await Utils.read(getPaths().gitignorePath)
 
     const path = Utils.normalizePaths('/test/icons/cache')

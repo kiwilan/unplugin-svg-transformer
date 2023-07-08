@@ -5,7 +5,7 @@ import SvgIcon from './SvgIcon'
 //   install: async (app, options) => {
 //     console.log(options)
 //     // const config = await Utils.getViteConfig()
-//     // const iconsFile = await import(config.writer.filenamePath)
+//     // const iconsFile = await import(config.writer.libraryDir)
 //     // const path = './icons'
 //     // const iconsFile = await import(path)
 

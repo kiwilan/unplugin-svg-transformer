@@ -7,8 +7,7 @@ export default defineConfig({
     Inspect(),
     SvgTransformer({
       iconsDir: './icons',
-      cacheDir: './icons/cache',
-      filenamePath: './icons/icons.ts',
+      libraryDir: './',
       gitignorePath: './.gitignore',
       typescript: true,
     }),

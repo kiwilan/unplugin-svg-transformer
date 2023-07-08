@@ -5,8 +5,7 @@ import { Writer } from './lib/Writer'
 
 const DEFAULT_OPTIONS: Options = {
   iconsDir: './src/icons',
-  cacheDir: './src/icons/cache',
-  filenamePath: './src/icons.ts',
+  libraryDir: './src',
   gitignorePath: './.gitignore',
   typescript: true,
   windowInject: true,
@@ -17,11 +16,15 @@ export default createUnplugin<Options | undefined>(options => ({
   async buildStart() {
     const opts: Options = Object.assign({}, DEFAULT_OPTIONS, options)
     opts.iconsDir = Utils.fullPath(opts.iconsDir || DEFAULT_OPTIONS.iconsDir!)
-    opts.cacheDir = Utils.fullPath(opts.cacheDir || DEFAULT_OPTIONS.cacheDir!)
-    opts.filenamePath = Utils.fullPath(opts.filenamePath || DEFAULT_OPTIONS.filenamePath!)
+    opts.libraryDir = Utils.fullPath(opts.libraryDir || DEFAULT_OPTIONS.libraryDir!)
     opts.gitignorePath = Utils.fullPath(opts.gitignorePath || DEFAULT_OPTIONS.gitignorePath!)
 
-    await Writer.make(opts)
+    const nodeModulesDir = await Utils.findNodeModules()
+
+    await Writer.make({
+      ...opts,
+      nodeModulesDir,
+    })
   },
   vite: {
     handleHotUpdate({ file, server }) {

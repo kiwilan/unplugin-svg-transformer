@@ -19,8 +19,6 @@ async function run() {
     await fs.writeFile(file, code)
   }
 
-  const nuxtSvg = resolve('./src/component/Nuxt.ts')
-  const vuePath = resolve('./dist/vue/SvgIcon.ts')
   // let content = await fs.readFile(VueSvgPath, 'utf8')
   // content = content.replace('export {\nVueSvg,\n}\n', 'export default VueSvg\n')
 
@@ -31,9 +29,9 @@ async function run() {
   // lines.push('export default VueSvg\n')
   // content = lines.join('\n')
 
-  // const dir = dirname(vuePath)
-  // await fs.mkdir(dir, { recursive: true })
-  // await fs.copyFile(nuxtSvg, vuePath)
+  await fs.mkdir('./dist/component', { recursive: true })
+  await fs.copyFile('./src/component/Nuxt.ts', './dist/component/Nuxt.ts')
+  await fs.copyFile('./src/component/shared.ts', './dist/component/shared.ts')
 
   // const NuxtTypePath = resolve('./dist/nuxt.d.ts')
   // const contents = [

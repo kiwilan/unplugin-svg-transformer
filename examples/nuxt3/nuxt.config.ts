@@ -12,9 +12,6 @@ export default defineNuxtConfig({
   svgTransformer: {
     iconsDir: './assets/icons',
     libraryDir: './',
-    gitignorePath: './.gitignore',
-    typescript: true,
-    windowInject: true,
   },
   devtools: { enabled: true }
 })

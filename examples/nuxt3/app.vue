@@ -4,7 +4,7 @@
 <template>
   <div>
     hey
-    <SvgIcon name="download" class="icon" />
+    <SvgIcon name="default" class="icon" />
     <!-- <NuxtWelcome /> -->
   </div>
 </template>

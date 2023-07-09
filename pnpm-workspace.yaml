@@ -4,4 +4,5 @@ packages:
   - examples/nuxt3
   - examples/react
   - examples/svelte
+  - examples/ts
   - examples/vue3

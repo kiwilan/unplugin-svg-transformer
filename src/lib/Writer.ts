@@ -1,5 +1,5 @@
 import { dirname } from 'node:path'
-import type { Options, OptionsExtended } from '../types'
+import type { OptionsExtended } from '../types'
 import { DefinitionFile } from './DefinitionFile'
 import { LibraryFile } from './LibraryFile'
 import { SvgCollection } from './Svg/SvgCollection'
@@ -25,7 +25,6 @@ export class Writer {
       windowInject: self.options.windowInject,
     }
 
-    await self.writeViteConfig(options, self.options)
     await Utils.rmDirectory(self.cacheDir)
 
     await Utils.directoryExists(self.options.iconsDir!)
@@ -49,28 +48,6 @@ export class Writer {
       await self.writeDefinition()
 
     return self
-  }
-
-  private async writeViteConfig(options: Options, writer: Options): Promise<boolean> {
-    const path = Utils.viteConfig()
-
-    if (await Utils.fileExists(path))
-      await Utils.rm(path)
-
-    let content = '{\n'
-    content += '  "origin": {\n'
-    content += `    "iconsDir": "${options.iconsDir}",\n`
-    content += `    "libraryDir": "${options.libraryDir}",\n`
-    content += `    "gitignorePath": "${options.gitignorePath}"\n`
-    content += '  },\n'
-    content += '  "writer": {\n'
-    content += `    "iconsDir": "${writer.iconsDir}",\n`
-    content += `    "libraryDir": "${writer.libraryDir}",\n`
-    content += `    "gitignorePath": "${writer.gitignorePath}"\n`
-    content += '  }\n'
-    content += '}\n'
-
-    return await Utils.write(path, content)
   }
 
   private async writeIconFiles(): Promise<boolean> {

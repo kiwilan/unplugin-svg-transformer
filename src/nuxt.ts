@@ -18,7 +18,6 @@ const DEFAULT_OPTIONS: Options = {
   windowInject: true,
 }
 
-// export default function (options: Options = DEFAULT_OPTIONS, nuxt: Nuxt) {
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'unplugin-svg-transformer',
@@ -45,18 +44,15 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     nuxt.hook('builder:watch', async (event: WatchEvent, path: string) => {
-      if (path.endsWith('.svg')) {
-        await Writer.make({
-          ...opts,
-        })
-      }
+      if (path.endsWith('.svg'))
+        await Writer.make(opts)
     })
 
     const resolver = createResolver(import.meta.url)
 
     addComponent({
       name: 'SvgIcon',
-      filePath: resolver.resolve('./vue/SvgIcon.ts'),
+      filePath: resolver.resolve('./component/Nuxt.ts'),
     })
 
     nuxt.options.alias['#svg-transformer-options'] = addTemplate({
@@ -66,12 +62,7 @@ export default defineNuxtModule<ModuleOptions>({
         .join('\n'),
     }).dst
 
-  // extendViteConfig((config) => {
-  //   config.server = config.server || {}
-  //   config.server.fs = config.server.fs || {}
-  //   config.server.fs.allow = config.server.fs.allow || []
-  //   config.server.fs.allow.push('..')
-  //   config.server.fs.allow.push('../..')
-  // })
+    const path = resolver.resolve(`${opts.libraryDir}/icons.ts`)
+    nuxt.options.alias['#icons'] = path
   },
 })

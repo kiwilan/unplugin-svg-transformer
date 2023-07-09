@@ -1,5 +1,6 @@
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
+import type { Display } from './shared'
 
 const VueSvg = defineComponent({
   name: 'SvgIcon',
@@ -9,7 +10,7 @@ const VueSvg = defineComponent({
       required: true,
     },
     display: {
-      type: String as PropType<'block' | 'inline-block' | 'inline' | 'flex' | 'inline-flex' | 'none' | 'grid' | 'inline-grid' | 'contents' | 'flow' | 'flow-root' | 'table' | 'table-row' | 'table-cell' | false>,
+      type: String as PropType<Display>,
       required: false,
       default: 'inline-block',
     },
@@ -29,11 +30,8 @@ const VueSvg = defineComponent({
       attributes.value.style.display = props.display
 
     async function getSvg() {
-      // const icons = inject('$icons') as Record<any, Promise<{ default: string }>>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-nocheck
-      // @ts-expect-error - window is global
-      const icons = window.iconList as Record<any, Promise<{ default: string }>>
+      const wd = window as any
+      const icons = wd.iconList as Record<any, Promise<{ default: string }>>
 
       let svg = await icons[props.name]
       if (!svg)

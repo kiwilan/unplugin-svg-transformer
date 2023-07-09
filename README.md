@@ -15,7 +15,7 @@
 
 Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
-Use SVG with frontend framework like Vue, React, Svelte is not easy, especially when you want to use SVG as component. This plugin will help you to import SVG as component. But you can also just use this plugin as a SVG loader, and create your own component.
+Use SVG into modern tools is not easy, especially when you want to use SVG as component. This plugin will parse your SVG files and create a cache file to import them easily with a library index file. It works with any framework, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework. Built for TypeScript, but works with JavaScript.
 
 > Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
 
@@ -36,8 +36,10 @@ Use SVG with frontend framework like Vue, React, Svelte is not easy, especially 
 ### Roadmap
 
 - [ ] fix delete svg bug
-- [ ] Nuxt 2 module
+- [ ] nuxt 2 module
 - [ ] unplugin tests
+- [ ] type for vue component / react / none
+  - [ ] global type for nuxt
 
 ## Install
 
@@ -113,13 +115,8 @@ export default defineNuxtConfig({
   buildModules: [
     "unplugin-svg-transformer/nuxt", // https://github.com/kiwilan/unplugin-svg-transformer
   ],
-  // Default options
   svgTransformer: {
-    iconsDir: "./assets/icons",
-    libraryDir: "./src",
-    gitignorePath: "./.gitignore",
-    typescript: true,
-    windowInject: true,
+    /* options */
   },
 });
 ```
@@ -274,6 +271,10 @@ pnpm test
 
 ### Local
 
+```bash
+pnpm package
+```
+
 In `package.json`:
 
 ```json
@@ -290,8 +291,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Credits
 
-- [Ewilan Riviere](https://github.com/ewilan-riviere)
-- [antfu/unplugin-svg-transformer](https://github.com/antfu/unplugin-svg-transformer)
+- [`ewilan-riviere`](https://github.com/ewilan-riviere): author
+- [`antfu`](https://github.com/antfu/unplugin-starter): for the starter template
 
 ## License
 

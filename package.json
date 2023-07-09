@@ -98,6 +98,7 @@
     "play:nuxt": "npm -C examples/nuxt3 run dev",
     "play:react": "npm -C examples/react run dev",
     "play:svelte": "npm -C examples/svelte run dev",
+    "play:ts": "npm -C examples/ts run dev",
     "play:vue": "npm -C examples/vue3 run dev",
     "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish",

@@ -1,10 +1,7 @@
-import { VueSvg } from './vue/SvgIcon'
-import { ReactSvg } from './react/SvgIcon'
-
-// import SvgIconSvelte from './svelte/SvgIcon.svelte'
+import { VueSvg } from './component/Vue'
+import { ReactSvg } from './component/React'
 
 export {
   VueSvg,
   ReactSvg,
-  // SvgIconSvelte,
 }

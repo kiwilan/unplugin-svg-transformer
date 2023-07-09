@@ -102,9 +102,6 @@ importers:
       nuxt:
         specifier: ^3.6.2
         version: 3.6.2(@types/node@18.16.19)(eslint@8.42.0)(rollup@3.23.1)(typescript@5.1.3)
-      unplugin-svg-transformer:
-        specifier: file:~/unplugin-svg-transformer.tgz
-        version: file:../../unplugin-svg-transformer.tgz
 
   examples/react:
     dependencies:
@@ -163,6 +160,15 @@ importers:
       tslib:
         specifier: ^2.6.0
         version: 2.6.0
+      typescript:
+        specifier: ^5.0.2
+        version: 5.1.3
+      vite:
+        specifier: ^4.4.0
+        version: 4.4.0(@types/node@18.16.16)
+
+  examples/ts:
+    devDependencies:
       typescript:
         specifier: ^5.0.2
         version: 5.1.3
@@ -10645,12 +10651,4 @@ packages:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
       readable-stream: 3.6.2
-    dev: true
-
-  file:../../unplugin-svg-transformer.tgz:
-    resolution: {integrity: sha512-AgZ/GMQ3GnuSS6QVrRehbw7vKsVZ77+UnaOSCnBBpi+jCpSrcU0+7FgcV4l6Oj5/AUp5v55N1+jfPeO/AXEmPg==, tarball: file:../../unplugin-svg-transformer.tgz}
-    name: unplugin-svg-transformer
-    version: 0.3.0
-    dependencies:
-      unplugin: 1.3.2
     dev: true

@@ -16,14 +16,24 @@ export default createUnplugin<Options | undefined>(options => ({
   async buildStart() {
     const opts = Utils.convertOptions(DEFAULT_OPTIONS, options)
 
-    await Writer.make({
-      ...opts,
-    })
+    await Writer.make(opts)
   },
   vite: {
     handleHotUpdate({ file, server }) {
       if (file.endsWith('.svg'))
         server.restart()
     },
+  },
+  rollup: {
+    //
+  },
+  webpack(compiler) {
+    //
+  },
+  rspack(compiler) {
+    //
+  },
+  esbuild: {
+    //
   },
 }))

@@ -229,27 +229,31 @@ export default defineConfig({
 
 Just replace `app.js` to `app.ts` into `resources/js`.
 
-````ts
+```ts
 // app.ts
-import type { DefineComponent } from 'vue'
-import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { SvgTransformer } from 'unplugin-svg-transformer/vue'
-import { IconList } from 'unplugin-svg-transformer/icons'
+import type { DefineComponent } from "vue";
+import { createApp, h } from "vue";
+import { createInertiaApp } from "@inertiajs/vue3";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import { SvgTransformer } from "unplugin-svg-transformer/vue";
+import { IconList } from "unplugin-svg-transformer/icons";
 
 createInertiaApp({
-  title: title => `${title} - App Name`,
-  resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')) as Promise<DefineComponent>,
+  title: (title) => `${title} - App Name`,
+  resolve: (name) =>
+    resolvePageComponent(
+      `./Pages/${name}.vue`,
+      import.meta.glob("./Pages/**/*.vue")
+    ) as Promise<DefineComponent>,
   setup({ el, App, props, plugin }) {
-    const pinia = createPinia()
+    const pinia = createPinia();
     const app = createApp({ render: () => h(App, props) })
       .use(plugin)
-      .use(SvgTransformer, IconList)
+      .use(SvgTransformer, IconList);
 
-    app.mount(el)
+    app.mount(el);
   },
-})
+});
 ```
 
 ```vue
@@ -258,7 +262,7 @@ createInertiaApp({
     <svg-icon name="logo" />
   </div>
 </template>
-````
+```
 
 <br></details>
 

@@ -163,7 +163,8 @@ build({
 
 ## Usage
 
-### Vue 3 / Inertia
+<details>
+<summary>Vue 3</summary><br>
 
 ```ts
 // main.ts
@@ -178,9 +179,55 @@ createApp(App)
   .mount("#app");
 ```
 
-#### Inertia
+<br></details>
 
-Example here with Laravel Jetstream.
+<details>
+<summary>Inertia</summary><br>
+
+Example here with Laravel Jetstream,
+
+To use TypeScript, update `vite.config.js` to `vite.config.ts` and just add `unplugin-svg-transformer/vite` to `plugins` array.
+
+> **Warning**
+>
+> Don't forget to replace `resources/js/app.js` to `resources/js/app.ts` into `laravel-vite-plugin`.
+
+```ts
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import vue from "@vitejs/plugin-vue";
+import SvgTransformer from "unplugin-svg-transformer/vite";
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      "@": "/resources/js",
+      "~": "/",
+    },
+  },
+  plugins: [
+    laravel({
+      input: ["resources/js/app.ts"],
+      ssr: "resources/js/ssr.js",
+      refresh: true,
+    }),
+    vue({
+      template: {
+        transformAssetUrls: {
+          base: null,
+          includeAbsolute: false,
+        },
+      },
+    }),
+    SvgTransformer({
+      iconsDir: "./resources/js/Icons",
+      libraryDir: "./resources/js",
+    }),
+  ],
+});
+```
+
+Just replace `app.js` to `app.ts` into `resources/js`.
 
 ````ts
 // app.ts
@@ -192,7 +239,7 @@ import { SvgTransformer } from 'unplugin-svg-transformer/vue'
 import { IconList } from 'unplugin-svg-transformer/icons'
 
 createInertiaApp({
-  title: title => `${title} - P1PDD`,
+  title: title => `${title} - App Name`,
   resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')) as Promise<DefineComponent>,
   setup({ el, App, props, plugin }) {
     const pinia = createPinia()
@@ -203,6 +250,7 @@ createInertiaApp({
     app.mount(el)
   },
 })
+```
 
 ```vue
 <template>
@@ -211,6 +259,8 @@ createInertiaApp({
   </div>
 </template>
 ````
+
+<br></details>
 
 ## Testing
 

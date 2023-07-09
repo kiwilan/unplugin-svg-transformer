@@ -1,6 +1,6 @@
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
-import { defaultSvg } from './shared'
+import { defaultSvg, ssr } from './shared'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
@@ -21,8 +21,9 @@ const NuxtSvg = defineComponent({
     },
   },
   setup(props, { attrs }) {
-    const defaultSSR = defaultSvg(props.name)
+    const defaultSSR = defaultSvg(props.name, true)
     const current = ref<string>(defaultSSR)
+    const html = ref(ssr(props.name))
 
     const attributes = ref({
       ...(attrs as Record<string, any>),
@@ -48,9 +49,10 @@ const NuxtSvg = defineComponent({
 
     onMounted(async () => {
       await getSvg()
+      html.value = current.value
     })
 
-    return () => h('span', { ...attributes, innerHTML: current.value })
+    return () => h('span', { ...attributes, innerHTML: html.value })
   },
 })
 

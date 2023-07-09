@@ -35,6 +35,4 @@ export interface Options {
   windowInject?: boolean
 }
 
-export interface OptionsExtended extends Options {
-  nodeModulesDir: string
-}
+export interface OptionsExtended extends Options {}

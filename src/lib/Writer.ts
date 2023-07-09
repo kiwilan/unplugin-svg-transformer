@@ -23,7 +23,6 @@ export class Writer {
       gitignorePath: self.options.gitignorePath,
       typescript: self.options.typescript,
       windowInject: self.options.windowInject,
-      nodeModulesDir: self.options.nodeModulesDir,
     }
 
     await self.writeViteConfig(options, self.options)

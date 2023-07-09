@@ -5,6 +5,7 @@ export default <Options>{
     'src/*.ts',
   ],
   clean: true,
+  minify: true,
   format: ['cjs', 'esm'],
   dts: true,
   onSuccess: 'npm run build:fix',
@@ -12,5 +13,7 @@ export default <Options>{
     'vue',
     'react',
     'svelte',
+    'nuxt',
+    '@nuxt/kit',
   ],
 }

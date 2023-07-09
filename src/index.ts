@@ -14,16 +14,10 @@ const DEFAULT_OPTIONS: Options = {
 export default createUnplugin<Options | undefined>(options => ({
   name: 'unplugin-svg-transformer',
   async buildStart() {
-    const opts: Options = Object.assign({}, DEFAULT_OPTIONS, options)
-    opts.iconsDir = Utils.fullPath(opts.iconsDir || DEFAULT_OPTIONS.iconsDir!)
-    opts.libraryDir = Utils.fullPath(opts.libraryDir || DEFAULT_OPTIONS.libraryDir!)
-    opts.gitignorePath = Utils.fullPath(opts.gitignorePath || DEFAULT_OPTIONS.gitignorePath!)
-
-    const nodeModulesDir = await Utils.findNodeModules()
+    const opts = Utils.convertOptions(DEFAULT_OPTIONS, options)
 
     await Writer.make({
       ...opts,
-      nodeModulesDir,
     })
   },
   vite: {

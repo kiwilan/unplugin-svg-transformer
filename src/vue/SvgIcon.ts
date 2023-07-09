@@ -30,7 +30,9 @@ const VueSvg = defineComponent({
 
     async function getSvg() {
       // const icons = inject('$icons') as Record<any, Promise<{ default: string }>>
-      // @ts-expect-error window is global
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-nocheck
+      // @ts-expect-error - window is global
       const icons = window.iconList as Record<any, Promise<{ default: string }>>
 
       let svg = await icons[props.name]

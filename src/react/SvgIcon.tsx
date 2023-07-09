@@ -32,7 +32,9 @@ function ReactSvg({ className, style, name, display }: Props): JSX.Element {
   const [current, setCurrent] = useState(defaultSSR)
 
   async function getSvg() {
-    // @ts-expect-error window is global
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-nocheck
+    // @ts-expect-error - window is global
     const icons = window.iconList as Record<any, Promise<{ default: string }>>
 
     let svg = await icons[name]

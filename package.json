@@ -95,6 +95,7 @@
     "lint:fix": "npm run lint -- --fix",
     "play": "npm -C playground run dev",
     "play:js": "npm -C examples/js run dev",
+    "play:nuxt": "npm -C examples/nuxt3 run dev",
     "play:react": "npm -C examples/react run dev",
     "play:svelte": "npm -C examples/svelte run dev",
     "play:vue": "npm -C examples/vue3 run dev",
@@ -113,6 +114,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
+    "@nuxt/kit": "^3.6.2",
     "@types/node": "^18.16.16",
     "@types/react": "^18.2.14",
     "@vitejs/plugin-vue": "^4.2.3",
@@ -123,6 +125,7 @@
     "esno": "^0.16.3",
     "fast-glob": "^3.2.12",
     "nodemon": "^2.0.22",
+    "nuxt": "^3.6.2",
     "react": "^18.2.0",
     "rimraf": "^5.0.1",
     "rollup": "^3.23.1",

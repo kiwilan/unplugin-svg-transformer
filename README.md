@@ -26,21 +26,18 @@ Use SVG with frontend framework like Vue, React, Svelte is not easy, especially 
 - 🤙🏻 Reactivity option
 - 🗃️ Index to list all SVG to import them easily
 - 🗂 Seperated cache SVG files
+- 🚚 Can be import into any JS / TS file to be use as a SVG loader
 - 📦 Components ready, no import needed, SVG directly injected
-  - [x] [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component
-  - [x] [React](https://react.dev/) component
-  - [ ] [Svelte](https://svelte.dev/) component
-- 🎆 Can be import into any JS / TS file to be use as a SVG loader
+  - [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component
+  - [React](https://react.dev/) component
 - 🎨 Options to add or clear `style` and `class` global attributes
 - 🦾 SVG typed, validate by `name` prop (`typescript` required)
 
 ### Roadmap
 
-- [x] move files into `src` by default (for Nuxt use `assets`)
-- [x] allow JS file instead of TS
-- [x] fix type bug
-- [x] parse repo to find `node_modules` and package dir
 - [ ] fix delete svg bug
+- [ ] Nuxt 2 module
+- [ ] unplugin tests
 
 ## Install
 
@@ -111,20 +108,23 @@ module.exports = {
 <summary>Nuxt</summary><br>
 
 ```ts
-// nuxt.config.js
-export default {
+// nuxt.config.ts
+export default defineNuxtConfig({
   buildModules: [
-    [
-      "unplugin-svg-transformer/nuxt",
-      {
-        /* options */
-      },
-    ],
+    "unplugin-svg-transformer/nuxt", // https://github.com/kiwilan/unplugin-svg-transformer
   ],
-};
+  // Default options
+  svgTransformer: {
+    iconsDir: "./assets/icons",
+    libraryDir: "./src",
+    gitignorePath: "./.gitignore",
+    typescript: true,
+    windowInject: true,
+  },
+});
 ```
 
-> This module works for both Nuxt 2 and [Nuxt Vite](https://github.com/nuxt/vite)
+> This module works for Nuxt 3
 
 <br></details>
 

@@ -1,6 +1,7 @@
 packages:
   - playground
   - examples/js
+  - examples/nuxt3
   - examples/react
   - examples/svelte
   - examples/vue3

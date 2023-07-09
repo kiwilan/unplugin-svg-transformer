@@ -1,5 +1,6 @@
 import fs, { access, readdir, rm } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
+import type { Options } from '../types'
 
 interface PackagePathOpts {
   dist?: boolean
@@ -32,6 +33,15 @@ export class Utils {
       return Utils.normalizePath(join(root, path))
 
     return root
+  }
+
+  public static convertOptions(defaultOptions: Options, options?: Options): Options {
+    const opts: Options = Object.assign({}, defaultOptions, options)
+    opts.iconsDir = Utils.fullPath(opts.iconsDir || defaultOptions.iconsDir!)
+    opts.libraryDir = Utils.fullPath(opts.libraryDir || defaultOptions.libraryDir!)
+    opts.gitignorePath = Utils.fullPath(opts.gitignorePath || defaultOptions.gitignorePath!)
+
+    return opts
   }
 
   public static async findNodeModules(): Promise<string> {

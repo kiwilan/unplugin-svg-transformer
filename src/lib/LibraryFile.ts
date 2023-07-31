@@ -86,7 +86,7 @@ export class LibraryFile {
     content.push('\n')
     content.push('export function importIcon(name: IconType | string): Promise<string> {\n')
     // eslint-disable-next-line no-template-curly-in-string
-    content.push('  return import(`${IconList[name] || IconList["default"]}.ts`)\n')
+    content.push('  return import(/* @vite-ignore */ `${IconList[name] || IconList["default"]}.ts`)\n')
     content.push('}\n')
 
     if (window) {

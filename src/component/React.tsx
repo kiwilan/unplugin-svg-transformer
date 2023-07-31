@@ -35,12 +35,7 @@ function ReactSvg({ className, style, name, display }: Props): JSX.Element {
 
   async function getSvg() {
     const wd = window as any
-    const icons = wd.iconList as Record<any, Promise<{ default: string }>>
-
-    let svg = await icons[name]
-    if (!svg)
-      svg = await icons.default
-
+    const svg = await wd.importIcon(name)
     setCurrent(svg.default)
   }
 

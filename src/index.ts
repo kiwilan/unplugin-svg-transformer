@@ -16,6 +16,7 @@ export default createUnplugin<Options | undefined>(options => ({
   async buildStart() {
     const opts = Utils.convertOptions(DEFAULT_OPTIONS, options)
 
+    console.log('unplugin-svg-transformer: start')
     await Writer.make(opts)
   },
   vite: {

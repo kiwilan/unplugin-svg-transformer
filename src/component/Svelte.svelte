@@ -21,7 +21,7 @@
     const wd = window as any;
     const icons = wd.iconList as Record<any, Promise<{ default: string }>>;
 
-    let svg = await icons[name];
+    let svg = await wd.importIcon(name);
     if (!svg) {
       svg = await icons.default;
     }

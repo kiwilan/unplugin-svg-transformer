@@ -5,7 +5,7 @@ import { defaultSvg, ssr } from './shared'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 // @ts-expect-error - ignore
-import { IconList } from '#icons'
+import { importIcon } from '#icons'
 
 const NuxtSvg = defineComponent({
   name: 'SvgIcon',
@@ -36,10 +36,7 @@ const NuxtSvg = defineComponent({
       attributes.value.style.display = props.display
 
     async function getSvg() {
-      let svg = await IconList[props.name]
-      if (!svg)
-        svg = await IconList.default
-
+      const svg = await importIcon(props.name)
       current.value = svg.default
     }
 

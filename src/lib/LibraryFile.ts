@@ -78,9 +78,15 @@ export class LibraryFile {
       let path = Utils.normalizePaths([basePath, localPath])
       path = path.replace('.svg', '')
 
-      content.push(`  '${item.getName()}': import('${path}'),\n`)
+      content.push(`  '${item.getName()}': '${path}',\n`)
     })
 
+    content.push('}\n')
+
+    content.push('\n')
+    content.push('export function importIcon(name: IconType | string): Promise<string> {\n')
+    // eslint-disable-next-line no-template-curly-in-string
+    content.push('  return import(`${IconList[name] || IconList["default"]}.ts`)\n')
     content.push('}\n')
 
     if (window) {
@@ -88,6 +94,7 @@ export class LibraryFile {
       content.push('if (typeof window !== \'undefined\') {\n')
       // content.push('  // @ts-expect-error type is global\n')
       content.push('  window.iconList = IconList\n')
+      content.push('  window.importIcon = importIcon\n')
       content.push('}\n')
     }
 

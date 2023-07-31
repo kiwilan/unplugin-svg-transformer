@@ -16,7 +16,6 @@ export default createUnplugin<Options | undefined>(options => ({
   async buildStart() {
     const opts = Utils.convertOptions(DEFAULT_OPTIONS, options)
 
-    console.log('unplugin-svg-transformer: start')
     await Writer.make(opts)
   },
   vite: {
@@ -28,10 +27,10 @@ export default createUnplugin<Options | undefined>(options => ({
   rollup: {
     //
   },
-  webpack(compiler) {
+  webpack() {
     //
   },
-  rspack(compiler) {
+  rspack() {
     //
   },
   esbuild: {

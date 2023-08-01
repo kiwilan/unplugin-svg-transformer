@@ -27,6 +27,7 @@ export class LibraryFile {
 
   public content(): string {
     const content = [
+      '/* eslint-disable eslint-comments/no-unlimited-disable */',
       '/* eslint-disable */',
       '/* prettier-ignore */',
       '// @ts-nocheck',
@@ -69,35 +70,35 @@ export class LibraryFile {
     const content = []
 
     if (typescript)
-      content.push('export const IconList: Record<IconType | string, Promise<{ default: string }>> = {\n')
+      content.push('export const IconList: Record<IconType | string, Promise<{ default: string }>> = {')
     else
-      content.push('export const IconList = {\n')
+      content.push('export const IconList = {')
 
     this.items.forEach((item) => {
       const localPath = item.getPath()
       let path = Utils.normalizePaths([basePath, localPath])
       path = path.replace('.svg', '')
 
-      content.push(`  '${item.getName()}': '${path}',\n`)
+      content.push(`  '${item.getName()}': () => import('${path}'),`)
     })
 
-    content.push('}\n')
+    content.push('}')
 
-    content.push('\n')
-    content.push('export function importIcon(name: IconType | string): Promise<string> {\n')
-    // eslint-disable-next-line no-template-curly-in-string
-    content.push('  return import(/* @vite-ignore */ `${IconList[name] || IconList["default"]}.ts`)\n')
-    content.push('}\n')
+    content.push('')
+    content.push('export async function importIcon(name: IconType | string): Promise<{ default: string }> {')
+    content.push('  name = IconList[name] || IconList["default"]')
+    content.push('  return await name()')
+    content.push('}')
 
     if (window) {
-      content.push('\n')
-      content.push('if (typeof window !== \'undefined\') {\n')
-      // content.push('  // @ts-expect-error type is global\n')
-      content.push('  window.iconList = IconList\n')
-      content.push('  window.importIcon = importIcon\n')
-      content.push('}\n')
+      content.push('')
+      content.push('if (typeof window !== \'undefined\') {')
+      // content.push('  // @ts-expect-error type is global')
+      content.push('  window.iconList = IconList')
+      content.push('  window.importIcon = importIcon')
+      content.push('}')
     }
 
-    return content.join('')
+    return content.join('\n')
   }
 }

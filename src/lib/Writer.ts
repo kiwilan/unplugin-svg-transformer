@@ -4,6 +4,7 @@ import { DefinitionFile } from './DefinitionFile'
 import { LibraryFile } from './LibraryFile'
 import { SvgCollection } from './Svg/SvgCollection'
 import { Utils } from './Utils'
+import { GlobalTypeFile } from './GlobalTypeFile'
 
 export class Writer {
   protected constructor(
@@ -44,10 +45,18 @@ export class Writer {
     await self.writeLibrary(rootLibraryDir, 'icons', cache)
     await self.writeLibrary(packageLibraryDir, 'icons-index', '../cache')
 
-    if (self.options.typescript)
+    if (self.options.typescript) {
       await self.writeDefinition()
+      if (self.options.windowInject)
+        await self.writeGlobalTypeFile()
+    }
 
     return self
+  }
+
+  private async writeGlobalTypeFile(): Promise<boolean> {
+    const global = await GlobalTypeFile.make()
+    return await Utils.write(global.getPath(), global.getContent())
   }
 
   private async writeIconFiles(): Promise<boolean> {

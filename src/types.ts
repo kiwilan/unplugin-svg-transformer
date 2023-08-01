@@ -33,6 +33,12 @@ export interface Options {
    * @default true
    */
   windowInject?: boolean
+  /**
+   * Create `global.d.ts` file with the window object. If `windowInject` is false, this option will be ignored.
+   *
+   * @default true
+   */
+  globalType?: boolean
 }
 
 export interface OptionsExtended extends Options {}

@@ -47,7 +47,7 @@ export class Writer {
 
     if (self.options.typescript) {
       await self.writeDefinition()
-      if (self.options.windowInject)
+      if (self.options.windowInject && self.options.globalType)
         await self.writeGlobalTypeFile()
     }
 

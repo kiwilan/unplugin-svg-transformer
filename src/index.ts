@@ -9,6 +9,7 @@ const DEFAULT_OPTIONS: Options = {
   gitignorePath: './.gitignore',
   typescript: true,
   windowInject: true,
+  globalType: true,
 }
 
 export default createUnplugin<Options | undefined>(options => ({

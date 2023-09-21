@@ -1,27 +1,40 @@
-import { addComponent, addTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addComponent, addImports, addTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
 import type { Configuration } from 'webpack'
 import type { InlineConfig } from 'vite'
-import type { WatchEvent } from '@nuxt/schema'
+import type { Nuxt, WatchEvent } from '@nuxt/schema'
+import { name, version } from '../package.json'
 import type { Options } from './types'
-import { Writer } from './lib/Writer'
+import { SvgTransformer } from './lib'
 import { Utils } from './lib/Utils'
 import unplugin from '.'
 
 export interface ModuleOptions extends Options {
   test?: string
+  isNuxt?: boolean
+  nuxtBuildDir?: string
 }
 const DEFAULT_OPTIONS: Options = {
-  iconsDir: './assets/icons',
-  libraryDir: './src',
-  gitignorePath: './.gitignore',
-  typescript: true,
+  iconsDir: './assets/svg',
+  // libraryDir: './', // TODO for Nuxt
+  types: true,
   windowInject: true,
+}
+
+async function build(opts: ModuleOptions, nuxt: Nuxt): Promise<void> {
+  // const transformer = await SvgTransformer.make(opts)
+  // const buildDir = nuxt.options.buildDir
+
+  // const iconsDir = `${buildDir}/icons`
+  // await Utils.rmDirectory(iconsDir)
+  // await Utils.ensureDirectoryExists(iconsDir)
+
+  // await transformer.writeIconFiles(iconsDir)
 }
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'unplugin-svg-transformer',
-    version: '0.0.1',
+    name,
+    version,
     configKey: 'svgTransformer',
     compatibility: {
       nuxt: '^3.0.0',
@@ -29,7 +42,10 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: DEFAULT_OPTIONS,
   async setup(options, nuxt) {
-    const opts = Utils.convertOptions(DEFAULT_OPTIONS, options)
+    const opts: ModuleOptions = Utils.convertOptions(DEFAULT_OPTIONS, options)
+    opts.isNuxt = true
+    opts.nuxtBuildDir = nuxt.options.buildDir
+    opts.libraryDir = nuxt.options.buildDir
 
     nuxt.hook('webpack:config', async (config: Configuration[]) => {
       const c: Configuration = {}
@@ -40,19 +56,30 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.hook('vite:extendConfig', async (config: InlineConfig) => {
       config.plugins = config.plugins || []
-      config.plugins.push(unplugin.vite(options))
+      config.plugins.push(unplugin.vite(opts))
+    })
+
+    nuxt.hook('build:done', async () => {
+      await build(opts, nuxt)
     })
 
     nuxt.hook('builder:watch', async (event: WatchEvent, path: string) => {
       if (path.endsWith('.svg'))
-        await Writer.make(opts)
+        await build(opts, nuxt)
+    })
+
+    nuxt.hook('vite:serverCreated', async (viteServer) => {
+      viteServer.watcher.on('unlink', async (path: string) => {
+        if (path.endsWith('.svg'))
+          await build(opts, nuxt)
+      })
     })
 
     const resolver = createResolver(import.meta.url)
 
     addComponent({
       name: 'SvgIcon',
-      filePath: resolver.resolve('./component/Nuxt.ts'),
+      filePath: resolver.resolve('./component/VueNuxt.ts'),
     })
 
     nuxt.options.alias['#svg-transformer-options'] = addTemplate({
@@ -64,5 +91,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     const path = resolver.resolve(`${opts.libraryDir}/icons.ts`)
     nuxt.options.alias['#icons'] = path
+
+    addImports({
+      from: '#icons',
+      name: 'icons',
+    })
   },
 })

@@ -6,10 +6,8 @@ export default defineConfig({
   plugins: [
     Inspect(),
     SvgTransformer({
-      iconsDir: './icons',
+      iconsDir: './svg',
       libraryDir: './',
-      gitignorePath: './.gitignore',
-      typescript: true,
     }),
   ],
 })

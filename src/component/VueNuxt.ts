@@ -11,7 +11,7 @@ const NuxtSvg = defineComponent({
   name: 'SvgIcon',
   props: {
     name: {
-      type: String as PropType<string>,
+      type: String as PropType<IconType>,
       required: true,
     },
     display: {

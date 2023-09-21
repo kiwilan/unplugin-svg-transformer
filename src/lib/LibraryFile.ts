@@ -17,6 +17,10 @@ export class LibraryFile {
     return self
   }
 
+  public getItems(): SvgItem[] {
+    return this.items
+  }
+
   public getList(): string {
     return this.list!
   }
@@ -48,7 +52,7 @@ export class LibraryFile {
 
   private async setTypes(): Promise<string> {
     let content = ''
-    content += 'export type IconType = '
+    content += 'type IconType = '
     this.items.forEach((item, key) => {
       if (key > 0)
         content += ' | '
@@ -61,7 +65,7 @@ export class LibraryFile {
     else
       content += '\'default\''
 
-    content += '\n'
+    content = content.replace('\'default\' | \'default\'', '\'default\'')
 
     return content
   }
@@ -70,7 +74,7 @@ export class LibraryFile {
     const content = []
 
     if (typescript)
-      content.push('export const IconList: Record<IconType | string, Promise<{ default: string }>> = {')
+      content.push('export const IconList: Record<IconType, Promise<{ default: string }>> = {')
     else
       content.push('export const IconList = {')
 
@@ -85,7 +89,7 @@ export class LibraryFile {
     content.push('}')
 
     content.push('')
-    content.push('export async function importIcon(name: IconType | string): Promise<{ default: string }> {')
+    content.push('export async function importIcon(name: IconType): Promise<{ default: string }> {')
     content.push('  name = IconList[name] || IconList["default"]')
     content.push('  return await name()')
     content.push('}')

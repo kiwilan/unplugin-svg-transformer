@@ -1,10 +1,6 @@
-import { IconList } from './icons'
+import { importIcon } from './icons'
 
 export async function setupIcon(element: HTMLElement, name: IconType) {
-  let svg = await IconList[name]
-  if (!svg) {
-    svg = await IconList.default
-  }
-
+  let svg = await importIcon(name)
   element.innerHTML = svg.default
 }

@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     '../../src/nuxt',
   ],
   svgTransformer: {
-    iconsDir: './assets/icons',
+    iconsDir: './assets/svg',
     libraryDir: './',
   },
   devtools: { enabled: true }

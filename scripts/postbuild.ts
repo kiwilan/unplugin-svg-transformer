@@ -30,7 +30,7 @@ async function run() {
   // content = lines.join('\n')
 
   await fs.mkdir('./dist/component', { recursive: true })
-  await fs.copyFile('./src/component/Nuxt.ts', './dist/component/Nuxt.ts')
+  await fs.copyFile('./src/component/VueNuxt.ts', './dist/component/VueNuxt.ts')
   await fs.copyFile('./src/component/shared.ts', './dist/component/shared.ts')
 
   // const NuxtTypePath = resolve('./dist/nuxt.d.ts')

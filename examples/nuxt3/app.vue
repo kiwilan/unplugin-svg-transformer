@@ -1,10 +1,25 @@
 <script lang="ts" setup>
+// import './icons'
+// async function downloadIcon() {
+//   let svg = await import('./node_modules/unplugin-svg-transformer/cache/download')
+//   console.log(svg.default);
+// }
+// downloadIcon()
+
+// if (process.client) {
+//   console.log(window);
+// }
+
+// if (process.client && window.importIcon) {
+//   let svg = await window.importIcon('download')
+//   console.log(svg.default);
+// }
 </script>
 
 <template>
   <div>
     hey
-    <SvgIcon name="default" class="icon" />
+    <!-- <SvgIcon name="default" class="icon" /> -->
     <!-- <NuxtWelcome /> -->
   </div>
 </template>

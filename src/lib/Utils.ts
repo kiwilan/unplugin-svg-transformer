@@ -11,12 +11,10 @@ interface ViteConfig {
   origin: {
     iconsDir: string
     libraryDir: string
-    gitignorePath: string
   }
   writer: {
     iconsDir: string
     libraryDir: string
-    gitignorePath: string
   }
 }
 
@@ -39,7 +37,7 @@ export class Utils {
     const opts: Options = Object.assign({}, defaultOptions, options)
     opts.iconsDir = Utils.fullPath(opts.iconsDir || defaultOptions.iconsDir!)
     opts.libraryDir = Utils.fullPath(opts.libraryDir || defaultOptions.libraryDir!)
-    opts.gitignorePath = Utils.fullPath(opts.gitignorePath || defaultOptions.gitignorePath!)
+    // opts.gitignorePath = Utils.fullPath(opts.gitignorePath || defaultOptions.gitignorePath!)
 
     return opts
   }
@@ -240,7 +238,7 @@ export class Utils {
     return path
   }
 
-  public static async directoryExists(path: string): Promise<boolean> {
+  public static async ensureDirectoryExists(path: string): Promise<boolean> {
     path = this.normalizePath(path)
     try {
       const stats = await fs.stat(path)
@@ -260,7 +258,7 @@ export class Utils {
 
   public static async rmDirectory(path: string): Promise<void> {
     path = this.normalizePath(path)
-    if (!await this.directoryExists(path))
+    if (!await this.ensureDirectoryExists(path))
       return
 
     try {

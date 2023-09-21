@@ -11,10 +11,12 @@ export class GlobalTypeFile {
 
     const root = Utils.rootPath()
     self.path = `${root}/global.d.ts`
-    if (!await Utils.fileExists(root))
-      self.content = self.defaultFile()
-    else
-      self.content = await self.addToExistingFile()
+
+    self.content = self.defaultFile()
+    // if (!await Utils.fileExists(root))
+    //   self.content = self.defaultFile()
+    // else
+    //   self.content = await self.addToExistingFile()
 
     return self
   }
@@ -31,6 +33,8 @@ export class GlobalTypeFile {
     const content = [
       '/// <reference types="vite/client" />',
       '',
+      'export {};',
+      '',
       'declare global {',
       '  interface Window {',
       '    iconList: Record<IconType | string, Promise<{ default: string }>>',
@@ -41,7 +45,6 @@ export class GlobalTypeFile {
       'window.iconList = IconList || {}',
       'window.importIcon = importIcon || function () {}',
       '',
-      'export {}',
     ]
 
     return content.join('\n')

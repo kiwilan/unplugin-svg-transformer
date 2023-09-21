@@ -1,29 +1,23 @@
 export interface Options {
   /**
-   * Directory where the SVG files are located.
+   * Directory where your SVG files are located.
    *
-   * @default './src/icons'
+   * @default './src/svg' or './assets/svg' for Nuxt
    */
   iconsDir?: string
   /**
-   * File where the types and list of icons will be created.
+   * File where types and list of icons will be created.
    *
-   * @default './src/icons.ts'
+   * @default './src' or './' for Nuxt
    */
   libraryDir?: string
   /**
-   * Path to the .gitignore file.
-   *
-   * @default './.gitignore'
-   */
-  gitignorePath?: string
-  /**
-   * Use TypeScript or not, if you want to use JavaScript instead of TypeScript.
+   * Use types, if you want to use JavaScript instead of TypeScript, set this option to false.
    * You can't have autocompletion with JavaScript.
    *
    * @default true
    */
-  typescript?: boolean
+  types?: boolean
   /**
    * Inject the window object in the SVG files.
    * This is useful if you want to use the SVG files in the browser.
@@ -41,4 +35,7 @@ export interface Options {
   globalType?: boolean
 }
 
-export interface OptionsExtended extends Options {}
+export interface OptionsExtended extends Options {
+  isNuxt?: boolean
+  nuxtBuildDir?: string
+}

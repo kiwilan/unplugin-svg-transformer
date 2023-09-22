@@ -8,10 +8,10 @@ export class DefinitionFile {
     protected contents?: string,
   ) {}
 
-  public static async make(types: string): Promise<DefinitionFile> {
+  public static async make(types: string, isNuxt: boolean): Promise<DefinitionFile> {
     const self = new DefinitionFile(types)
 
-    const contents = [
+    let contents = [
       '/* eslint-disable */',
       '/* prettier-ignore */',
       '// @ts-nocheck',
@@ -33,10 +33,16 @@ export class DefinitionFile {
       '  }',
       '}',
       '',
-      'window.iconList = window.iconList || {}',
-      'window.importIcon = importIcon || function () {}',
-      '',
     ]
+
+    if (!isNuxt) {
+      contents = [
+        ...contents,
+        'window.iconList = window.iconList || {}',
+        'window.importIcon = importIcon || function () {}',
+        '',
+      ]
+    }
 
     self.contents = contents.join('\n')
 

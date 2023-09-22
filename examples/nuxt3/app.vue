@@ -6,6 +6,8 @@
 // }
 // downloadIcon()
 
+let icon: IconType = 'download'
+
 // if (process.client) {
 //   console.log(window);
 // }
@@ -19,7 +21,7 @@
 <template>
   <div>
     hey
-    <!-- <SvgIcon name="default" class="icon" /> -->
+    <SvgIcon name="download" class="icon" />
     <!-- <NuxtWelcome /> -->
   </div>
 </template>

@@ -8,14 +8,14 @@ declare global {
   type IconType = 'download' | 'social/twitter' | 'default'
   interface Window {
     iconList: Record<IconType, Promise<{ default: string }>>
-    importIcon: (name: IconType | string) => Promise<{ default: string }>
+    importIcon: (name: IconType) => Promise<{ default: string }>
   }
 }
 
 declare module 'vue' {
   export interface GlobalComponents {
-    SvgIcon: typeof import('unplugin-svg-transformer/components')['VueSvg']
-    importIcon: (name: IconType | string) => Promise<{ default: string }>
+    SvgIcon: typeof import('unplugin-svg-transformer/dist/components')['VueSvg']
+    importIcon: (name: IconType) => Promise<{ default: string }>
   }
 }
 

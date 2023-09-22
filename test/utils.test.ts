@@ -13,7 +13,7 @@ describe('utils', () => {
   //   const config = await Utils.getViteConfig()
   //   const iconsFile = await import(config.writer.libraryDir)
 
-  //   const list: Record<string, Promise<{ default: string }>> = iconsFile.IconList
+  //   const list: Record<string, Promise<{ default: string }>> = iconsFile.iconList
 
   //   expect(typeof config).toBe('object')
 

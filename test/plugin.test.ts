@@ -49,7 +49,7 @@ it('can write svg as ts files', async () => {
 
 //   if (process.platform === 'win32') {
 //     expect(content).toBe(`declare type IconType = 'download' | 'feed-apple-podcast' | 'feed-deezer' | 'feed-google-podcast' | 'feed-overcast' | 'feed-podcast-addict' | 'feed-rss' | 'feed-spotify' | 'mail' | 'player-close' | 'player-forward' | 'player-pause' | 'player-play' | 'player-playback-x1-5' | 'player-playback-x2' | 'player-playback' | 'player-rewind' | 'player-volume-off' | 'player-volume' | 'social-facebook' | 'social-twitter' | 'social-youtube' | 'default'
-// export const IconList: Record<IconType | string, Promise<{ default: string }>> = {
+// export const iconList: Record<IconType | string, Promise<{ default: string }>> = {
 //   'download': import('.\\\\cache\\\\download'),
 //   'feed-apple-podcast': import('.\\\\cache\\\\feed\\\\apple-podcast'),
 //   'feed-deezer': import('.\\\\cache\\\\feed\\\\deezer'),
@@ -77,7 +77,7 @@ it('can write svg as ts files', async () => {
 //   }
 //   else {
 //     expect(content).toBe(`declare type IconType = 'download' | 'feed/apple-podcast' | 'feed/deezer' | 'feed/google-podcast' | 'feed/overcast' | 'feed/podcast-addict' | 'feed/rss' | 'feed/spotify' | 'mail' | 'player/close' | 'player/forward' | 'player/pause' | 'player/play' | 'player/playback-x1.5' | 'player/playback-x2' | 'player/playback' | 'player/rewind' | 'player/volume-off' | 'player/volume' | 'social/facebook' | 'social/twitter' | 'social/youtube' | 'default'
-// export const IconList: Record<IconType | string, Promise<{ default: string }>> = {
+// export const iconList: Record<IconType | string, Promise<{ default: string }>> = {
 //   'download': import('./cache/download'),
 //   'feed/apple-podcast': import('./cache/feed/apple-podcast'),
 //   'feed/deezer': import('./cache/feed/deezer'),

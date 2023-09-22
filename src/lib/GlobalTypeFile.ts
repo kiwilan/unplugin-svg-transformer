@@ -42,7 +42,7 @@ export class GlobalTypeFile {
       '  }',
       '}',
       '',
-      'window.iconList = IconList || {}',
+      'window.iconList = iconList || {}',
       'window.importIcon = importIcon || function () {}',
       '',
     ]
@@ -77,7 +77,7 @@ export class GlobalTypeFile {
     }
 
     contentFile.push('')
-    contentFile.push('window.iconList = IconList || {}')
+    contentFile.push('window.iconList = iconList || {}')
     contentFile.push('window.importIcon = importIcon || function () {}')
     contentFile.push('')
     contentFile.push('export {}')

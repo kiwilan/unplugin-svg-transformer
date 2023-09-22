@@ -38,4 +38,5 @@ export interface Options {
 export interface OptionsExtended extends Options {
   isNuxt?: boolean
   nuxtBuildDir?: string
+  nuxtLibraryDir?: string
 }

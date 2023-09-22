@@ -171,7 +171,7 @@ import SvgIcon from "./components/SvgIcon.vue";
 import SvgTransformer from "unplugin-svg-transformer/vite";
 
 createApp(App)
-  .use(svgTransformer, IconList)
+  .use(svgTransformer, iconList)
   .component("svg-icon", SvgIcon)
   .mount("#app");
 ```
@@ -233,7 +233,7 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { SvgTransformer } from "unplugin-svg-transformer/vue";
-import { IconList } from "unplugin-svg-transformer/icons";
+import { iconList } from "unplugin-svg-transformer/icons";
 
 createInertiaApp({
   title: (title) => `${title} - App Name`,
@@ -246,7 +246,7 @@ createInertiaApp({
     const pinia = createPinia();
     const app = createApp({ render: () => h(App, props) })
       .use(plugin)
-      .use(SvgTransformer, IconList);
+      .use(SvgTransformer, iconList);
 
     app.mount(el);
   },

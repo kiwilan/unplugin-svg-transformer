@@ -5,7 +5,7 @@ import { defaultSvg, ssr } from './shared'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 // @ts-expect-error - ignore
-import { importIcon } from '#icons'
+import { iconList, importIcon } from '#icons'
 
 const NuxtSvg = defineComponent({
   name: 'SvgIcon',

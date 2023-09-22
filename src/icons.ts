@@ -1,5 +1,5 @@
-const IconList = {}
+const iconList = {}
 
 export {
-  IconList,
+  iconList,
 }

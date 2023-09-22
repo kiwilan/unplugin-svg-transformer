@@ -6,11 +6,13 @@ export class LibraryFile {
     protected items: SvgItem[] = [],
     protected list?: string,
     protected types?: string,
+    protected isNuxt = false,
   ) { }
 
-  public static async make(items: SvgItem[]): Promise<LibraryFile> {
+  public static async make(items: SvgItem[], isNuxt: boolean): Promise<LibraryFile> {
     const self = new LibraryFile(items)
 
+    self.isNuxt = isNuxt
     self.list = await self.setList()
     self.types = await self.setTypes()
 
@@ -74,13 +76,16 @@ export class LibraryFile {
     const content = []
 
     if (typescript)
-      content.push('export const IconList: Record<IconType, Promise<{ default: string }>> = {')
+      content.push('export const iconList: Record<IconType, Promise<{ default: string }>> = {')
     else
-      content.push('export const IconList = {')
+      content.push('export const iconList = {')
 
     this.items.forEach((item) => {
       const localPath = item.getPath()
       let path = Utils.normalizePaths([basePath, localPath])
+      if (this.isNuxt)
+        path = `./icons${localPath}`
+
       path = path.replace('.svg', '')
 
       content.push(`  '${item.getName()}': () => import('${path}'),`)
@@ -90,15 +95,15 @@ export class LibraryFile {
 
     content.push('')
     content.push('export async function importIcon(name: IconType): Promise<{ default: string }> {')
-    content.push('  name = IconList[name] || IconList["default"]')
+    content.push('  name = iconList[name] || iconList["default"]')
     content.push('  return await name()')
     content.push('}')
 
-    if (window) {
+    if (window && !this.isNuxt) {
       content.push('')
       content.push('if (typeof window !== \'undefined\') {')
       // content.push('  // @ts-expect-error type is global')
-      content.push('  window.iconList = IconList')
+      content.push('  window.iconList = iconList')
       content.push('  window.importIcon = importIcon')
       content.push('}')
     }

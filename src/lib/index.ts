@@ -15,14 +15,33 @@ export class SvgTransformer {
     protected library?: LibraryFile,
     protected definition?: DefinitionFile,
     protected componentDefinition?: ComponentDefinitionFile,
+
+    protected paths: {
+      definitionPath?: string
+      componentDefinitionPath?: string
+      libraryPath?: string
+    } = {},
+    protected relativePaths: {
+      definitionPath?: string
+      componentDefinitionPath?: string
+      libraryPath?: string
+    } = {},
   ) { }
 
   public static async make(options: OptionsExtended): Promise<SvgTransformer> {
     const self = new SvgTransformer(options, Utils.packagePath({ path: 'cache' }))
+    if (options.isNuxt)
+      options.libraryDir = options.nuxtLibraryDir
 
     await self.handleDirectories()
     await self.parse()
     await self.write()
+
+    const root = Utils.rootPath()
+
+    self.relativePaths.definitionPath = self.paths.definitionPath?.replace(root, '')
+    self.relativePaths.componentDefinitionPath = self.paths.componentDefinitionPath?.replace(root, '')
+    self.relativePaths.libraryPath = self.paths.libraryPath?.replace(root, '')
 
     return self
   }
@@ -51,6 +70,22 @@ export class SvgTransformer {
     return this.componentDefinition!
   }
 
+  public getPaths(): {
+    definitionPath?: string
+    componentDefinitionPath?: string
+    libraryPath?: string
+  } {
+    return this.paths!
+  }
+
+  public getRelativePaths(): {
+    definitionPath?: string
+    componentDefinitionPath?: string
+    libraryPath?: string
+  } {
+    return this.relativePaths!
+  }
+
   private async handleDirectories(): Promise<void> {
     // Remove cache directory
     await Utils.rmDirectory(this.cacheDir)
@@ -63,21 +98,25 @@ export class SvgTransformer {
 
   private async parse(): Promise<void> {
     this.collect = await SvgCollection.make(this.options.iconsDir!)
-    this.library = await LibraryFile.make(this.collect.getItems())
-    this.definition = await DefinitionFile.make(this.library.getTypes())
+    this.library = await LibraryFile.make(this.collect.getItems(), this.options.isNuxt || false)
+    this.definition = await DefinitionFile.make(this.library.getTypes(), this.options.isNuxt || false)
     this.componentDefinition = await ComponentDefinitionFile.make(this.library.getTypes())
   }
 
   private async write(): Promise<void> {
-    await this.writeIconFiles(this.cacheDir)
+    let cacheDir = this.cacheDir
+    if (this.options.isNuxt) {
+      cacheDir = `${this.options.nuxtBuildDir}/icons`
+      await Utils.rmDirectory(cacheDir)
+      await Utils.ensureDirectoryExists(cacheDir)
+    }
+    await this.writeIconFiles(cacheDir)
 
     const rootLibraryDir = this.options.libraryDir!
     const packageLibraryDir = Utils.packagePath({ dist: true })
 
-    console.log(rootLibraryDir)
-
     const cache = await Utils.relativeToNodeModules(rootLibraryDir)
-    await this.writeLibrary(rootLibraryDir, 'icons', cache)
+    await this.writeLibrary(rootLibraryDir, 'icons-library', cache)
     await this.writeLibrary(packageLibraryDir, 'icons-index', '../cache')
 
     if (this.options.types) {
@@ -134,6 +173,8 @@ export class SvgTransformer {
     const dir = dirname(path)
     await Utils.ensureDirectoryExists(dir)
 
+    this.paths.libraryPath = path
+
     return await Utils.write(path, content)
   }
 
@@ -144,11 +185,16 @@ export class SvgTransformer {
    */
   private async writeDefinition(): Promise<boolean> {
     // const definitionPath = Utils.rootPath('icons.d.ts')
-    const definitionPath = Utils.rootPath('global.d.ts')
+    let definitionPath = Utils.rootPath('global.d.ts')
+
+    if (this.options.isNuxt)
+      definitionPath = `${this.options.nuxtBuildDir}/types/icons.d.ts`
 
     // Override it if it exists
     if (await Utils.fileExists(definitionPath))
       await Utils.rm(definitionPath)
+
+    this.paths.definitionPath = definitionPath
 
     // Create definition file
     return await Utils.write(definitionPath, this.definition!.getContents())
@@ -167,6 +213,8 @@ export class SvgTransformer {
       await Utils.ensureDirectoryExists(dir)
       await Utils.write(pathComponentType, '')
     }
+
+    this.paths.componentDefinitionPath = pathComponentType
 
     return await Utils.write(pathComponentType, this.componentDefinition!.getContents())
   }

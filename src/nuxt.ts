@@ -1,4 +1,4 @@
-import { addComponent, addImports, addTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addComponent, addImports, addImportsSources, addTemplate, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
 import type { Configuration } from 'webpack'
 import type { InlineConfig } from 'vite'
 import type { Nuxt, WatchEvent } from '@nuxt/schema'
@@ -12,23 +12,13 @@ export interface ModuleOptions extends Options {
   test?: string
   isNuxt?: boolean
   nuxtBuildDir?: string
+  nuxtLibraryDir?: string
 }
 const DEFAULT_OPTIONS: Options = {
   iconsDir: './assets/svg',
-  // libraryDir: './', // TODO for Nuxt
+  libraryDir: './', // TODO for Nuxt
   types: true,
   windowInject: true,
-}
-
-async function build(opts: ModuleOptions, nuxt: Nuxt): Promise<void> {
-  // const transformer = await SvgTransformer.make(opts)
-  // const buildDir = nuxt.options.buildDir
-
-  // const iconsDir = `${buildDir}/icons`
-  // await Utils.rmDirectory(iconsDir)
-  // await Utils.ensureDirectoryExists(iconsDir)
-
-  // await transformer.writeIconFiles(iconsDir)
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -42,15 +32,18 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: DEFAULT_OPTIONS,
   async setup(options, nuxt) {
-    const opts: ModuleOptions = Utils.convertOptions(DEFAULT_OPTIONS, options)
+    const opts = options
+
     opts.isNuxt = true
     opts.nuxtBuildDir = nuxt.options.buildDir
-    opts.libraryDir = nuxt.options.buildDir
+    opts.nuxtLibraryDir = nuxt.options.buildDir
+
+    const module = await SvgTransformer.make(opts)
 
     nuxt.hook('webpack:config', async (config: Configuration[]) => {
       const c: Configuration = {}
       c.plugins = c.plugins || []
-      c.plugins.unshift(unplugin.webpack(options))
+      c.plugins.unshift(unplugin.webpack(opts))
       config.push(c)
     })
 
@@ -60,18 +53,18 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     nuxt.hook('build:done', async () => {
-      await build(opts, nuxt)
+      unplugin.vite(opts)
     })
 
     nuxt.hook('builder:watch', async (event: WatchEvent, path: string) => {
       if (path.endsWith('.svg'))
-        await build(opts, nuxt)
+        unplugin.vite(opts)
     })
 
     nuxt.hook('vite:serverCreated', async (viteServer) => {
       viteServer.watcher.on('unlink', async (path: string) => {
         if (path.endsWith('.svg'))
-          await build(opts, nuxt)
+          unplugin.vite(opts)
       })
     })
 
@@ -89,12 +82,18 @@ export default defineNuxtModule<ModuleOptions>({
         .join('\n'),
     }).dst
 
-    const path = resolver.resolve(`${opts.libraryDir}/icons.ts`)
+    const path = resolver.resolve(`${opts.nuxtLibraryDir}/icons-library.ts`)
     nuxt.options.alias['#icons'] = path
 
     addImports({
       from: '#icons',
-      name: 'icons',
+      name: 'iconList, importIcon',
+    })
+
+    addTypeTemplate({
+      dst: module.getPaths().definitionPath, // resolver.resolve(`${opts.nuxtLibraryDir}/icons.d.ts`)
+      filename: 'icons.d.ts',
+      getContents: () => '',
     })
   },
 })

@@ -256,7 +256,7 @@ export class Utils {
     }
   }
 
-  public static async rmDirectory(path: string): Promise<void> {
+  public static async deleteDirectory(path: string): Promise<void> {
     path = this.normalizePath(path)
     if (!await this.ensureDirectoryExists(path))
       return

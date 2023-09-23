@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { SvgCollection } from '../src/lib/Svg/SvgCollection'
 import { Utils } from '../src/lib/Utils'
-import { Writer } from '../src/lib/Writer'
+import { SvgTransformer } from '../src/lib'
 import { getPaths } from './methods'
 
 it('can parse and transform svg files', async () => {
@@ -21,11 +21,10 @@ it('can parse and transform svg files', async () => {
 
 it('can write svg as ts files', async () => {
   const paths = getPaths()
-  const writer = await Writer.make({
+  const writer = await SvgTransformer.make({
     iconsDir: paths.iconsDir,
     libraryDir: paths.libraryDir,
-    gitignorePath: paths.gitignorePath,
-    typescript: true,
+    types: true,
     windowInject: true,
   })
 

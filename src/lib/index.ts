@@ -88,7 +88,7 @@ export class SvgTransformer {
 
   private async handleDirectories(): Promise<void> {
     // Remove cache directory
-    await Utils.rmDirectory(this.cacheDir)
+    await Utils.deleteDirectory(this.cacheDir)
 
     // Create icons directory, library directory and cache directory
     await Utils.ensureDirectoryExists(this.options.iconsDir!)
@@ -107,7 +107,7 @@ export class SvgTransformer {
     let cacheDir = this.cacheDir
     if (this.options.isNuxt) {
       cacheDir = `${this.options.nuxtBuildDir}/icons`
-      await Utils.rmDirectory(cacheDir)
+      await Utils.deleteDirectory(cacheDir)
       await Utils.ensureDirectoryExists(cacheDir)
     }
     await this.writeIconFiles(cacheDir)

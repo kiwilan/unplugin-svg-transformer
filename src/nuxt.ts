@@ -1,11 +1,10 @@
-import { addComponent, addImports, addImportsSources, addTemplate, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addComponent, addImports, addTemplate, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
 import type { Configuration } from 'webpack'
 import type { InlineConfig } from 'vite'
-import type { Nuxt, WatchEvent } from '@nuxt/schema'
+import type { WatchEvent } from '@nuxt/schema'
 import { name, version } from '../package.json'
 import type { Options } from './types'
 import { SvgTransformer } from './lib'
-import { Utils } from './lib/Utils'
 import unplugin from '.'
 
 export interface ModuleOptions extends Options {

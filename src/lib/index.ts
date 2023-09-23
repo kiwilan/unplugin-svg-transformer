@@ -4,7 +4,6 @@ import { DefinitionFile } from './DefinitionFile'
 import { LibraryFile } from './LibraryFile'
 import { SvgCollection } from './Svg/SvgCollection'
 import { Utils } from './Utils'
-import { GlobalTypeFile } from './GlobalTypeFile'
 import { ComponentDefinitionFile } from './ComponentDefinitionFile'
 
 export class SvgTransformer {

@@ -1,5 +1,3 @@
-import { Utils } from './Utils'
-
 /**
  * To create definition file.
  */

@@ -7,6 +7,10 @@ import type { Options } from './types'
 import { SvgTransformer } from './lib'
 import unplugin from '.'
 
+interface NuxtOptions {
+
+}
+
 export interface ModuleOptions extends Options {
   test?: string
   isNuxt?: boolean

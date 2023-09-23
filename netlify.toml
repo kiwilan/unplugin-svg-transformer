@@ -1,0 +1,6 @@
+# https://docs.netlify.com/configure-builds/file-based-configuration
+
+[build]
+  base    = ""
+  command = "nuxt-module-build --stub && nuxi prepare playground && cd docs && pnpm i && pnpm generate"
+  publish = "docs/dist"

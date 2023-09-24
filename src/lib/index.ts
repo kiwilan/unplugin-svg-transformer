@@ -1,10 +1,10 @@
 import { dirname } from 'node:path'
 import type { OptionsExtended } from '../types'
-import { DefinitionFile } from './DefinitionFile'
+import { DefinitionFile } from './Definition/DefinitionFile'
 import { LibraryFile } from './LibraryFile'
 import { SvgCollection } from './Svg/SvgCollection'
 import { Utils } from './Utils'
-import { ComponentDefinitionFile } from './ComponentDefinitionFile'
+import { ComponentDefinitionFile } from './Definition/ComponentDefinitionFile'
 
 export class SvgTransformer {
   protected constructor(
@@ -30,7 +30,7 @@ export class SvgTransformer {
   public static async make(options: OptionsExtended): Promise<SvgTransformer> {
     const self = new SvgTransformer(options, Utils.packagePath({ path: 'cache' }))
     if (options.isNuxt)
-      options.libraryDir = options.nuxtLibraryDir
+      options.libraryDir = options.nuxtDir
 
     await self.handleDirectories()
     await self.parse()
@@ -105,7 +105,7 @@ export class SvgTransformer {
   private async write(): Promise<void> {
     let cacheDir = this.cacheDir
     if (this.options.isNuxt) {
-      cacheDir = `${this.options.nuxtBuildDir}/icons`
+      cacheDir = `${this.options.nuxtDir}/icons`
       await Utils.deleteDirectory(cacheDir)
       await Utils.ensureDirectoryExists(cacheDir)
     }
@@ -115,7 +115,7 @@ export class SvgTransformer {
     const packageLibraryDir = Utils.packagePath({ dist: true })
 
     const cache = await Utils.relativeToNodeModules(rootLibraryDir)
-    await this.writeLibrary(rootLibraryDir, 'icons-library', cache)
+    await this.writeLibrary(rootLibraryDir, 'icons', cache)
     await this.writeLibrary(packageLibraryDir, 'icons-index', '../cache')
 
     if (this.options.types) {
@@ -166,7 +166,7 @@ export class SvgTransformer {
     if (await Utils.fileExists(path))
       await Utils.rm(path)
 
-    await this.library?.update(cache, this.options.windowInject, this.options.types)
+    await this.library?.update(cache, true, this.options.types)
     const content = this.library!.content()
 
     const dir = dirname(path)
@@ -178,25 +178,29 @@ export class SvgTransformer {
   }
 
   /**
-   * Write the definition file, `global.d.ts`.
+   * Write the definition files.
    *
-   * This file contains `window.iconList` definition for TypeScript.
+   * - `icons.d.ts`
+   * - `client.d.ts`
+   * - `global.d.ts`
    */
-  private async writeDefinition(): Promise<boolean> {
-    // const definitionPath = Utils.rootPath('icons.d.ts')
-    let definitionPath = Utils.rootPath('global.d.ts')
+  private async writeDefinition(): Promise<void> {
+    const globalPath = Utils.rootPath('global.d.ts')
+    const nuxtPath = `${this.options.nuxtDir}/types/icons.d.ts`
+    const clientPath = Utils.packagePath({ dist: false, path: 'client.d.ts' })
 
-    if (this.options.isNuxt)
-      definitionPath = `${this.options.nuxtBuildDir}/types/icons.d.ts`
+    if (this.options.isNuxt) {
+      await Utils.rm(nuxtPath)
+      await Utils.write(nuxtPath, this.definition!.getContents())
+    }
 
-    // Override it if it exists
-    if (await Utils.fileExists(definitionPath))
-      await Utils.rm(definitionPath)
+    await Utils.rm(clientPath)
+    await Utils.write(clientPath, this.definition!.getContents())
 
-    this.paths.definitionPath = definitionPath
-
-    // Create definition file
-    return await Utils.write(definitionPath, this.definition!.getContents())
+    if (this.options.globalTypes) {
+      await Utils.rm(globalPath)
+      await Utils.write(globalPath, this.definition!.getContents())
+    }
   }
 
   /**

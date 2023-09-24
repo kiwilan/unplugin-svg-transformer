@@ -287,4 +287,12 @@ export class Utils {
 
     await fs.appendFile(gitignorePath, `\n${path}`)
   }
+
+  public static async appendLineIfNotExists(filePath: string, line: string): Promise<void> {
+    const content = await fs.readFile(filePath, 'utf-8')
+    if (content.includes(line))
+      return
+
+    await fs.appendFile(filePath, `${line}\n`)
+  }
 }

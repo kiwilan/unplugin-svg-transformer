@@ -11,7 +11,6 @@ export default defineNuxtConfig({
   ],
   svgTransformer: {
     iconsDir: './assets/svg',
-    libraryDir: './',
   },
   devtools: { enabled: true }
 })

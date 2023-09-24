@@ -7,3 +7,4 @@ packages:
   - examples/ts
   - examples/vue3
   - "!/docs/**"
+  - "!/live/**"

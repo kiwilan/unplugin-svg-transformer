@@ -3,28 +3,15 @@ import type { Configuration } from 'webpack'
 import type { InlineConfig } from 'vite'
 import type { WatchEvent } from '@nuxt/schema'
 import { name, version } from '../package.json'
-import type { Options } from './types'
+import type { NuxtOptions, Options, OptionsExtended } from './types'
 import { SvgTransformer } from './lib'
 import unplugin from '.'
 
-interface NuxtOptions {
-
-}
-
-export interface ModuleOptions extends Options {
-  test?: string
-  isNuxt?: boolean
-  nuxtBuildDir?: string
-  nuxtLibraryDir?: string
-}
 const DEFAULT_OPTIONS: Options = {
   iconsDir: './assets/svg',
-  libraryDir: './', // TODO for Nuxt
-  types: true,
-  windowInject: true,
 }
 
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<NuxtOptions>({
   meta: {
     name,
     version,
@@ -35,11 +22,10 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: DEFAULT_OPTIONS,
   async setup(options, nuxt) {
-    const opts = options
+    const opts: OptionsExtended = options
 
     opts.isNuxt = true
-    opts.nuxtBuildDir = nuxt.options.buildDir
-    opts.nuxtLibraryDir = nuxt.options.buildDir
+    opts.nuxtDir = nuxt.options.buildDir
 
     const module = await SvgTransformer.make(opts)
 
@@ -75,7 +61,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addComponent({
       name: 'SvgIcon',
-      filePath: resolver.resolve('./component/VueNuxt.ts'),
+      filePath: resolver.resolve('./render/NuxtSvg.ts'),
     })
 
     nuxt.options.alias['#svg-transformer-options'] = addTemplate({
@@ -85,7 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
         .join('\n'),
     }).dst
 
-    const path = resolver.resolve(`${opts.nuxtLibraryDir}/icons-library.ts`)
+    const path = resolver.resolve(`${opts.nuxtDir}/icons.ts`)
     nuxt.options.alias['#icons'] = path
 
     addImports({

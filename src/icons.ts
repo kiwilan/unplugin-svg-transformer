@@ -1,5 +1,0 @@
-const iconList = {}
-
-export {
-  iconList,
-}

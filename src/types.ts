@@ -1,14 +1,23 @@
+export interface NuxtOptions {
+  /**
+   * Directory where your SVG files are located.
+   *
+   * @default './assets/svg'
+   */
+  iconsDir?: string
+}
+
 export interface Options {
   /**
    * Directory where your SVG files are located.
    *
-   * @default './src/svg' or './assets/svg' for Nuxt
+   * @default './src/svg'
    */
   iconsDir?: string
   /**
    * File where types and list of icons will be created.
    *
-   * @default './src' or './' for Nuxt
+   * @default './src'
    */
   libraryDir?: string
   /**
@@ -18,25 +27,44 @@ export interface Options {
    * @default true
    */
   types?: boolean
+
   /**
-   * Inject the window object in the SVG files.
-   * This is useful if you want to use the SVG files in the browser.
+   * For Vite users, this option is already enabled by `vite-env.d.ts` file.
    *
-   * You can access to this window object with `window.iconList`.
+   * Create `global.d.ts` file at the root of your project. Make sure to add this file in your `tsconfig.json` file.
    *
-   * @default true
+   * ```json
+   * {
+   *  "include": [
+   *    "global.d.ts"
+   *  ]
+   * }
+   * ```
+   *
+   * Inject `iconList` and `importIcon()` in the window object: `window.iconList` and `window.importIcon()`.
+   * These methods are fully typed.
+   *
+   * @default false
    */
-  windowInject?: boolean
-  /**
-   * Create `global.d.ts` file with the window object. If `windowInject` is false, this option will be ignored.
-   *
-   * @default true
-   */
-  globalType?: boolean
+  globalTypes?: boolean
+  // /**
+  //  * Inject the window object in the SVG files.
+  //  * This is useful if you want to use the SVG files in the browser.
+  //  *
+  //  * You can access to this window object with `window.iconList`.
+  //  *
+  //  * @default true
+  //  */
+  // windowInject?: boolean
+  // /**
+  //  * Create `global.d.ts` file with the window object. If `windowInject` is false, this option will be ignored.
+  //  *
+  //  * @default true
+  //  */
+  // globalType?: boolean
 }
 
 export interface OptionsExtended extends Options {
   isNuxt?: boolean
-  nuxtBuildDir?: string
-  nuxtLibraryDir?: string
+  nuxtDir?: string
 }

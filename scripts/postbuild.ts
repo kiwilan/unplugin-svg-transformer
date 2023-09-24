@@ -29,9 +29,9 @@ async function run() {
   // lines.push('export default VueSvg\n')
   // content = lines.join('\n')
 
-  await fs.mkdir('./dist/component', { recursive: true })
-  await fs.copyFile('./src/component/VueNuxt.ts', './dist/component/VueNuxt.ts')
-  await fs.copyFile('./src/component/shared.ts', './dist/component/shared.ts')
+  await fs.mkdir('./dist/render', { recursive: true })
+  await fs.copyFile('./src/render/NuxtSvg.ts', './dist/render/NuxtSvg.ts')
+  await fs.copyFile('./src/render/shared.ts', './dist/render/shared.ts')
 
   // const NuxtTypePath = resolve('./dist/nuxt.d.ts')
   // const contents = [

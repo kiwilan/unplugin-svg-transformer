@@ -7,8 +7,7 @@ const DEFAULT_OPTIONS: Options = {
   iconsDir: './src/svg',
   libraryDir: './src',
   types: true,
-  windowInject: true,
-  globalType: true,
+  globalTypes: false,
 }
 
 export default createUnplugin<Options | undefined>(options => ({
@@ -19,12 +18,16 @@ export default createUnplugin<Options | undefined>(options => ({
   },
   vite: {
     handleHotUpdate({ file, server }) {
-      if (file.endsWith('.svg'))
+      if (file.endsWith('.svg')) {
+        console.log(file)
         server.restart()
+      }
 
       server.watcher.on('unlink', (path) => {
-        if (path.endsWith('.svg'))
+        if (path.endsWith('.svg')) {
+          console.log(path)
           server.restart()
+        }
       })
     },
   },

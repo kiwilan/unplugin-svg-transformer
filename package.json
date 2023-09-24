@@ -68,7 +68,15 @@
       "import": "./dist/vue.js",
       "require": "./dist/vue.cjs"
     },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js",
+      "require": "./dist/react.cjs"
+    },
     "./icons": "./dist/icons-index.ts",
+    "./client": {
+      "types": "./client.d.ts"
+    },
     "./*": "./*"
   },
   "main": "dist/index.cjs",

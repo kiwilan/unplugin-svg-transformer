@@ -59,11 +59,6 @@ export default defineNuxtModule<NuxtOptions>({
 
     const resolver = createResolver(import.meta.url)
 
-    addComponent({
-      name: 'SvgIcon',
-      filePath: resolver.resolve('./render/NuxtSvg.ts'),
-    })
-
     nuxt.options.alias['#svg-transformer-options'] = addTemplate({
       filename: 'svg-transformer-options.mjs',
       getContents: () => Object.entries(options)
@@ -74,13 +69,18 @@ export default defineNuxtModule<NuxtOptions>({
     const path = resolver.resolve(`${opts.nuxtDir}/icons.ts`)
     nuxt.options.alias['#icons'] = path
 
+    addComponent({
+      name: 'SvgIcon',
+      filePath: resolver.resolve('./render/NuxtSvg.ts'),
+    })
+
     addImports({
       from: '#icons',
       name: 'iconList, importIcon',
     })
 
     addTypeTemplate({
-      dst: module.getPaths().definitionPath, // resolver.resolve(`${opts.nuxtLibraryDir}/icons.d.ts`)
+      dst: 'types/icons.d.ts', // resolver.resolve(`${opts.nuxtLibraryDir}/icons.d.ts`)
       filename: 'icons.d.ts',
       getContents: () => '',
     })

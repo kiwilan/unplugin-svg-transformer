@@ -53,6 +53,4 @@ const NuxtSvg = defineComponent({
   },
 })
 
-export {
-  NuxtSvg,
-}
+export default NuxtSvg

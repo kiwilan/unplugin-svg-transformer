@@ -21,7 +21,7 @@ let icon: IconType = 'download'
 <template>
   <div>
     hey
-    <SvgIcon name="download" class="icon" />
+    <SvgIcon name="vite" class="icon" />
     <!-- <NuxtWelcome /> -->
   </div>
 </template>

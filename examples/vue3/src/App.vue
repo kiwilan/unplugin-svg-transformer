@@ -13,6 +13,6 @@ fetchIcon()
   <div>
     Vue 3
     <div v-html="icon"></div>
-    <SvgIcon name="download" />
+    <SvgIcon name="vite" />
   </div>
 </template>

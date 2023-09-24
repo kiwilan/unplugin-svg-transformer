@@ -189,17 +189,21 @@ export class SvgTransformer {
     const nuxtPath = `${this.options.nuxtDir}/types/icons.d.ts`
     const clientPath = Utils.packagePath({ dist: false, path: 'client.d.ts' })
 
-    if (this.options.isNuxt) {
-      await Utils.rm(nuxtPath)
-      await Utils.write(nuxtPath, this.definition!.getContents())
-    }
-
     await Utils.rm(clientPath)
     await Utils.write(clientPath, this.definition!.getContents())
 
     if (this.options.globalTypes) {
       await Utils.rm(globalPath)
       await Utils.write(globalPath, this.definition!.getContents())
+    }
+
+    const viteEnv = Utils.rootPath('src/vite-env.d.ts')
+    if (await Utils.fileExists(viteEnv))
+      await Utils.appendLineIfNotExists(viteEnv, '/// <reference types="unplugin-svg-transformer/client" />')
+
+    if (this.options.isNuxt) {
+      await Utils.rm(nuxtPath)
+      await Utils.write(nuxtPath, this.definition!.getContents())
     }
   }
 

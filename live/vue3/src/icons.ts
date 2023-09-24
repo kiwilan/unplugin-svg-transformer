@@ -13,7 +13,7 @@ export const iconList: Record<IconType, Promise<{ default: string }>> = {
 }
 
 export async function importIcon(name: IconType): Promise<{ default: string }> {
-  console.log(`${name} from`);
+  console.log(`${name} from LibraryFile`);
   name = iconList[name] || iconList["default"]
   return await name()
 }

@@ -16,5 +16,7 @@ fetchIcon()
     <div v-html="icon"></div>
     <VueSvg name="vite" />
     <SvgIcon name="vite" />
-  </div>
+    <VueSvg name="vue" />
+    <SvgIcon name="vue" />
+</div>
 </template>

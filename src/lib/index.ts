@@ -83,11 +83,12 @@ export class SvgTransformer {
 
     const cache = await Path.relativeToNodeModules(rootLibraryDir)
     await this.writeLibrary(rootLibraryDir, 'icons', cache)
-    await this.writeLibrary(packageLibraryDir, 'icons-index', '../cache')
+    await this.writeLibrary(packageLibraryDir, 'icons', '../cache')
 
     if (this.options.types) {
       await this.writeDefinition()
-      await this.writeComponentDefinition()
+      if (this.options.isNuxt)
+        await this.writeComponentDefinition()
       // if (this.options.windowInject && this.options.globalType)
       // await this.writeGlobalTypeFile()
     }

@@ -27,8 +27,6 @@ export default defineNuxtModule<NuxtOptions>({
     opts.isNuxt = true
     opts.nuxtDir = nuxt.options.buildDir
 
-    const module = await SvgTransformer.make(opts)
-
     nuxt.hook('webpack:config', async (config: Configuration[]) => {
       const c: Configuration = {}
       c.plugins = c.plugins || []

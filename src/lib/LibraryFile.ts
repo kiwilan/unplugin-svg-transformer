@@ -95,6 +95,10 @@ export class LibraryFile {
 
     content.push('')
     content.push('export async function importIcon(name: IconType): Promise<{ default: string }> {')
+    content.push('  console.warn(name, iconList)')
+    content.push('  if (!iconList[name])')
+    // eslint-disable-next-line no-template-curly-in-string
+    content.push('    console.warn(`Icon ${name} not found`)')
     content.push('  name = iconList[name] || iconList["default"]')
     content.push('  return await name()')
     content.push('}')

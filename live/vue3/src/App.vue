@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { VueSvg } from 'unplugin-svg-transformer/vue'
-import { importIcon } from 'unplugin-svg-transformer/icons'
+import { iconList, importIcon } from 'unplugin-svg-transformer/icons'
+
+console.warn(iconList)
 
 const icon = ref<string>()
 const importMethod = ref<string>()
@@ -11,7 +13,12 @@ function fetchIcon() {
     return
 
   window.importIcon('vue').then(svg => icon.value = svg.default)
-  importIcon('vue').then(svg => importMethod.value = svg.default)
+  // importIcon('vue').then(svg => importMethod.value = svg.default)
+
+  importIcon('vue-3').then((svg) => {
+    console.warn(svg.default)
+    importMethod.value = svg.default
+  })
 }
 fetchIcon()
 </script>
@@ -21,7 +28,10 @@ fetchIcon()
     Vue 3
     <div v-html="icon" />
     <div v-html="importMethod" />
-    <SvgIcon name="vite-copy" />
-    <VueSvg name="vite-copy" />
+    <SvgIcon name="vite" />
+    <VueSvg name="vite" />
+    <SvgIcon name="vue-3" />
+    <VueSvg name="vue-3" />
+    <VueSvg name="new-svg" />
   </div>
 </template>

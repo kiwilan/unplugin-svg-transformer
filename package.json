@@ -73,7 +73,7 @@
       "import": "./dist/react.js",
       "require": "./dist/react.cjs"
     },
-    "./icons": "./dist/icons-index.ts",
+    "./icons": "./dist/icons.ts",
     "./client": {
       "types": "./client.d.ts"
     },

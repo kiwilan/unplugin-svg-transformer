@@ -6,14 +6,12 @@
 export const iconList: Record<IconType, Promise<{ default: string }>> = {
   'download': () => import('../node_modules/unplugin-svg-transformer/cache/download'),
   'social/twitter': () => import('../node_modules/unplugin-svg-transformer/cache/social/twitter'),
-  'vite-copy': () => import('../node_modules/unplugin-svg-transformer/cache/vite copy'),
   'vite': () => import('../node_modules/unplugin-svg-transformer/cache/vite'),
   'vue': () => import('../node_modules/unplugin-svg-transformer/cache/vue'),
   'default': () => import('../node_modules/unplugin-svg-transformer/cache/default'),
 }
 
 export async function importIcon(name: IconType): Promise<{ default: string }> {
-  console.log(`${name} from LibraryFile`);
   name = iconList[name] || iconList["default"]
   return await name()
 }

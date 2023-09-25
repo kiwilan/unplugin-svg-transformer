@@ -1,5 +1,5 @@
 import type { SvgItem } from './Svg/SvgItem'
-import { Utils } from './Utils'
+import { Path } from './Path'
 
 export class LibraryFile {
   protected constructor(
@@ -82,7 +82,7 @@ export class LibraryFile {
 
     this.items.forEach((item) => {
       const localPath = item.getPath()
-      let path = Utils.normalizePaths([basePath, localPath])
+      let path = Path.normalizePaths([basePath, localPath])
       if (this.isNuxt)
         path = `./icons${localPath}`
 

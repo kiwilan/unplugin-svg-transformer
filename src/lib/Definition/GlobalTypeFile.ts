@@ -1,4 +1,4 @@
-import { Utils } from '../Utils'
+import { Path } from '../Path'
 
 export class GlobalTypeFile {
   protected constructor(
@@ -9,11 +9,11 @@ export class GlobalTypeFile {
   public static async make(): Promise<GlobalTypeFile> {
     const self = new GlobalTypeFile()
 
-    const root = Utils.rootPath()
+    const root = Path.rootPath()
     self.path = `${root}/global.d.ts`
 
     self.content = self.defaultFile()
-    // if (!await Utils.fileExists(root))
+    // if (!await Path.fileExists(root))
     //   self.content = self.defaultFile()
     // else
     //   self.content = await self.addToExistingFile()
@@ -51,7 +51,7 @@ export class GlobalTypeFile {
   }
 
   private async addToExistingFile(): Promise<string> {
-    const content = await Utils.read(this.path)
+    const content = await Path.read(this.path)
     const lines = content.split('\n')
 
     let interfaceReady = false

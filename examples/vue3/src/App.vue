@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {VueSvg} from 'unplugin-svg-transformer/vue'
 import { ref } from 'vue'
 
 const icon = ref<string>()
@@ -13,6 +14,7 @@ fetchIcon()
   <div>
     Vue 3
     <div v-html="icon"></div>
+    <VueSvg name="vite" />
     <SvgIcon name="vite" />
   </div>
 </template>

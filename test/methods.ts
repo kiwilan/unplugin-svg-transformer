@@ -1,4 +1,4 @@
-import { Utils } from '../src/lib/Utils'
+import { Path } from '../src/lib/Path'
 
 export function getPaths() {
   const iconsDir = `${process.cwd()}/test/icons`
@@ -7,9 +7,9 @@ export function getPaths() {
 
   if (process.platform === 'win32') {
     return {
-      iconsDir: Utils.normalizePaths(iconsDir),
-      libraryDir: Utils.normalizePaths(libraryDir),
-      gitignorePath: Utils.normalizePaths(gitignorePath),
+      iconsDir: Path.normalizePaths(iconsDir),
+      libraryDir: Path.normalizePaths(libraryDir),
+      gitignorePath: Path.normalizePaths(gitignorePath),
     }
   }
 

@@ -65,6 +65,7 @@ export interface Options {
 }
 
 export interface OptionsExtended extends Options {
+  isTesting?: boolean
   isNuxt?: boolean
   nuxtDir?: string
 }

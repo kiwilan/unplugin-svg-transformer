@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { Utils } from '../src/lib/Utils'
+import { Path } from '../src/lib/Path'
 import { getPaths } from './methods'
 
 describe('utils', () => {
@@ -10,7 +10,7 @@ describe('utils', () => {
   //     libraryDir: paths.libraryDir,
   //     gitignorePath: paths.gitignorePath,
   //   })
-  //   const config = await Utils.getViteConfig()
+  //   const config = await Path.getViteConfig()
   //   const iconsFile = await import(config.writer.libraryDir)
 
   //   const list: Record<string, Promise<{ default: string }>> = iconsFile.iconList
@@ -33,17 +33,17 @@ describe('utils', () => {
 
     expect(typeof paths).toBe('object')
 
-    expect(paths.iconsDir).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons`))
-    expect(paths.libraryDir).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
-    expect(paths.gitignorePath).toBe(Utils.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
+    expect(paths.iconsDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons`))
+    expect(paths.libraryDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
+    expect(paths.gitignorePath).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
   })
 
   it('can get package paths', () => {
-    const packagePath = Utils.packagePath({ dist: false })
-    const componentsPath = Utils.componentsPath()
+    const packagePath = Path.packagePath({ dist: false })
+    const componentsPath = Path.componentsPath()
 
-    const packagePathExpect = Utils.normalizePaths('node_modules/unplugin-svg-transformer')
-    const componentsPathExpect = Utils.normalizePaths('node_modules/unplugin-svg-transformer/dist/components.d.ts')
+    const packagePathExpect = Path.normalizePaths('node_modules/unplugin-svg-transformer')
+    const componentsPathExpect = Path.normalizePaths('node_modules/unplugin-svg-transformer/dist/components.d.ts')
 
     expect(packagePath.includes(packagePathExpect)).toBe(true)
     expect(componentsPath.includes(componentsPathExpect)).toBe(true)

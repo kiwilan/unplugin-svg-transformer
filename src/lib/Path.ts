@@ -1,6 +1,6 @@
 import fs, { access, readdir, rm } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
-import type { Options } from '../types'
+import type { Options, OptionsExtended } from '../types'
 
 interface PackagePathOpts {
   dist?: boolean
@@ -18,7 +18,7 @@ interface ViteConfig {
   }
 }
 
-export class Utils {
+export class Path {
   public static fullPath(path: string): string {
     path = this.normalizePath(path)
     return join(process.cwd(), path)
@@ -28,16 +28,16 @@ export class Utils {
     const root = process.cwd()
 
     if (path)
-      return Utils.normalizePath(join(root, path))
+      return Path.normalizePath(join(root, path))
 
     return root
   }
 
-  public static convertOptions(defaultOptions: Options, options?: Options): Options {
+  public static convertOptions(defaultOptions: Options, options?: Options): OptionsExtended {
     const opts: Options = Object.assign({}, defaultOptions, options)
-    opts.iconsDir = Utils.fullPath(opts.iconsDir || defaultOptions.iconsDir!)
-    opts.libraryDir = Utils.fullPath(opts.libraryDir || defaultOptions.libraryDir!)
-    // opts.gitignorePath = Utils.fullPath(opts.gitignorePath || defaultOptions.gitignorePath!)
+    opts.iconsDir = Path.fullPath(opts.iconsDir || defaultOptions.iconsDir!)
+    opts.libraryDir = Path.fullPath(opts.libraryDir || defaultOptions.libraryDir!)
+    // opts.gitignorePath = Path.fullPath(opts.gitignorePath || defaultOptions.gitignorePath!)
 
     return opts
   }
@@ -47,7 +47,7 @@ export class Utils {
     let currentDir = root
     while (currentDir !== '/') {
       const nodeModulesDir = join(currentDir, 'node_modules')
-      if (await Utils.existsAsync(nodeModulesDir))
+      if (await Path.existsAsync(nodeModulesDir))
         return nodeModulesDir
 
       currentDir = dirname(currentDir)
@@ -68,13 +68,13 @@ export class Utils {
 
   public static relativeToRoot(path: string): string {
     const root = process.cwd()
-    path = Utils.normalizePath(path)
+    path = Path.normalizePath(path)
 
     return path.replace(root, '')
   }
 
   public static async relativeToNodeModules(path: string): Promise<string> {
-    const nodeModulesPath = await Utils.findNodeModules()
+    const nodeModulesPath = await Path.findNodeModules()
     let commonPrefix = ''
     for (let i = 0; i < Math.min(path.length, nodeModulesPath.length); i++) {
       if (path[i] === nodeModulesPath[i])
@@ -108,7 +108,7 @@ export class Utils {
   }
 
   public static async listDirectories(path: string): Promise<string[]> {
-    path = Utils.normalizePath(path)
+    path = Path.normalizePath(path)
     const directories: string[] = []
 
     try {
@@ -128,12 +128,12 @@ export class Utils {
   }
 
   public static viteConfig(): string {
-    const path = Utils.packagePath({ path: 'config.json' })
+    const path = Path.packagePath({ path: 'config.json' })
     return path
   }
 
   public static async getViteConfig(): Promise<ViteConfig> {
-    const content = await Utils.read(Utils.viteConfig())
+    const content = await Path.read(Path.viteConfig())
 
     return JSON.parse(content) as ViteConfig
   }
@@ -144,14 +144,14 @@ export class Utils {
     const dist = opts.dist ? 'dist' : ''
     const optsPath = opts.path ?? ''
     let path = join(root, packagePath, dist, optsPath)
-    path = Utils.normalizePath(path)
+    path = Path.normalizePath(path)
 
     return path
   }
 
-  public static componentsPath(): string {
-    const packagePath = Utils.packagePath()
-    const componentsPath = Utils.normalizePath('./components.d.ts')
+  public static componentsPath(filepath: string): string {
+    const packagePath = Path.packagePath()
+    const componentsPath = Path.normalizePath(filepath)
 
     return join(packagePath, componentsPath)
   }
@@ -193,10 +193,10 @@ export class Utils {
 
   public static async rm(path: string): Promise<void> {
     path = this.normalizePath(path)
-    // if (await Utils.isDirectory(path))
+    // if (await Path.isDirectory(path))
     //   return
 
-    if (!await Utils.fileExists(path))
+    if (!await Path.fileExists(path))
       return
 
     try {
@@ -294,5 +294,31 @@ export class Utils {
       return
 
     await fs.appendFile(filePath, `${line}\n`)
+  }
+
+  public static async copyRecursive(src: string, dest: string): Promise<void> {
+    src = this.normalizePath(src)
+    dest = this.normalizePath(dest)
+
+    const stats = await fs.stat(src)
+    if (stats.isDirectory()) {
+      await fs.mkdir(dest, { recursive: true })
+      const files = await fs.readdir(src)
+      for (const file of files) {
+        const srcFile = join(src, file)
+        const destFile = join(dest, file)
+        await Path.copyRecursive(srcFile, destFile)
+      }
+    }
+    else {
+      await fs.copyFile(src, dest)
+    }
+  }
+
+  public static async copy(src: string, dest: string): Promise<void> {
+    src = this.normalizePath(src)
+    dest = this.normalizePath(dest)
+
+    await fs.copyFile(src, dest)
   }
 }

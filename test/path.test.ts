@@ -40,10 +40,10 @@ describe('utils', () => {
 
   it('can get package paths', () => {
     const packagePath = Path.packagePath({ dist: false })
-    const componentsPath = Path.componentsPath()
+    const componentsPath = Path.componentsPath('vue.d.ts')
 
     const packagePathExpect = Path.normalizePaths('node_modules/unplugin-svg-transformer')
-    const componentsPathExpect = Path.normalizePaths('node_modules/unplugin-svg-transformer/dist/components.d.ts')
+    const componentsPathExpect = Path.normalizePaths('node_modules/unplugin-svg-transformer/dist/vue.d.ts')
 
     expect(packagePath.includes(packagePathExpect)).toBe(true)
     expect(componentsPath.includes(componentsPathExpect)).toBe(true)

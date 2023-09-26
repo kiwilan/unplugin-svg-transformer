@@ -6,7 +6,8 @@
 // }
 // downloadIcon()
 
-let icon: IconType = 'download'
+const icon: IconType = 'download'
+console.warn(icon)
 
 // if (process.client) {
 //   console.log(window);

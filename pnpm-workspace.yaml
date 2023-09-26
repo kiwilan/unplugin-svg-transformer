@@ -6,5 +6,5 @@ packages:
   - examples/svelte
   - examples/ts
   - examples/vue3
-  - "!/docs/**"
-  - "!/live/**"
+  - '!/docs/**'
+  - '!/live/**'

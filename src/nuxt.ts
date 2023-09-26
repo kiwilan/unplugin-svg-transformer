@@ -4,7 +4,6 @@ import type { InlineConfig } from 'vite'
 import type { WatchEvent } from '@nuxt/schema'
 import { name, version } from '../package.json'
 import type { NuxtOptions, Options, OptionsExtended } from './types'
-import { SvgTransformer } from './lib'
 import unplugin from '.'
 
 const DEFAULT_OPTIONS: Options = {

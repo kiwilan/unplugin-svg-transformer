@@ -1,8 +1,8 @@
+/* eslint-disable ts/ban-ts-comment */
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
 import { defaultSvg, ssr } from './shared'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 // @ts-expect-error - ignore
 import { importIcon } from '#icons'

@@ -1,7 +1,7 @@
-import { NuxtConfig } from 'nuxt/schema'
+// import type { NuxtConfig } from 'nuxt/schema'
 
-const svgTransformer: NuxtConfig['svgTransformer'] = {
-}
+// const svgTransformer: NuxtConfig['svgTransformer'] = {
+// }
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -12,5 +12,5 @@ export default defineNuxtConfig({
   svgTransformer: {
     iconsDir: './assets/svg',
   },
-  devtools: { enabled: true }
+  devtools: { enabled: true },
 })

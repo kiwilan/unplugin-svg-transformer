@@ -13,10 +13,10 @@ fetchIcon()
 <template>
   <div>
     Vue 3
-    <div v-html="icon"></div>
+    <div v-html="icon" />
     <VueSvg name="vite" />
     <SvgIcon name="vite" />
     <VueSvg name="vue-2" />
     <SvgIcon name="vue-2" />
-</div>
+  </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {VueSvg} from 'unplugin-svg-transformer/vue'
+import { SvgIcon as VueSvg } from 'unplugin-svg-transformer/vue'
 import { ref } from 'vue'
 
 const icon = ref<string>()

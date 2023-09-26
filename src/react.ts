@@ -1,5 +1,5 @@
 import { ReactSvg } from './render/ReactSvg'
 
 export {
-  ReactSvg,
+  ReactSvg as SvgIcon,
 }

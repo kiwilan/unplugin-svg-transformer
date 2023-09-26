@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { VueSvg } from 'unplugin-svg-transformer/vue'
+import { SvgIcon as VueSvg } from 'unplugin-svg-transformer/vue'
 import { iconList, importIcon } from 'unplugin-svg-transformer/icons'
 
 console.warn(iconList)

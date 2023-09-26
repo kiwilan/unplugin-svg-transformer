@@ -10,6 +10,8 @@ export const iconList: Record<IconType, Promise<{ default: string }>> = {
 }
 
 export async function importIcon(name: IconType): Promise<{ default: string }> {
+  if (!iconList[name])
+    console.warn(`Icon ${name} not found`)
   name = iconList[name] || iconList["default"]
   return await name()
 }

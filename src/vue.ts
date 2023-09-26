@@ -3,5 +3,5 @@ import { VueSvg } from './render/VueSvg'
 
 export {
   SvgTransformerPlugin,
-  VueSvg,
+  VueSvg as SvgIcon,
 }

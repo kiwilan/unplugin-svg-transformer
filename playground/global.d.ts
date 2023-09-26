@@ -14,7 +14,7 @@ declare global {
 
 declare module 'vue' {
   export interface GlobalComponents {
-    SvgIcon: typeof import('unplugin-svg-transformer/dist/components')['VueSvg']
+    SvgIcon: typeof import('unplugin-svg-transformer/dist/vue')['VueSvg']
     importIcon: (name: IconType) => Promise<{ default: string }>
   }
 }

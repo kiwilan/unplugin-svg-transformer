@@ -170,7 +170,7 @@ build({
 // TODO
 
 - options
-- import `./icons.ts`
+- import `./icons.ts` or `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`)
 - JavaScript only option
 - use global with `global.d.ts` if you not use Vite or Nuxt
 - update `tsconfig.json`
@@ -187,6 +187,10 @@ const svg = importIcon("svg-name").then((svg) => svg.default);
 ```
 
 With some frameworks, you don't have to create your own component, you can use ready-to-use components.
+
+> **Warning**
+>
+> Assure you have import `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`) when you use ready-to-use components with `import 'unplugin-svg-transformer/icons'`.
 
 - For Vue 3, you can use a plugin to register globally `SvgIcon` component with `SvgTransformerPlugin` from `unplugin-svg-transformer/vue` and use `SvgIcon` component directly. But you can just import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component.
 - For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`
@@ -213,7 +217,7 @@ const svg = window.importIcon("svg-name").then((svg) => svg.default);
 import { createApp } from "vue";
 import App from "./App.vue";
 +import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
-+import "./icons.ts";
++import "unplugin-svg-transformer/icons";
 
 createApp(App)
 + .use(SvgTransformerPlugin)
@@ -281,7 +285,7 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 +import { SvgTransformerPlugin } from "unplugin-svg-transformer/vue";
-+import './icons.ts'
++import 'unplugin-svg-transformer/icons'
 
 createInertiaApp({
   title: (title) => `${title} - App Name`,

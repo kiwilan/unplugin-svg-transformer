@@ -15,7 +15,7 @@ export interface Options {
    */
   iconsDir?: string
   /**
-   * File where types and list of icons will be created.
+   * Directory where `icons.ts` will be created.
    *
    * @default './src'
    */
@@ -27,7 +27,6 @@ export interface Options {
    * @default true
    */
   useTypes?: boolean
-
   /**
    * For Vite users, this option is already enabled by `vite-env.d.ts` file.
    *

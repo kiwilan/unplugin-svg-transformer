@@ -28,18 +28,16 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 - 🗂 Seperated cache SVG files
 - 🚚 Can be import into any JS / TS file to be use as a SVG loader
 - 📦 Components ready, no import needed, SVG directly injected
-  - [Vue 3](https://v3.vuejs.org/) / [Nuxt 3](https://nuxt.com) component
+  - [Vue 3](https://vuejs.org/) / [Nuxt 3](https://nuxt.com) component
   - [React](https://react.dev/) component
 - 🎨 Options to add or clear `style` and `class` global attributes
 - 🦾 SVG typed, validate by `name` prop (`typescript` required)
 
 ### Roadmap
 
-- [ ] fix delete svg bug
-- [ ] nuxt 2 module
-- [ ] unplugin tests
-- [ ] type for vue component / react / none
-  - [ ] global type for nuxt
+- [ ] Add Nuxt 2 support
+- [ ] Add more tests
+- [ ] Add SVGO support
 
 ## Install
 
@@ -56,7 +54,7 @@ yarn add unplugin-svg-transformer -D
 
 ```ts
 // vite.config.ts
-import SvgTransformer from "unplugin-svg-transformer/vite";
+import svgTransformer from "unplugin-svg-transformer/vite";
 
 export default defineConfig({
   plugins: [
@@ -76,11 +74,11 @@ Example: [`playground/`](./playground/)
 
 ```ts
 // rollup.config.js
-import SvgTransformer from "unplugin-svg-transformer/rollup";
+import svgTransformer from "unplugin-svg-transformer/rollup";
 
 export default {
   plugins: [
-    SvgTransformer({
+    svgTransformer({
       /* options */
     }),
   ],
@@ -149,10 +147,10 @@ module.exports = {
 ```ts
 // esbuild.config.js
 import { build } from "esbuild";
-import SvgTransformer from "unplugin-svg-transformer/esbuild";
+import svgTransformer from "unplugin-svg-transformer/esbuild";
 
 build({
-  plugins: [SvgTransformer()],
+  plugins: [svgTransformer()],
 });
 ```
 
@@ -163,16 +161,15 @@ build({
 <details>
 <summary>Vue 3</summary><br>
 
-```ts
+```diff
 // main.ts
 import { createApp } from "vue";
 import App from "./App.vue";
-import SvgIcon from "./components/SvgIcon.vue";
-import SvgTransformer from "unplugin-svg-transformer/vite";
++import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
++import "./icons.ts";
 
 createApp(App)
-  .use(svgTransformer, iconList)
-  .component("svg-icon", SvgIcon)
++ .use(SvgTransformerPlugin)
   .mount("#app");
 ```
 
@@ -183,17 +180,21 @@ createApp(App)
 
 Example here with Laravel Jetstream,
 
+> **Note**
+>
+> This example use Vue 3, but it works with React or Svelte. Vue 3 is the only one with a plugin to register globally `SvgIcon` component but React has `SvgIcon` component ready-to-use, you have just to import it. Svelte has no component, you have to create your own.
+
 To use TypeScript, update `vite.config.js` to `vite.config.ts` and just add `unplugin-svg-transformer/vite` to `plugins` array.
 
 > **Warning**
 >
-> Don't forget to replace `resources/js/app.js` to `resources/js/app.ts` into `laravel-vite-plugin`.
+> Don't forget to replace `resources/js/app.js` to `resources/js/app.ts` into `laravel-vite-plugin` options.
 
-```ts
+```diff
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
 import vue from "@vitejs/plugin-vue";
-import SvgTransformer from "unplugin-svg-transformer/vite";
++import svgTransformer from "unplugin-svg-transformer/vite";
 
 export default defineConfig({
   resolve: {
@@ -204,7 +205,7 @@ export default defineConfig({
   },
   plugins: [
     laravel({
-      input: ["resources/js/app.ts"],
++     input: ["resources/js/app.ts"],
       ssr: "resources/js/ssr.js",
       refresh: true,
     }),
@@ -216,24 +217,24 @@ export default defineConfig({
         },
       },
     }),
-    SvgTransformer({
-      iconsDir: "./resources/js/Icons",
-      libraryDir: "./resources/js",
-    }),
++   svgTransformer({
++     iconsDir: "./resources/js/Svg",
++     libraryDir: "./resources/js",
++   }),
   ],
 });
 ```
 
 Just replace `app.js` to `app.ts` into `resources/js`.
 
-```ts
+```diff
 // app.ts
 import type { DefineComponent } from "vue";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
-import { SvgTransformer } from "unplugin-svg-transformer/vue";
-import { iconList } from "unplugin-svg-transformer/icons";
++import { SvgTransformerPlugin } from "unplugin-svg-transformer/vue";
++import './icons.ts'
 
 createInertiaApp({
   title: (title) => `${title} - App Name`,
@@ -246,17 +247,19 @@ createInertiaApp({
     const pinia = createPinia();
     const app = createApp({ render: () => h(App, props) })
       .use(plugin)
-      .use(SvgTransformer, iconList);
++     .use(SvgTransformerPlugin);
 
     app.mount(el);
   },
 });
 ```
 
+And you can use globally registered `SvgIcon` component.
+
 ```vue
 <template>
   <div>
-    <svg-icon name="logo" />
+    <SvgIcon name="svg-name" />
   </div>
 </template>
 ```

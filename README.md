@@ -57,7 +57,7 @@ yarn add unplugin-svg-transformer -D
 
 ```ts
 // vite.config.ts
-import svgTransformer from "unplugin-svg-transformer/vite";
+import svgTransformer from 'unplugin-svg-transformer/vite'
 
 export default defineConfig({
   plugins: [
@@ -65,7 +65,7 @@ export default defineConfig({
       /* options */
     }),
   ],
-});
+})
 ```
 
 Examples:
@@ -81,7 +81,7 @@ Examples:
 
 ```ts
 // rollup.config.js
-import svgTransformer from "unplugin-svg-transformer/rollup";
+import svgTransformer from 'unplugin-svg-transformer/rollup'
 
 export default {
   plugins: [
@@ -89,7 +89,7 @@ export default {
       /* options */
     }),
   ],
-};
+}
 ```
 
 <br></details>
@@ -102,11 +102,11 @@ export default {
 module.exports = {
   /* ... */
   plugins: [
-    require("unplugin-svg-transformer/webpack")({
+    require('unplugin-svg-transformer/webpack')({
       /* options */
     }),
   ],
-};
+}
 ```
 
 <br></details>
@@ -118,12 +118,12 @@ module.exports = {
 // nuxt.config.ts
 export default defineNuxtConfig({
   buildModules: [
-    "unplugin-svg-transformer/nuxt", // https://github.com/kiwilan/unplugin-svg-transformer
+    'unplugin-svg-transformer/nuxt', // https://github.com/kiwilan/unplugin-svg-transformer
   ],
   svgTransformer: {
     /* options */
   },
-});
+})
 ```
 
 > This module works for Nuxt 3 only
@@ -140,12 +140,12 @@ Example: [`examples/nuxt3`](./examples/nuxt3)
 module.exports = {
   configureWebpack: {
     plugins: [
-      require("unplugin-svg-transformer/webpack")({
+      require('unplugin-svg-transformer/webpack')({
         /* options */
       }),
     ],
   },
-};
+}
 ```
 
 <br></details>
@@ -155,12 +155,12 @@ module.exports = {
 
 ```ts
 // esbuild.config.js
-import { build } from "esbuild";
-import svgTransformer from "unplugin-svg-transformer/esbuild";
+import { build } from 'esbuild'
+import svgTransformer from 'unplugin-svg-transformer/esbuild'
 
 build({
   plugins: [svgTransformer()],
-});
+})
 ```
 
 <br></details>
@@ -183,10 +183,10 @@ build({
 You can easily import a SVG file with `importIcon` function from `unplugin-svg-transformer/icons` and use `IconType` type (globally registered) to validate your SVG file name. `iconList` function list all SVG files, used by `importIcon` function.
 
 ```ts
-import { iconList, importIcon } from "unplugin-svg-transformer/icons";
+import { iconList, importIcon } from 'unplugin-svg-transformer/icons'
 
-const icon: IconType = "svg-name";
-const svg = importIcon("svg-name").then((svg) => svg.default);
+const icon: IconType = 'svg-name'
+const svg = importIcon('svg-name').then(svg => svg.default)
 ```
 
 With some frameworks, you don't have to create your own component, you can use ready-to-use components.
@@ -206,8 +206,8 @@ All ready-to-use components have a `name` prop, based on SVG file name. You can 
 You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `iconList` and `importIcon` functions (not SSR compatible).
 
 ```ts
-const icon: IconType = "svg-name";
-const svg = window.importIcon("svg-name").then((svg) => svg.default);
+const icon: IconType = 'svg-name'
+const svg = window.importIcon('svg-name').then(svg => svg.default)
 ```
 
 ### Vue 3 or Inertia

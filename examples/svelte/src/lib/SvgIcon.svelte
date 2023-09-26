@@ -9,9 +9,6 @@
   fetchIcon(name).then((svg) => (svgIcon = svg));
 </script>
 
-<!-- <button on:click={increment}>
-  count is {count}
-</button> -->
 <div class="icon">{@html svgIcon}</div>
 
 <style>

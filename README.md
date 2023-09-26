@@ -30,6 +30,7 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 - 📦 Components ready, no import needed, SVG directly injected
   - [Vue 3](https://vuejs.org/) / [Nuxt 3](https://nuxt.com) component
   - [React](https://react.dev/) component
+  - [Svelte](https://svelte.dev/) not included, here is an example [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
 - 🎨 Options to add or clear `style` and `class` global attributes
 - 🦾 SVG typed, validate by `name` prop (`typescript` required)
 
@@ -164,7 +165,28 @@ build({
 
 ## Usage
 
-`unplugin-svg-transformer` works with any framework, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework (only Vue 3, React, Svelte and Nuxt 3 have been tested).
+`unplugin-svg-transformer` works with any framework, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework (only Javascript, TypeScript, Vue 3, React, Svelte and Nuxt 3 have been tested).
+
+// TODO
+
+- options
+- import `./icons.ts`
+- JavaScript only option
+- use global with `global.d.ts` if you not use Vite or Nuxt
+- update `tsconfig.json`
+
+### Import SVG
+
+You can easily import a SVG file with `importIcon` function from `unplugin-svg-transformer/icons` and use `IconType` type (globally registered) to validate your SVG file name. `iconList` function list all SVG files, used by `importIcon` function.
+
+```ts
+import { iconList, importIcon } from "unplugin-svg-transformer/icons";
+
+const icon: IconType = "svg-name";
+const svg = importIcon("svg-name").then((svg) => svg.default);
+```
+
+With some frameworks, you don't have to create your own component, you can use ready-to-use components.
 
 - For Vue 3, you can use a plugin to register globally `SvgIcon` component with `SvgTransformerPlugin` from `unplugin-svg-transformer/vue` and use `SvgIcon` component directly. But you can just import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component.
 - For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`
@@ -173,15 +195,6 @@ build({
 - For vanilla JS or TS, you can import `importIcon` function from `unplugin-svg-transformer/icons` to import SVG file.
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
-
-In all cases, you can create your own component or function, you can use `unplugin-svg-transformer/icons` to import easily SVG with `importIcon` async function. `iconList` is a list of all SVG files. Globally registered `IconType` type is available to validate your SVG.
-
-```ts
-import { iconList, importIcon } from "unplugin-svg-transformer/icons";
-
-const icon: IconType = "svg-name";
-const svg = importIcon("svg-name").then((svg) => svg.default);
-```
 
 You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `iconList` and `importIcon` functions (not SSR compatible).
 

@@ -706,7 +706,7 @@ packages:
     dev: true
 
   file:../../../../unplugin-svg-transformer.tgz:
-    resolution: {integrity: sha512-30zeGs4cXmu9yjeI9LAuhqPjDFIakdjYESkgPBxV/b/I/eMgt7orxEgYTuSs4bhS1Jmo440uEUndYKZDPdjtSA==, tarball: file:../../../../unplugin-svg-transformer.tgz}
+    resolution: {integrity: sha512-ACPaLPQ0nhbpSR1V9Zfv8txchVPjIkLcAfHhy2hlB73OxzorUsMAZxBx4gVslUU0Cu5xaHwU37HiCTVhrGu2tA==, tarball: file:../../../../unplugin-svg-transformer.tgz}
     name: unplugin-svg-transformer
     version: 0.3.5
     dependencies:

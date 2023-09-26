@@ -30,7 +30,7 @@ const VueSvg = defineComponent({
       attributes.value.style.display = props.display
 
     async function getSvg() {
-      const wd = window as any
+      const wd = window as { importIcon?: (name: string) => Promise<{ default: string }> }
       if (!wd || !wd.importIcon) {
         current.value = warningSvg
         console.warn('[unplugin-svg-transformer] Error: window.importIcon is not defined, you should import `icons.ts` into your main file.')

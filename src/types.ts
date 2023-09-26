@@ -26,7 +26,7 @@ export interface Options {
    *
    * @default true
    */
-  types?: boolean
+  useTypes?: boolean
 
   /**
    * For Vite users, this option is already enabled by `vite-env.d.ts` file.

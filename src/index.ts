@@ -6,7 +6,7 @@ import { SvgTransformer } from './lib'
 const DEFAULT_OPTIONS: Options = {
   iconsDir: './src/svg',
   libraryDir: './src',
-  types: true,
+  useTypes: true,
   globalTypes: false,
 }
 

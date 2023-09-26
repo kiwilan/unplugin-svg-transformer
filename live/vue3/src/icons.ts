@@ -7,13 +7,12 @@ export const iconList: Record<IconType, Promise<{ default: string }>> = {
   'download': () => import('../node_modules/unplugin-svg-transformer/cache/download'),
   'social/twitter': () => import('../node_modules/unplugin-svg-transformer/cache/social/twitter'),
   'vite': () => import('../node_modules/unplugin-svg-transformer/cache/vite'),
-  'vue-3': () => import('../node_modules/unplugin-svg-transformer/cache/vue-3'),
+  'vue-2': () => import('../node_modules/unplugin-svg-transformer/cache/vue-2'),
   'vue': () => import('../node_modules/unplugin-svg-transformer/cache/vue'),
   'default': () => import('../node_modules/unplugin-svg-transformer/cache/default'),
 }
 
 export async function importIcon(name: IconType): Promise<{ default: string }> {
-  console.warn(name, iconList)
   if (!iconList[name])
     console.warn(`Icon ${name} not found`)
   name = iconList[name] || iconList["default"]

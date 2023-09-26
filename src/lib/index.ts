@@ -64,7 +64,11 @@ export class SvgTransformer {
 
   private async parse(): Promise<void> {
     this.collect = await SvgCollection.make(this.options.iconsDir!)
-    this.library = await LibraryFile.make(this.collect.getItems(), this.options.isNuxt || false)
+    this.library = await LibraryFile.make(
+      this.collect.getItems(),
+      this.options,
+      // this.options.isNuxt || false, this.options.types ?? false
+    )
     this.definition = await DefinitionFile.make(this.library.getTypes(), this.options.isNuxt || false)
     this.componentDefinition = await ComponentDefinitionFile.make(this.library.getTypes())
   }
@@ -77,15 +81,9 @@ export class SvgTransformer {
       await Path.ensureDirectoryExists(cacheDir)
     }
     await this.writeIconFiles(cacheDir)
+    await this.library?.writeAll(this.options.libraryDir!)
 
-    const rootLibraryDir = this.options.libraryDir!
-    const packageLibraryDir = Path.packagePath({ dist: true })
-
-    const cache = await Path.relativeToNodeModules(rootLibraryDir)
-    await this.writeLibrary(rootLibraryDir, 'icons', cache)
-    await this.writeLibrary(packageLibraryDir, 'icons', '../cache')
-
-    if (this.options.types) {
+    if (this.options.useTypes) {
       await this.writeDefinition()
       if (this.options.isNuxt)
         await this.writeComponentDefinition()
@@ -110,7 +108,7 @@ export class SvgTransformer {
   public async writeIconFiles(cacheDir: string): Promise<boolean> {
     const basePath = cacheDir
     const promises = this.collect!.getItems().map(async (item) => {
-      let path = item.getPath().replace('.svg', this.options.types ? '.ts' : '.js')
+      let path = item.getPath().replace('.svg', this.options.useTypes ? '.ts' : '.js')
       path = `${basePath}${path}`
 
       await Path.rm(path)
@@ -121,26 +119,6 @@ export class SvgTransformer {
     })
 
     return await Promise.all(promises).then(() => true)
-  }
-
-  /**
-   * Write library file, `icon.ts`.
-   */
-  public async writeLibrary(directory: string, filename: string, cache: string): Promise<boolean> {
-    directory = Path.normalizePaths(`${directory}/`)
-    filename = this.options.types ? `${filename}.ts` : `${filename}.js`
-    const path = `${directory}${filename}`
-
-    if (await Path.fileExists(path))
-      await Path.rm(path)
-
-    await this.library?.update(cache, true, this.options.types)
-    const content = this.library!.content()
-
-    const dir = dirname(path)
-    await Path.ensureDirectoryExists(dir)
-
-    return await Path.write(path, content)
   }
 
   /**

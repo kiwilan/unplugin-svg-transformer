@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { importIcon } from '#icons'
+// import { importIcon } from '#icons'
+import { importIcon } from 'unplugin-svg-transformer/icons'
 
-const svg = await importIcon('vite-2')
+const svg = await importIcon('vite-3')
 console.warn(svg.default)
 </script>
 
@@ -9,6 +10,7 @@ console.warn(svg.default)
   <div>
     <SvgIcon name="download" />
     <SvgIcon name="download" />
+    <SvgIcon name="vite-3" />
     <SvgIcon name="vite-3" />
   </div>
 </template>

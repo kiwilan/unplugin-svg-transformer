@@ -5,7 +5,7 @@ import { ref } from 'vue'
 const icon = ref<string>()
 
 async function fetchIcon() {
-  icon.value = (await window.importIcon('download')).default
+  icon.value = (await window.importIcon('vue-2')).default
 }
 fetchIcon()
 </script>
@@ -16,7 +16,7 @@ fetchIcon()
     <div v-html="icon"></div>
     <VueSvg name="vite" />
     <SvgIcon name="vite" />
-    <VueSvg name="vue" />
-    <SvgIcon name="vue" />
+    <VueSvg name="vue-2" />
+    <SvgIcon name="vue-2" />
 </div>
 </template>

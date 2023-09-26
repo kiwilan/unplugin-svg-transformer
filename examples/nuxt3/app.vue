@@ -20,16 +20,17 @@ let icon: IconType = 'download'
 
 <template>
   <div>
-    hey
-    <SvgIcon name="vite" class="icon" />
+    <SvgIcon name="vite" />
+    <SvgIcon name="vite-2" />
+    <SvgIcon name="vite" />
     <!-- <NuxtWelcome /> -->
   </div>
 </template>
 
-<style lang="css" scoped>
-.icon {
-  height: 1rem;
-  width: 1rem;
+<style lang="css">
+svg {
+  height: 3rem !important;
+  width: 3rem !important;
   color: black;
   display: inline-block;
 }

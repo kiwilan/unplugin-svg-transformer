@@ -1,3 +1,6 @@
+import { dirname } from 'node:path'
+import { symlink } from 'node:fs/promises'
+import type { OptionsExtended } from '../types'
 import type { SvgItem } from './Svg/SvgItem'
 import { Path } from './Path'
 
@@ -6,13 +9,13 @@ export class LibraryFile {
     protected items: SvgItem[] = [],
     protected list?: string,
     protected types?: string,
-    protected isNuxt = false,
+    protected options: OptionsExtended = {},
   ) { }
 
-  public static async make(items: SvgItem[], isNuxt: boolean): Promise<LibraryFile> {
+  public static async make(items: SvgItem[], options: OptionsExtended): Promise<LibraryFile> {
     const self = new LibraryFile(items)
 
-    self.isNuxt = isNuxt
+    self.options = options
     self.list = await self.setList()
     self.types = await self.setTypes()
 
@@ -31,7 +34,7 @@ export class LibraryFile {
     return this.types!
   }
 
-  public content(): string {
+  private content(): string {
     const content = [
       '/* eslint-disable eslint-comments/no-unlimited-disable */',
       '/* eslint-disable */',
@@ -44,9 +47,9 @@ export class LibraryFile {
     return content.join('\n')
   }
 
-  public async update(path: string, window = true, typescript = true): Promise<string> {
-    this.list = await this.setList(path, window, typescript)
-    if (!typescript)
+  private async update(path: string, window = true): Promise<string> {
+    this.list = await this.setList(path, window, this.options.useTypes)
+    if (!this.options.useTypes)
       this.types = ''
 
     return this.list
@@ -83,8 +86,8 @@ export class LibraryFile {
     this.items.forEach((item) => {
       const localPath = item.getPath()
       let path = Path.normalizePaths([basePath, localPath])
-      if (this.isNuxt)
-        path = `./icons${localPath}`
+      if (this.options.isNuxt)
+        path = `./.nuxt/icons${localPath}`
 
       path = path.replace('.svg', '')
 
@@ -95,7 +98,6 @@ export class LibraryFile {
 
     content.push('')
     content.push('export async function importIcon(name: IconType): Promise<{ default: string }> {')
-    content.push('  console.warn(name, iconList)')
     content.push('  if (!iconList[name])')
     // eslint-disable-next-line no-template-curly-in-string
     content.push('    console.warn(`Icon ${name} not found`)')
@@ -103,7 +105,7 @@ export class LibraryFile {
     content.push('  return await name()')
     content.push('}')
 
-    if (window && !this.isNuxt) {
+    if (window && !this.options.isNuxt) {
       content.push('')
       content.push('if (typeof window !== \'undefined\') {')
       // content.push('  // @ts-expect-error type is global')
@@ -113,5 +115,42 @@ export class LibraryFile {
     }
 
     return content.join('\n')
+  }
+
+  /**
+   * Write library file, `icon.ts`.
+   */
+  private async write(directory: string, filename: string, cache: string): Promise<boolean> {
+    directory = Path.normalizePaths(`${directory}/`)
+    filename = this.options.useTypes ? `${filename}.ts` : `${filename}.js`
+    const path = `${directory}${filename}`
+
+    if (await Path.fileExists(path))
+      await Path.rm(path)
+
+    await this.update(cache, true)
+    const content = this.content()
+
+    const dir = dirname(path)
+    await Path.ensureDirectoryExists(dir)
+
+    return await Path.write(path, content)
+  }
+
+  public async writeAll(rootLibraryDir: string): Promise<void> {
+    const cache = await Path.relativeToNodeModules(rootLibraryDir)
+    const packageLibraryDir = Path.packagePath({ dist: true })
+    if (this.options.isNuxt) {
+      rootLibraryDir = Path.rootPath()
+      await this.symLink(`${rootLibraryDir}/icons.ts`, `${this.options.nuxtDir!}/icons.ts`)
+    }
+
+    await this.write(rootLibraryDir, 'icons', cache)
+    await this.symLink(`${rootLibraryDir}/icons.ts`, `${packageLibraryDir}/icons.ts`)
+  }
+
+  private async symLink(target: string, link: string): Promise<void> {
+    await Path.rm(link)
+    await symlink(target, link)
   }
 }

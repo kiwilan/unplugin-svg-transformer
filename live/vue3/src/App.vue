@@ -15,7 +15,7 @@ function fetchIcon() {
   window.importIcon('vue').then(svg => icon.value = svg.default)
   // importIcon('vue').then(svg => importMethod.value = svg.default)
 
-  importIcon('vue-3').then((svg) => {
+  importIcon('vue-2').then((svg) => {
     console.warn(svg.default)
     importMethod.value = svg.default
   })
@@ -30,8 +30,8 @@ fetchIcon()
     <div v-html="importMethod" />
     <SvgIcon name="vite" />
     <VueSvg name="vite" />
-    <SvgIcon name="vue-3" />
-    <VueSvg name="vue-3" />
-    <VueSvg name="new-svg" />
+    <SvgIcon name="vue-2" />
+    <VueSvg name="vue-2" />
+    <!-- <VueSvg name="new-svg" /> -->
   </div>
 </template>

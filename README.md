@@ -65,7 +65,11 @@ export default defineConfig({
 });
 ```
 
-Example: [`playground/`](./playground/)
+Examples:
+
+- [`examples/vue3`](./examples/vue3)
+- [`examples/react`](./examples/react)
+- [`examples/svelte`](./examples/svelte)
 
 <br></details>
 
@@ -119,7 +123,9 @@ export default defineNuxtConfig({
 });
 ```
 
-> This module works for Nuxt 3
+> This module works for Nuxt 3 only
+
+Example: [`examples/nuxt3`](./examples/nuxt3)
 
 <br></details>
 
@@ -158,6 +164,34 @@ build({
 
 ## Usage
 
+`unplugin-svg-transformer` works with any framework, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework (only Vue 3, React, Svelte and Nuxt 3 have been tested).
+
+- For Vue 3, you can use a plugin to register globally `SvgIcon` component with `SvgTransformerPlugin` from `unplugin-svg-transformer/vue` and use `SvgIcon` component directly. But you can just import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component.
+- For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`
+- For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
+- For Nuxt 3, you have a globally registered `SvgIcon` component, you can use `SvgIcon` component directly. You have an alias to use easily icons: `#icons`, same as `unplugin-svg-transformer/icons`.
+- For vanilla JS or TS, you can import `importIcon` function from `unplugin-svg-transformer/icons` to import SVG file.
+
+All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
+
+In all cases, you can create your own component or function, you can use `unplugin-svg-transformer/icons` to import easily SVG with `importIcon` async function. `iconList` is a list of all SVG files. Globally registered `IconType` type is available to validate your SVG.
+
+```ts
+import { iconList, importIcon } from "unplugin-svg-transformer/icons";
+
+const icon: IconType = "svg-name";
+const svg = importIcon("svg-name").then((svg) => svg.default);
+```
+
+You can use `window` to access `iconList` and `importIcon` functions (not SSR compatible).
+
+```ts
+const icon: IconType = "svg-name";
+const svg = window.importIcon("svg-name").then((svg) => svg.default);
+```
+
+### Vue 3 or Inertia
+
 <details>
 <summary>Vue 3</summary><br>
 
@@ -182,7 +216,7 @@ Example here with Laravel Jetstream,
 
 > **Note**
 >
-> This example use Vue 3, but it works with React or Svelte. Vue 3 is the only one with a plugin to register globally `SvgIcon` component but React has `SvgIcon` component ready-to-use, you have just to import it. Svelte has no component, you have to create your own.
+> This example use Vue 3, but it works with React or Svelte.
 
 To use TypeScript, update `vite.config.js` to `vite.config.ts` and just add `unplugin-svg-transformer/vite` to `plugins` array.
 

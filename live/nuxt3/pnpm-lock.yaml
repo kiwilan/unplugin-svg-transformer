@@ -6359,7 +6359,7 @@ packages:
     dev: true
 
   file:../../../../unplugin-svg-transformer.tgz:
-    resolution: {integrity: sha512-fNOiwq6Vz0fLjO7dpZPXZ0STzHbLsz1iFm4zPshMUjDgaiEr2WiKhQUgAU2I2i6bFRNvcBu3k5/WtM6rTHXLbw==, tarball: file:../../../../unplugin-svg-transformer.tgz}
+    resolution: {integrity: sha512-Y02WZrfFd0BVGhQO8+wxJi03+82Mlz9JSd3CDxBY2sw7nST4PXs8J9/ONw3pI84cAB8Imc+F7hUHmAFrkhSFYA==, tarball: file:../../../../unplugin-svg-transformer.tgz}
     name: unplugin-svg-transformer
     version: 0.3.5
     dependencies:

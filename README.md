@@ -183,7 +183,7 @@ const icon: IconType = "svg-name";
 const svg = importIcon("svg-name").then((svg) => svg.default);
 ```
 
-You can use `window` to access `iconList` and `importIcon` functions (not SSR compatible).
+You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `iconList` and `importIcon` functions (not SSR compatible).
 
 ```ts
 const icon: IconType = "svg-name";

@@ -8,6 +8,7 @@
 [![license][license-src]][license-href]
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
+[![style][style-src]][style-href]
 
 > **Warning**
 >
@@ -56,7 +57,7 @@ yarn add unplugin-svg-transformer -D
 
 ```ts
 // vite.config.ts
-import svgTransformer from 'unplugin-svg-transformer/vite'
+import svgTransformer from "unplugin-svg-transformer/vite";
 
 export default defineConfig({
   plugins: [
@@ -64,7 +65,7 @@ export default defineConfig({
       /* options */
     }),
   ],
-})
+});
 ```
 
 Examples:
@@ -80,7 +81,7 @@ Examples:
 
 ```ts
 // rollup.config.js
-import svgTransformer from 'unplugin-svg-transformer/rollup'
+import svgTransformer from "unplugin-svg-transformer/rollup";
 
 export default {
   plugins: [
@@ -88,7 +89,7 @@ export default {
       /* options */
     }),
   ],
-}
+};
 ```
 
 <br></details>
@@ -101,11 +102,11 @@ export default {
 module.exports = {
   /* ... */
   plugins: [
-    require('unplugin-svg-transformer/webpack')({
+    require("unplugin-svg-transformer/webpack")({
       /* options */
     }),
   ],
-}
+};
 ```
 
 <br></details>
@@ -117,12 +118,12 @@ module.exports = {
 // nuxt.config.ts
 export default defineNuxtConfig({
   buildModules: [
-    'unplugin-svg-transformer/nuxt', // https://github.com/kiwilan/unplugin-svg-transformer
+    "unplugin-svg-transformer/nuxt", // https://github.com/kiwilan/unplugin-svg-transformer
   ],
   svgTransformer: {
     /* options */
   },
-})
+});
 ```
 
 > This module works for Nuxt 3 only
@@ -139,12 +140,12 @@ Example: [`examples/nuxt3`](./examples/nuxt3)
 module.exports = {
   configureWebpack: {
     plugins: [
-      require('unplugin-svg-transformer/webpack')({
+      require("unplugin-svg-transformer/webpack")({
         /* options */
       }),
     ],
   },
-}
+};
 ```
 
 <br></details>
@@ -154,12 +155,12 @@ module.exports = {
 
 ```ts
 // esbuild.config.js
-import { build } from 'esbuild'
-import svgTransformer from 'unplugin-svg-transformer/esbuild'
+import { build } from "esbuild";
+import svgTransformer from "unplugin-svg-transformer/esbuild";
 
 build({
   plugins: [svgTransformer()],
-})
+});
 ```
 
 <br></details>
@@ -182,10 +183,10 @@ build({
 You can easily import a SVG file with `importIcon` function from `unplugin-svg-transformer/icons` and use `IconType` type (globally registered) to validate your SVG file name. `iconList` function list all SVG files, used by `importIcon` function.
 
 ```ts
-import { iconList, importIcon } from 'unplugin-svg-transformer/icons'
+import { iconList, importIcon } from "unplugin-svg-transformer/icons";
 
-const icon: IconType = 'svg-name'
-const svg = importIcon('svg-name').then(svg => svg.default)
+const icon: IconType = "svg-name";
+const svg = importIcon("svg-name").then((svg) => svg.default);
 ```
 
 With some frameworks, you don't have to create your own component, you can use ready-to-use components.
@@ -205,8 +206,8 @@ All ready-to-use components have a `name` prop, based on SVG file name. You can 
 You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `iconList` and `importIcon` functions (not SSR compatible).
 
 ```ts
-const icon: IconType = 'svg-name'
-const svg = window.importIcon('svg-name').then(svg => svg.default)
+const icon: IconType = "svg-name";
+const svg = window.importIcon("svg-name").then((svg) => svg.default);
 ```
 
 ### Vue 3 or Inertia
@@ -356,7 +357,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [<img src="https://user-images.githubusercontent.com/48261459/201463225-0a5a084e-df15-4b11-b1d2-40fafd3555cf.svg" height="120rem" width="100%" />](https://github.com/kiwilan)
 
-[unplugin-version-src]: https://img.shields.io/static/v1?style=flat-square&label=unplugin&message=v1.3&color=F0DB4F&labelColor=18181B
+[unplugin-version-src]: https://img.shields.io/badge/dynamic/json?label=unplugin&query=dependencies[%27unplugin%27]&url=https://raw.githubusercontent.com/kiwilan/unplugin-svg-transformer/main/package.json&color=F0DB4F&labelColor=18181b
 [unplugin-version-href]: https://github.com/unjs/unplugin
 [version-src]: https://img.shields.io/npm/v/unplugin-svg-transformer.svg?style=flat-square&color=F0DB4F&labelColor=18181b
 [version-href]: https://www.npmjs.com/package/unplugin-svg-transformer
@@ -368,3 +369,5 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [tests-href]: https://github.com/kiwilan/unplugin-svg-transformer/actions/workflows/tests.yml
 [codecov-src]: https://codecov.io/gh/kiwilan/unplugin-svg-transformer/branch/main/graph/badge.svg?token=epJribIFGR
 [codecov-href]: https://codecov.io/gh/kiwilan/unplugin-svg-transformer
+[style-src]: https://antfu.me/badge-code-style.svg
+[style-href]: https://github.com/antfu/eslint-config

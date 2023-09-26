@@ -4,7 +4,7 @@ export default antfu({
   ignores: [
     'coverage',
     'resources',
-    '*.md',
+    '**/*.md',
     'examples',
     'playground',
   ],

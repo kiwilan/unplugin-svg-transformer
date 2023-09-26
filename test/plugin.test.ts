@@ -1,7 +1,8 @@
 import { expect, it } from 'vitest'
 import { SvgCollection } from '../src/lib/Svg/SvgCollection'
 import { Path } from '../src/lib/Path'
-import { SvgTransformer } from '../src/lib'
+
+// import { SvgTransformer } from '../src/lib'
 import { getPaths } from './methods'
 
 it('can parse and transform svg files', async () => {

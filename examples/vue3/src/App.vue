@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { SvgIcon as VueSvg } from '../../../src/vue'
+import type { SvgType as SvgTyped } from './icons'
+import { importSvg, svgList } from './icons'
 
 const icon = ref<string>()
 
@@ -8,6 +10,14 @@ async function fetchIcon() {
   icon.value = await window.importSvg('vue-2')
 }
 fetchIcon()
+
+function importMethod(name: SvgTyped) {
+  console.warn(svgList)
+  importSvg(name).then((svg) => {
+    console.warn(svg)
+  })
+}
+importMethod('vue-2')
 </script>
 
 <template>

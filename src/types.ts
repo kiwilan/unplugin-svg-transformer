@@ -30,12 +30,12 @@ export interface Options {
   /**
    * For Vite users, this option is already enabled by `vite-env.d.ts` file.
    *
-   * Create `global.d.ts` file at the root of your project. Make sure to add this file in your `tsconfig.json` file.
+   * Create `icons.d.ts` file at the root of your project. Make sure to add this file in your `tsconfig.json` file.
    *
    * ```json
    * {
    *  "include": [
-   *    "global.d.ts"
+   *    "icons.d.ts"
    *  ]
    * }
    * ```
@@ -45,22 +45,7 @@ export interface Options {
    *
    * @default false
    */
-  globalTypes?: boolean
-  // /**
-  //  * Inject the window object in the SVG files.
-  //  * This is useful if you want to use the SVG files in the browser.
-  //  *
-  //  * You can access to this window object with `window.svgList`.
-  //  *
-  //  * @default true
-  //  */
-  // windowInject?: boolean
-  // /**
-  //  * Create `global.d.ts` file with the window object. If `windowInject` is false, this option will be ignored.
-  //  *
-  //  * @default true
-  //  */
-  // globalType?: boolean
+  global?: boolean
 }
 
 export interface OptionsExtended extends Options {

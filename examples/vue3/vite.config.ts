@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     vue(),
     svgTransformer({
-      // globalTypes: true,
+      // global: true,
     }),
   ],
 })

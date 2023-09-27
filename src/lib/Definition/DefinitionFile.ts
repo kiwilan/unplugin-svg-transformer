@@ -24,7 +24,7 @@ export class DefinitionFile {
       'declare global {',
       `  ${types}`,
       '  interface Window {',
-      '    svgList: Record<SvgType, Promise<{ default: string }>>',
+      '    svgList: Record<SvgType, () => Promise<{ default: string }>>',
       '    importSvg: (name: SvgType) => Promise<string>',
       '  }',
       '}',

@@ -2,15 +2,13 @@ import { Path } from '../Path'
 
 export class GlobalTypeFile {
   protected constructor(
-    protected path: string = 'global.d.ts',
+    protected path: string,
     protected content: string = '',
   ) { }
 
   public static async make(): Promise<GlobalTypeFile> {
-    const self = new GlobalTypeFile()
-
     const root = Path.rootPath()
-    self.path = `${root}/global.d.ts`
+    const self = new GlobalTypeFile(`${root}/icons.d.ts`)
 
     self.content = self.defaultFile()
     // if (!await Path.fileExists(root))
@@ -38,7 +36,7 @@ export class GlobalTypeFile {
       'declare global {',
       '  interface Window {',
       '    svgList: Record<SvgType | string, Promise<{ default: string }>>',
-      '    importSvg: (name: SvgType | string) => Promise<{ default: string }>',
+      '    importSvg: (name: SvgType | string) => Promise<string>',
       '  }',
       '}',
       '',

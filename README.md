@@ -17,15 +17,17 @@
 
 Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
-Use SVG into modern tools is not easy, especially when you want to use SVG as component. This plugin will parse your SVG files and create a cache file to import them easily with a library index file. It works with any framework, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework. Built for TypeScript, but works with JavaScript.
+Use SVG into modern tools is not easy, especially when you want to use SVG as component. This plugin will parse your SVG files and create a cache file to import them easily with a library index file. It works with any framework with Vite/Webpack, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework. Built for TypeScript, but works with JavaScript.
 
 > Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
 
 ```ts
+import type { SvgType } from 'unplugin-svg-transformer/icons'
 import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
 
 const icon: SvgType = 'svg-name'
 const svg = await importSvg('svg-name') // param fully typed (SvgType), string output
+const list = svgList // as Record<SvgType, () => Promise<{ default: string }>>
 ```
 
 ## Features
@@ -42,7 +44,7 @@ const svg = await importSvg('svg-name') // param fully typed (SvgType), string o
   - [Svelte](https://svelte.dev/) not included, here is an example [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
 - 🐘 [Laravel Inertia](https://inertiajs.com/) compatible with [`laravel-vite-plugin`](https://github.com/laravel/vite-plugin) as Vite plugin
 - 🎨 Options to add or clear `style` and `class` global attributes
-- 🦾 SVG typed, validate by `name` prop (`typescript` required)
+- 🦾 SVG typed (`typescript` required)
 
 ### Roadmap
 
@@ -167,7 +169,11 @@ import { build } from 'esbuild'
 import svgTransformer from 'unplugin-svg-transformer/esbuild'
 
 build({
-  plugins: [svgTransformer()],
+  plugins: [
+    svgTransformer({
+      /* options */
+    }),
+  ],
 })
 ```
 
@@ -175,25 +181,28 @@ build({
 
 ## Usage
 
-`unplugin-svg-transformer` works with any framework, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework (only Javascript, TypeScript, Vue 3, React, Svelte and Nuxt 3 have been tested).
+`unplugin-svg-transformer` works with any framework with Vite/Webpack, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework (only Javascript, TypeScript, Vue 3, React, Svelte and Nuxt 3 have been tested).
 
 // TODO
 
 - options
 - import `./icons.ts` or `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`)
 - JavaScript only option
-- use global with `global.d.ts` if you not use Vite or Nuxt
-- update `tsconfig.json` for `global.d.ts` (if you not use Vite or Nuxt)
+- use global with `icons.d.ts` if you not use Vite or Nuxt
+- update `tsconfig.json` for `icons.d.ts` (if you not use Vite or Nuxt)
 - `vite-env.d.ts` for Vite (add fallback if not exists)
-- fix global.d.ts adding to existing file
+- fix icons.d.ts adding to existing file
 - add stackblitz example
 - add `SvgType` into library file to import it easily
+- choose your philosohphy: javascript, typescript
+- icons.d.ts vs vite-env.d.ts vs import
 
 ### Import SVG
 
 You can easily import a SVG file with `importSvg` function from `unplugin-svg-transformer/icons` and use `SvgType` type (globally registered) to validate your SVG file name. `svgList` function list all SVG files, used by `importSvg` function.
 
 ```ts
+import type { SvgType } from 'unplugin-svg-transformer/icons'
 import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
 
 const icon: SvgType = 'svg-name'
@@ -205,9 +214,10 @@ const svg = importSvg('svg-name').then(svg => svg)
 You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions (not SSR compatible).
 
 ```ts
-const icon: SvgType = 'svg-name'
 const svg = await window.importSvg('svg-name')
 ```
+
+#### Ready-to-use components
 
 With some frameworks, you don't have to create your own component, you can use ready-to-use components.
 
@@ -228,9 +238,9 @@ import 'unplugin-svg-transformer/icons'
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
 
+### Advanced examples
 
-
-### Advanced example: Vue 3
+#### Vue 3
 
 An example with Vue 3 and Vite.
 
@@ -251,7 +261,7 @@ createApp(App)
 
 <br></details>
 
-### Advanced example: Inertia
+#### Inertia
 
 An example with [Laravel Jetstream](https://jetstream.laravel.com/) ([Inertia](https://inertiajs.com/)) and Vite.
 

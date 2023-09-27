@@ -7,7 +7,7 @@ const DEFAULT_OPTIONS: Options = {
   iconsDir: './src/svg',
   libraryDir: './src',
   useTypes: true,
-  globalTypes: false,
+  global: false,
 }
 
 async function isTesting(): Promise<boolean> {

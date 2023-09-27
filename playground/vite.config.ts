@@ -8,7 +8,7 @@ export default defineConfig({
     SvgTransformer({
       iconsDir: './svg',
       libraryDir: './',
-      globalTypes: true,
+      global: true,
     }),
   ],
 })

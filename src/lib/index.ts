@@ -92,14 +92,6 @@ export class SvgTransformer {
     //   await this.writeDefinition()
   }
 
-  // /**
-  //  * Create `global.d.ts` file.
-  //  */
-  // private async writeGlobalTypeFile(): Promise<boolean> {
-  //   const global = await GlobalTypeFile.make()
-  //   return await Path.write(global.getPath(), global.getContent())
-  // }
-
   /**
    * Write icon file for each SVG into the cache directory.
    */
@@ -124,10 +116,10 @@ export class SvgTransformer {
    *
    * - `icons.d.ts` for Nuxt
    * - `client.d.ts` for Vite
-   * - `global.d.ts` for global types
+   * - `icons.d.ts` for global types
    */
   private async writeDefinition(): Promise<void> {
-    const globalPath = Path.rootPath('global.d.ts')
+    const globalPath = Path.rootPath('icons.d.ts')
     const nuxtPath = `${this.options.nuxtDir}/types/icons.d.ts`
     const clientPath = Path.packagePath({ dist: false, path: 'client.d.ts' })
 
@@ -137,7 +129,7 @@ export class SvgTransformer {
     await Path.write(clientPath, viteContents)
 
     await Path.rm(globalPath)
-    if (this.options.globalTypes)
+    if (this.options.global)
       await Path.write(globalPath, this.definition!.getContents())
 
     const viteEnv = Path.rootPath('src/vite-env.d.ts')

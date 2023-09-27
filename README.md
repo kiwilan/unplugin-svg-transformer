@@ -33,7 +33,7 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
   - [Vue 3](https://vuejs.org/) / [Nuxt 3](https://nuxt.com) component
   - [React](https://react.dev/) component
   - [Svelte](https://svelte.dev/) not included, here is an example [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
-- 🐘 Laravel Inertia compatible with [`laravel-vite-plugin`](https://github.com/laravel/vite-plugin) as Vite plugin
+- 🐘 [Laravel Inertia](https://inertiajs.com/) compatible with [`laravel-vite-plugin`](https://github.com/laravel/vite-plugin) as Vite plugin
 - 🎨 Options to add or clear `style` and `class` global attributes
 - 🦾 SVG typed, validate by `name` prop (`typescript` required)
 
@@ -221,7 +221,9 @@ All ready-to-use components have a `name` prop, based on SVG file name. You can 
 
 
 
-### Vue 3 or Inertia
+### Advanced example: Vue 3
+
+An example with Vue 3 and Vite.
 
 <details>
 <summary>Vue 3</summary><br>
@@ -239,6 +241,10 @@ createApp(App)
 ```
 
 <br></details>
+
+### Advanced example: Inertia
+
+An example with [Laravel Jetstream](https://jetstream.laravel.com/) ([Inertia](https://inertiajs.com/)) and Vite.
 
 <details>
 <summary>Inertia</summary><br>

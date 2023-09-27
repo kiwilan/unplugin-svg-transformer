@@ -25,7 +25,7 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
 
 const icon: SvgType = 'svg-name'
-const svg = await importSvg('svg-name')
+const svg = await importSvg('svg-name') // param fully typed (SvgType), string output
 ```
 
 ## Features
@@ -187,6 +187,7 @@ build({
 - `vite-env.d.ts` for Vite (add fallback if not exists)
 - fix global.d.ts adding to existing file
 - add stackblitz example
+- add `SvgType` into library file to import it easily
 
 ### Import SVG
 

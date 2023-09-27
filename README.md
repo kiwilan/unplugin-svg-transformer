@@ -176,7 +176,7 @@ build({
 - import `./icons.ts` or `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`)
 - JavaScript only option
 - use global with `global.d.ts` if you not use Vite or Nuxt
-- update `tsconfig.json`
+- update `tsconfig.json` for `global.d.ts` (if you not use Vite or Nuxt)
 - `vite-env.d.ts` for Vite
 - fix global.d.ts adding to existing file
 

@@ -199,6 +199,11 @@ With some frameworks, you don't have to create your own component, you can use r
 >
 > Assure you have import `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`) when you use ready-to-use components: `import 'unplugin-svg-transformer/icons'` (except for Nuxt).
 
+```ts
+// main.ts
+import 'unplugin-svg-transformer/icons'
+```
+
 - For Vue 3, you can use a plugin to register globally `SvgIcon` component with `SvgTransformerPlugin` from `unplugin-svg-transformer/vue` and use `SvgIcon` component directly. But you can just import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component.
 - For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`
 - For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)

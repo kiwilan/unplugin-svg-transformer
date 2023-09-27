@@ -28,7 +28,7 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 - 🔥 Hot reloading when SVG added or removed
 - 🗃️ Index to list all SVG to import them easily
 - 🗂 Seperated cache SVG files
-- 🚚 Can be import into any JS / TS file to be use as a SVG loader
+- 🚚 Can be import into any JS / TS file
 - 📦 Components ready, no import needed, SVG directly injected
   - [Vue 3](https://vuejs.org/) / [Nuxt 3](https://nuxt.com) component
   - [React](https://react.dev/) component
@@ -177,7 +177,7 @@ build({
 - JavaScript only option
 - use global with `global.d.ts` if you not use Vite or Nuxt
 - update `tsconfig.json` for `global.d.ts` (if you not use Vite or Nuxt)
-- `vite-env.d.ts` for Vite
+- `vite-env.d.ts` for Vite (add fallback if not exists)
 - fix global.d.ts adding to existing file
 
 ### Import SVG

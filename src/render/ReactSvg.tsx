@@ -5,7 +5,7 @@ import { defaultSvg } from './shared'
 interface Props {
   className?: string
   style?: React.CSSProperties
-  name: IconType
+  name: SvgType
   display?: Display
 }
 

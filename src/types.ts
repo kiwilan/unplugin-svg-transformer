@@ -4,7 +4,7 @@ export interface NuxtOptions {
    *
    * @default './assets/svg'
    */
-  iconsDir?: string
+  svgDir?: string
 }
 
 export interface Options {
@@ -13,7 +13,7 @@ export interface Options {
    *
    * @default './src/svg'
    */
-  iconsDir?: string
+  svgDir?: string
   /**
    * Directory where `icons.ts` will be created.
    *

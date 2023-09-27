@@ -57,13 +57,13 @@ export class SvgTransformer {
     await Path.deleteDirectory(this.cacheDir)
 
     // Create icons directory, library directory and cache directory
-    await Path.ensureDirectoryExists(this.options.iconsDir!)
+    await Path.ensureDirectoryExists(this.options.svgDir!)
     await Path.ensureDirectoryExists(this.cacheDir)
     await Path.ensureDirectoryExists(this.options.libraryDir!)
   }
 
   private async parse(): Promise<void> {
-    this.collect = await SvgCollection.make(this.options.iconsDir!)
+    this.collect = await SvgCollection.make(this.options.svgDir!)
     this.library = await LibraryFile.make(
       this.collect.getItems(),
       this.options,

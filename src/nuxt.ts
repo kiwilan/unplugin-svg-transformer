@@ -7,7 +7,7 @@ import type { NuxtOptions, Options, OptionsExtended } from './types'
 import unplugin from '.'
 
 const DEFAULT_OPTIONS: Options = {
-  iconsDir: './assets/svg',
+  svgDir: './assets/svg',
 }
 
 export default defineNuxtModule<NuxtOptions>({

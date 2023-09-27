@@ -183,19 +183,68 @@ build({
 
 `unplugin-svg-transformer` works with any framework with Vite/Webpack, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework (only Javascript, TypeScript, Vue 3, React, Svelte and Nuxt 3 have been tested).
 
-// TODO
+### Options
 
-- options
-- import `./icons.ts` or `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`)
-- JavaScript only option
-- use global with `icons.d.ts` if you not use Vite or Nuxt
-- update `tsconfig.json` for `icons.d.ts` (if you not use Vite or Nuxt)
-- `vite-env.d.ts` for Vite (add fallback if not exists)
-- fix icons.d.ts adding to existing file
-- add stackblitz example
-- add `SvgType` into library file to import it easily
-- choose your philosohphy: javascript, typescript
-- icons.d.ts vs vite-env.d.ts vs import
+- `svgDir`: `string` - Directory to watch SVG files. Default: `./src/svg` (for Nuxt 3, it's `./assets/svg`)
+- `libraryDir`: `string` - Directory to create library file. Default: `./src` (for Nuxt 3, it's `./`)
+- `useTypes`: `boolean` - Use TypeScript or JavaScript. Default: `true`
+- `global`: `boolean` - Add `icons.d.ts`, global type file at root of project. Default: `false` (you might have to add `include: ["icons.d.ts"]` into `tsconfig.json`)
+
+### Add your SVG files
+
+In plugin options, you can add a directory to watch SVG files: `svgDir`. By default, it's `./src/svg` (for Nuxt 3, it's `./assets/svg`). Just put your SVG files into this directory and they will be parsed and added to library file, `icons.ts`.
+
+> **Note**
+>
+> You can use SVG nested directories, but you can't have two SVG files with the same name.
+
+An example of `svgDir` directory:
+
+```bash
+├── src
+│   ├── svg
+│   │   ├── download.svg
+│   │   ├── social
+│   │   │   └── twitter.svg
+│   │   └── vite.svg
+│   └── ...
+└── ...
+```
+
+> **Note**
+>
+> A symlink of this directory will be created into `unplugin-svg-transformer/cache`.
+
+### Library file
+
+In plugin options, you can add a directory to choose where to create library file: `libraryDir`. By default, it's `./src` (for Nuxt 3, it's `./`). A library file will be created, `icons.ts` (or `icons.js` if `useTypes` is set to `false`), into this directory. This file will list all SVG files, used by `importSvg` function.
+
+With TypeScript, `SvgType` type is available. And with JavaScript or TypeScript, you can use `svgList` and `importSvg` function. SVG list is updated when you add, remove or update a SVG file.
+
+> **Note**
+>
+> A symlink of this file will be created into `unplugin-svg-transformer/icons`.
+
+An example of `icons.ts` file:
+
+```ts
+export type SvgType = 'download' | 'social/twitter' | 'vite' | 'default'
+export const svgList: Record<SvgType, () => Promise<{ default: string }>> = {
+  'download': () => import('../node_modules/unplugin-svg-transformer/cache/download'),
+  'social/twitter': () => import('../node_modules/unplugin-svg-transformer/cache/social/twitter'),
+  'vite': () => import('../node_modules/unplugin-svg-transformer/cache/vite'),
+  'default': () => import('../node_modules/unplugin-svg-transformer/cache/default'),
+}
+
+export async function importSvg(name: SvgType): Promise<string> {
+  // ...
+}
+
+if (typeof window !== 'undefined') {
+  window.svgList = svgList
+  window.importSvg = importSvg
+}
+```
 
 ### Import SVG
 
@@ -237,6 +286,35 @@ import 'unplugin-svg-transformer/icons'
 - For vanilla JS or TS, you can import `importSvg` function from `unplugin-svg-transformer/icons` to import SVG file.
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
+
+### TypeScript
+
+> **Note**
+>
+> You can use JavaScript only with `useTypes` option set to `false`.
+
+You can use `SvgType` type to validate your SVG file name.
+
+```ts
+import type { SvgType } from 'unplugin-svg-transformer/icons'
+
+const icon: SvgType = 'svg-name'
+```
+
+If you use Vite with JS framework or Nuxt, `SvgType` is globally imported by default. But if you use Vite with vanilla JS or TS and you want to globally import `SvgType`, you can add `global` option to `true` in plugin options. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
+
+```ts
+// vite.config.ts
+import svgTransformer from 'unplugin-svg-transformer/vite'
+
+export default defineConfig({
+  plugins: [
+    svgTransformer({
+      global: true,
+    }),
+  ],
+})
+```
 
 ### Advanced examples
 
@@ -308,7 +386,7 @@ export default defineConfig({
       },
     }),
 +   svgTransformer({
-+     iconsDir: "./resources/js/Svg",
++     svgDir: "./resources/js/Svg",
 +     libraryDir: "./resources/js",
 +   }),
   ],

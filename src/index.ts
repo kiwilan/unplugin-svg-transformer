@@ -4,7 +4,7 @@ import { Path } from './lib/Path'
 import { SvgTransformer } from './lib'
 
 const DEFAULT_OPTIONS: Options = {
-  iconsDir: './src/svg',
+  svgDir: './src/svg',
   libraryDir: './src',
   useTypes: true,
   global: false,

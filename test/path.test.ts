@@ -6,7 +6,7 @@ describe('utils', () => {
   // it('can get config', async () => {
   //   const paths = getPaths()
   //   await Writer.make({
-  //     iconsDir: paths.iconsDir,
+  //     svgDir: paths.svgDir,
   //     libraryDir: paths.libraryDir,
   //     gitignorePath: paths.gitignorePath,
   //   })
@@ -19,11 +19,11 @@ describe('utils', () => {
 
   //   expect(typeof config.origin.libraryDir).toBe('string')
   //   expect(typeof config.origin.gitignorePath).toBe('string')
-  //   expect(typeof config.origin.iconsDir).toBe('string')
+  //   expect(typeof config.origin.svgDir).toBe('string')
 
   //   expect(typeof config.writer.libraryDir).toBe('string')
   //   expect(typeof config.writer.gitignorePath).toBe('string')
-  //   expect(typeof config.writer.iconsDir).toBe('string')
+  //   expect(typeof config.writer.svgDir).toBe('string')
 
   //   expect(typeof list.download).toBe('object')
   // })
@@ -33,7 +33,7 @@ describe('utils', () => {
 
     expect(typeof paths).toBe('object')
 
-    expect(paths.iconsDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons`))
+    expect(paths.svgDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons`))
     expect(paths.libraryDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
     expect(paths.gitignorePath).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
   })

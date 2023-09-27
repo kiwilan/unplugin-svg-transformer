@@ -9,11 +9,11 @@ interface PackagePathOpts {
 
 interface ViteConfig {
   origin: {
-    iconsDir: string
+    svgDir: string
     libraryDir: string
   }
   writer: {
-    iconsDir: string
+    svgDir: string
     libraryDir: string
   }
 }
@@ -36,7 +36,7 @@ export class Path {
 
   public static convertOptions(defaultOptions: Options, options?: Options): OptionsExtended {
     const opts: Options = Object.assign({}, defaultOptions, options)
-    opts.iconsDir = Path.fullPath(opts.iconsDir || defaultOptions.iconsDir!)
+    opts.svgDir = Path.fullPath(opts.svgDir || defaultOptions.svgDir!)
     opts.libraryDir = Path.fullPath(opts.libraryDir || defaultOptions.libraryDir!)
     // opts.gitignorePath = Path.fullPath(opts.gitignorePath || defaultOptions.gitignorePath!)
 

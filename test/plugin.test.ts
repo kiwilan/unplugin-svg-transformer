@@ -6,7 +6,7 @@ import { Path } from '../src/lib/Path'
 import { getPaths } from './methods'
 
 it('can parse and transform svg files', async () => {
-  const collect = await SvgCollection.make(getPaths().iconsDir)
+  const collect = await SvgCollection.make(getPaths().svgDir)
   const twitter = collect.getItems().find(item => item.getFilename() === 'twitter')
 
   expect(collect.getItems().length).toBe(23)
@@ -23,14 +23,14 @@ it('can parse and transform svg files', async () => {
 // it('can write svg as ts files', async () => {
 //   const paths = getPaths()
 //   const writer = await SvgTransformer.make({
-//     iconsDir: paths.iconsDir,
+//     svgDir: paths.svgDir,
 //     libraryDir: paths.libraryDir,
 //     useTypes: true,
 //     // windowInject: true,
 //   })
 
 //   expect(typeof writer).toBe('object')
-//   //   const files = await SvgItem.toList(getPaths().iconsDir)
+//   //   const files = await SvgItem.toList(getPaths().svgDir)
 //   //   await SvgItem.listToTsFiles(files, getPaths().cacheDir)
 
 //   //   const path = './test/icons/cache/social/twitter.ts'
@@ -40,9 +40,9 @@ it('can parse and transform svg files', async () => {
 // })
 
 // it('can create the icons file', async () => {
-//   const files = await SvgItem.toList(getPaths().iconsDir)
+//   const files = await SvgItem.toList(getPaths().svgDir)
 //   await DefinitionFile.make()
-//   await IconListFile.make(files, getPaths().iconsDir, getPaths().cacheDir, getPaths().libraryDir)
+//   await IconListFile.make(files, getPaths().svgDir, getPaths().cacheDir, getPaths().libraryDir)
 
 //   const path = './test/icons/icons.ts'
 //   const content = await Path.read(path)

@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     SvgTransformer({
-      // iconsDir: './src/icons',
+      // svgDir: './src/icons',
       // libraryDir: './',
       // gitignorePath: './.gitignore',
       // typescript: true,

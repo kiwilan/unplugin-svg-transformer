@@ -21,6 +21,13 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 
 > Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
 
+```ts
+import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
+
+const icon: SvgType = 'svg-name'
+const svg = await importSvg('svg-name')
+```
+
 ## Features
 
 - 🟨 [unplugin](https://github.com/unjs/unplugin): [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/guide/en/), [Webpack](https://webpack.js.org/), [esbuild](https://esbuild.github.io/) support
@@ -179,6 +186,7 @@ build({
 - update `tsconfig.json` for `global.d.ts` (if you not use Vite or Nuxt)
 - `vite-env.d.ts` for Vite (add fallback if not exists)
 - fix global.d.ts adding to existing file
+- add stackblitz example
 
 ### Import SVG
 

@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { importIcon } from "unplugin-svg-transformer/icons";
+  import { importSvg } from "unplugin-svg-transformer/icons";
   import SvgIcon from "./lib/SvgIcon.svelte";
 
   let render: string = "";
-  async function getIcon(icon: IconType) {
-    let svg = await importIcon(icon);
-    render = svg.default;
+  async function getIcon(icon: SvgType) {
+    render = await importSvg(icon);
   }
   getIcon("download");
 </script>

@@ -39,13 +39,13 @@ export class ComponentDefinitionFile {
     const fileContents = await Path.read(path)
     let contents = fileContents
 
-    if (contents.includes('type IconType'))
-      contents = contents.replace(/type IconType = '(.*)'/g, this.types)
+    if (contents.includes('type SvgType'))
+      contents = contents.replace(/type SvgType = '(.*)'/g, this.types)
     else
       contents = contents.replace('import React from \'react\';', `import React from 'react';\n\n${this.types};`)
 
-    contents = contents.replace(/type: PropType<string>;/g, 'type: PropType<IconType>;')
-    contents = contents.replace(/name: string;/g, 'name: IconType;')
+    contents = contents.replace(/type: PropType<string>;/g, 'type: PropType<SvgType>;')
+    contents = contents.replace(/name: string;/g, 'name: SvgType;')
 
     this[type] = {
       contents,
@@ -56,7 +56,7 @@ export class ComponentDefinitionFile {
     return contents
   }
 
-  public async write(): Promise<boolean> {
+  public async write(): Promise<void> {
     const promises = [
       Path.write(this.vue.path, this.vue.contents),
       Path.write(this.vue.pathCJS, this.vue.contents),
@@ -64,7 +64,7 @@ export class ComponentDefinitionFile {
       Path.write(this.react.pathCJS, this.react.contents),
     ]
 
-    return await Promise.all(promises).then(() => true)
+    await Promise.all(promises)
   }
 
   public getVue(): DefinitionContentFile {

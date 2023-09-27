@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { SvgIcon as VueSvg } from 'unplugin-svg-transformer/vue'
 import { ref } from 'vue'
+import { SvgIcon as VueSvg } from '../../../src/vue'
 
 const icon = ref<string>()
 
 async function fetchIcon() {
-  icon.value = (await window.importIcon('vue-2')).default
+  icon.value = await window.importSvg('vue-2')
 }
 fetchIcon()
 </script>

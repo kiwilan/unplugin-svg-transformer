@@ -40,7 +40,7 @@ export interface Options {
    * }
    * ```
    *
-   * Inject `iconList` and `importIcon()` in the window object: `window.iconList` and `window.importIcon()`.
+   * Inject `svgList` and `importSvg()` in the window object: `window.svgList` and `window.importSvg()`.
    * These methods are fully typed.
    *
    * @default false
@@ -50,7 +50,7 @@ export interface Options {
   //  * Inject the window object in the SVG files.
   //  * This is useful if you want to use the SVG files in the browser.
   //  *
-  //  * You can access to this window object with `window.iconList`.
+  //  * You can access to this window object with `window.svgList`.
   //  *
   //  * @default true
   //  */

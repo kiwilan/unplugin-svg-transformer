@@ -1,21 +1,16 @@
 <script lang="ts" setup>
 // import './icons'
-// async function downloadIcon() {
-//   let svg = await import('./node_modules/unplugin-svg-transformer/cache/download')
-//   console.log(svg.default);
-// }
-// downloadIcon()
 
-const icon: IconType = 'download'
+const icon: SvgType = 'download'
 console.warn(icon)
 
 // if (process.client) {
 //   console.log(window);
 // }
 
-// if (process.client && window.importIcon) {
-//   let svg = await window.importIcon('download')
-//   console.log(svg.default);
+// if (process.client && window.importSvg) {
+//   let svg = await window.importSvg('download')
+//   console.log(svg);
 // }
 </script>
 

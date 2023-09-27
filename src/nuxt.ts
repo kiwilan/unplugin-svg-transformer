@@ -73,7 +73,7 @@ export default defineNuxtModule<NuxtOptions>({
 
     addImports({
       from: '#icons',
-      name: 'iconList, importIcon',
+      name: 'svgList, importSvg',
     })
 
     addTypeTemplate({

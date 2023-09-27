@@ -48,8 +48,8 @@ it('can parse and transform svg files', async () => {
 //   const content = await Path.read(path)
 
 //   if (process.platform === 'win32') {
-//     expect(content).toBe(`declare type IconType = 'download' | 'feed-apple-podcast' | 'feed-deezer' | 'feed-google-podcast' | 'feed-overcast' | 'feed-podcast-addict' | 'feed-rss' | 'feed-spotify' | 'mail' | 'player-close' | 'player-forward' | 'player-pause' | 'player-play' | 'player-playback-x1-5' | 'player-playback-x2' | 'player-playback' | 'player-rewind' | 'player-volume-off' | 'player-volume' | 'social-facebook' | 'social-twitter' | 'social-youtube' | 'default'
-// export const iconList: Record<IconType | string, Promise<{ default: string }>> = {
+//     expect(content).toBe(`declare type SvgType = 'download' | 'feed-apple-podcast' | 'feed-deezer' | 'feed-google-podcast' | 'feed-overcast' | 'feed-podcast-addict' | 'feed-rss' | 'feed-spotify' | 'mail' | 'player-close' | 'player-forward' | 'player-pause' | 'player-play' | 'player-playback-x1-5' | 'player-playback-x2' | 'player-playback' | 'player-rewind' | 'player-volume-off' | 'player-volume' | 'social-facebook' | 'social-twitter' | 'social-youtube' | 'default'
+// export const svgList: Record<SvgType | string, Promise<{ default: string }>> = {
 //   'download': import('.\\\\cache\\\\download'),
 //   'feed-apple-podcast': import('.\\\\cache\\\\feed\\\\apple-podcast'),
 //   'feed-deezer': import('.\\\\cache\\\\feed\\\\deezer'),
@@ -76,8 +76,8 @@ it('can parse and transform svg files', async () => {
 // }\n`)
 //   }
 //   else {
-//     expect(content).toBe(`declare type IconType = 'download' | 'feed/apple-podcast' | 'feed/deezer' | 'feed/google-podcast' | 'feed/overcast' | 'feed/podcast-addict' | 'feed/rss' | 'feed/spotify' | 'mail' | 'player/close' | 'player/forward' | 'player/pause' | 'player/play' | 'player/playback-x1.5' | 'player/playback-x2' | 'player/playback' | 'player/rewind' | 'player/volume-off' | 'player/volume' | 'social/facebook' | 'social/twitter' | 'social/youtube' | 'default'
-// export const iconList: Record<IconType | string, Promise<{ default: string }>> = {
+//     expect(content).toBe(`declare type SvgType = 'download' | 'feed/apple-podcast' | 'feed/deezer' | 'feed/google-podcast' | 'feed/overcast' | 'feed/podcast-addict' | 'feed/rss' | 'feed/spotify' | 'mail' | 'player/close' | 'player/forward' | 'player/pause' | 'player/play' | 'player/playback-x1.5' | 'player/playback-x2' | 'player/playback' | 'player/rewind' | 'player/volume-off' | 'player/volume' | 'social/facebook' | 'social/twitter' | 'social/youtube' | 'default'
+// export const svgList: Record<SvgType | string, Promise<{ default: string }>> = {
 //   'download': import('./cache/download'),
 //   'feed/apple-podcast': import('./cache/feed/apple-podcast'),
 //   'feed/deezer': import('./cache/feed/deezer'),

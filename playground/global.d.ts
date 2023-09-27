@@ -5,19 +5,19 @@
 export {};
 
 declare global {
-  type IconType = 'download' | 'social/twitter' | 'default'
+  type SvgType = 'download' | 'social/twitter' | 'default'
   interface Window {
-    iconList: Record<IconType, Promise<{ default: string }>>
-    importIcon: (name: IconType) => Promise<{ default: string }>
+    svgList: Record<SvgType, Promise<{ default: string }>>
+    importSvg: (name: SvgType) => Promise<string>
   }
 }
 
 declare module 'vue' {
   export interface GlobalComponents {
     SvgIcon: typeof import('unplugin-svg-transformer/dist/vue')['VueSvg']
-    importIcon: (name: IconType) => Promise<{ default: string }>
+    importSvg: (name: SvgType) => Promise<string>
   }
 }
 
-window.iconList = window.iconList || {}
-window.importIcon = importIcon || function () {}
+window.svgList = window.svgList || {}
+window.importSvg = importSvg || function () {}

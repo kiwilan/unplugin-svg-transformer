@@ -6,7 +6,7 @@ const VueSvg = defineComponent({
   name: 'SvgIcon',
   props: {
     name: {
-      type: String as PropType<string>,
+      type: String as PropType<SvgType>,
       required: true,
     },
     display: {
@@ -30,15 +30,15 @@ const VueSvg = defineComponent({
       attributes.value.style.display = props.display
 
     async function getSvg() {
-      const wd = window as { importIcon?: (name: string) => Promise<{ default: string }> }
-      if (!wd || !wd.importIcon) {
+      current.value = ''
+      const wd = window as { importSvg?: (name: string) => Promise<string> }
+      if (!wd || !wd.importSvg) {
         current.value = warningSvg
-        console.warn('[unplugin-svg-transformer] Error: window.importIcon is not defined, you should import `icons.ts` into your main file.')
+        console.warn('[unplugin-svg-transformer] Error: window.importSvg is not defined, you should import `icons.ts` into your main file.')
 
         return
       }
-      const svg = await wd.importIcon(props.name)
-      current.value = svg.default
+      current.value = await wd.importSvg(props.name)
     }
 
     watch(() => props.name, async () => {

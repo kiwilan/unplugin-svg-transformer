@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { importIcon } from "unplugin-svg-transformer/icons";
+  import { importSvg } from "unplugin-svg-transformer/icons";
 
-  export let name: IconType;
+  export let name: SvgType;
   let svgIcon: string = "";
 
-  async function fetchIcon(icon: IconType): Promise<string> {
-    let svg = await importIcon(icon);
-    return svg.default;
+  async function fetchIcon(icon: SvgType): Promise<string> {
+    return await importSvg(icon);
   }
   fetchIcon(name).then((svg) => (svgIcon = svg));
 </script>

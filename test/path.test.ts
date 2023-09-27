@@ -13,7 +13,7 @@ describe('utils', () => {
   //   const config = await Path.getViteConfig()
   //   const iconsFile = await import(config.writer.libraryDir)
 
-  //   const list: Record<string, Promise<{ default: string }>> = iconsFile.iconList
+  //   const list: Record<string, Promise<{ default: string }>> = iconsFile.svgList
 
   //   expect(typeof config).toBe('object')
 

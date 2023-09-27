@@ -57,7 +57,7 @@ export class LibraryFile {
 
   private async setTypes(): Promise<string> {
     let content = ''
-    content += 'type IconType = '
+    content += 'type SvgType = '
     this.items.forEach((item, key) => {
       if (key > 0)
         content += ' | '
@@ -79,9 +79,9 @@ export class LibraryFile {
     const content = []
 
     if (typescript)
-      content.push('export const iconList: Record<IconType, Promise<{ default: string }>> = {')
+      content.push('export const svgList: Record<SvgType, Promise<{ default: string }>> = {')
     else
-      content.push('export const iconList = {')
+      content.push('export const svgList = {')
 
     this.items.forEach((item) => {
       const localPath = item.getPath()
@@ -97,20 +97,23 @@ export class LibraryFile {
     content.push('}')
 
     content.push('')
-    content.push('export async function importIcon(name: IconType): Promise<{ default: string }> {')
-    content.push('  if (!iconList[name])')
+    content.push('export async function importSvg(name: SvgType): Promise<string> {')
+    content.push('  if (!svgList[name])')
     // eslint-disable-next-line no-template-curly-in-string
     content.push('    console.warn(`Icon ${name} not found`)')
-    content.push('  name = iconList[name] || iconList["default"]')
-    content.push('  return await name()')
+    content.push('  name = svgList[name] || svgList["default"]')
+    content.push('  const svg = await name()')
+    content.push('  if (svg.default)')
+    content.push('    return svg.default')
+    content.push('  return svg')
     content.push('}')
 
     if (window && !this.options.isNuxt) {
       content.push('')
       content.push('if (typeof window !== \'undefined\') {')
       // content.push('  // @ts-expect-error type is global')
-      content.push('  window.iconList = iconList')
-      content.push('  window.importIcon = importIcon')
+      content.push('  window.svgList = svgList')
+      content.push('  window.importSvg = importSvg')
       content.push('}')
     }
 

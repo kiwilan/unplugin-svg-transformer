@@ -1,13 +1,18 @@
+import { Path } from '../Path'
+
 /**
  * To create definition file.
  */
 export class DefinitionFile {
   protected constructor(
     protected contents?: string,
+    protected useVue = false,
   ) {}
 
   public static async make(types: string, isNuxt: boolean): Promise<DefinitionFile> {
     const self = new DefinitionFile(types)
+
+    await self.checkVue()
 
     let contents = [
       '/* eslint-disable */',
@@ -19,25 +24,30 @@ export class DefinitionFile {
       'declare global {',
       `  ${types}`,
       '  interface Window {',
-      '    iconList: Record<IconType, Promise<{ default: string }>>',
-      '    importIcon: (name: IconType) => Promise<{ default: string }>',
-      '  }',
-      '}',
-      '',
-      'declare module \'vue\' {',
-      '  export interface GlobalComponents {',
-      '    SvgIcon: typeof import(\'unplugin-svg-transformer/dist/vue\')[\'VueSvg\']',
-      '    importIcon: (name: IconType) => Promise<{ default: string }>',
+      '    svgList: Record<SvgType, Promise<{ default: string }>>',
+      '    importSvg: (name: SvgType) => Promise<string>',
       '  }',
       '}',
       '',
     ]
 
+    if (self.useVue) {
+      contents = [
+        ...contents,
+        'declare module \'vue\' {',
+        '  export interface GlobalComponents {',
+        '    SvgIcon: typeof import(\'unplugin-svg-transformer/dist/vue\')[\'SvgIcon\']',
+        '  }',
+        '}',
+        '',
+      ]
+    }
+
     if (!isNuxt) {
       contents = [
         ...contents,
-        'window.iconList = window.iconList || {}',
-        'window.importIcon = importIcon || function () {}',
+        'window.svgList = window.svgList || {}',
+        'window.importSvg = importSvg || function () {}',
         '',
       ]
     }
@@ -49,5 +59,19 @@ export class DefinitionFile {
 
   public getContents(): string {
     return this.contents!
+  }
+
+  protected async checkVue(): Promise<void> {
+    const rootPath = Path.rootPath('package.json')
+
+    if (await Path.fileExists(rootPath)) {
+      const packageJson = await Path.read(rootPath)
+
+      const regex = /vue|nuxt/
+      const containsVueOrNuxt = regex.test(packageJson)
+
+      if (containsVueOrNuxt)
+        this.useVue = true
+    }
   }
 }

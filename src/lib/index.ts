@@ -67,7 +67,6 @@ export class SvgTransformer {
     this.library = await LibraryFile.make(
       this.collect.getItems(),
       this.options,
-      // this.options.isNuxt || false, this.options.types ?? false
     )
     this.definition = await DefinitionFile.make(this.library.getTypes(), this.options.isNuxt || false)
     this.componentDefinition = await ComponentDefinitionFile.make(this.library.getTypes())
@@ -85,8 +84,7 @@ export class SvgTransformer {
 
     if (this.options.useTypes) {
       await this.writeDefinition()
-      if (this.options.isNuxt)
-        await this.writeComponentDefinition()
+      await this.componentDefinition?.write()
       // if (this.options.windowInject && this.options.globalType)
       // await this.writeGlobalTypeFile()
     }
@@ -149,12 +147,5 @@ export class SvgTransformer {
     await Path.rm(nuxtPath)
     if (this.options.isNuxt)
       await Path.write(nuxtPath, this.definition!.getContents())
-  }
-
-  /**
-   * Write the component definition file.
-   */
-  private async writeComponentDefinition(): Promise<void> {
-    await this.componentDefinition?.write()
   }
 }

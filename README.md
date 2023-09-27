@@ -24,8 +24,8 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 ## Features
 
 - 🟨 [unplugin](https://github.com/unjs/unplugin): [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/guide/en/), [Webpack](https://webpack.js.org/), [esbuild](https://esbuild.github.io/) support
-- 🔥 Hot reloading when SVG updated
-- 🤙🏻 Reactivity option
+- 🪄 Not a SVG loader, but a SVG transformer
+- 🔥 Hot reloading when SVG added or removed
 - 🗃️ Index to list all SVG to import them easily
 - 🗂 Seperated cache SVG files
 - 🚚 Can be import into any JS / TS file to be use as a SVG loader
@@ -62,7 +62,7 @@ import svgTransformer from 'unplugin-svg-transformer/vite'
 
 export default defineConfig({
   plugins: [
-    SvgTransformer({
+    svgTransformer({
       /* options */
     }),
   ],
@@ -178,16 +178,19 @@ build({
 - use global with `global.d.ts` if you not use Vite or Nuxt
 - update `tsconfig.json`
 - `vite-env.d.ts` for Vite
+- fix global.d.ts adding to existing file
 
 ### Import SVG
 
-You can easily import a SVG file with `importIcon` function from `unplugin-svg-transformer/icons` and use `IconType` type (globally registered) to validate your SVG file name. `iconList` function list all SVG files, used by `importIcon` function.
+You can easily import a SVG file with `importSvg` function from `unplugin-svg-transformer/icons` and use `SvgType` type (globally registered) to validate your SVG file name. `svgList` function list all SVG files, used by `importSvg` function.
 
 ```ts
-import { iconList, importIcon } from 'unplugin-svg-transformer/icons'
+import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
 
-const icon: IconType = 'svg-name'
-const svg = importIcon('svg-name').then(svg => svg.default)
+const icon: SvgType = 'svg-name'
+const svg = await importSvg('svg-name')
+// or
+const svg = importSvg('svg-name').then(svg => svg)
 ```
 
 With some frameworks, you don't have to create your own component, you can use ready-to-use components.
@@ -200,15 +203,15 @@ With some frameworks, you don't have to create your own component, you can use r
 - For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`
 - For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
 - For Nuxt 3, you have a globally registered `SvgIcon` component, you can use `SvgIcon` component directly. You have an alias to use easily icons: `#icons`, same as `unplugin-svg-transformer/icons`.
-- For vanilla JS or TS, you can import `importIcon` function from `unplugin-svg-transformer/icons` to import SVG file.
+- For vanilla JS or TS, you can import `importSvg` function from `unplugin-svg-transformer/icons` to import SVG file.
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
 
-You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `iconList` and `importIcon` functions (not SSR compatible).
+You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions (not SSR compatible).
 
 ```ts
-const icon: IconType = 'svg-name'
-const svg = window.importIcon('svg-name').then(svg => svg.default)
+const icon: SvgType = 'svg-name'
+const svg = await window.importSvg('svg-name')
 ```
 
 ### Vue 3 or Inertia
@@ -299,7 +302,6 @@ createInertiaApp({
       import.meta.glob("./Pages/**/*.vue")
     ) as Promise<DefineComponent>,
   setup({ el, App, props, plugin }) {
-    const pinia = createPinia();
     const app = createApp({ render: () => h(App, props) })
       .use(plugin)
 +     .use(SvgTransformerPlugin);

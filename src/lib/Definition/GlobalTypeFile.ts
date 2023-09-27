@@ -37,13 +37,13 @@ export class GlobalTypeFile {
       '',
       'declare global {',
       '  interface Window {',
-      '    iconList: Record<IconType | string, Promise<{ default: string }>>',
-      '    importIcon: (name: IconType | string) => Promise<{ default: string }>',
+      '    svgList: Record<SvgType | string, Promise<{ default: string }>>',
+      '    importSvg: (name: SvgType | string) => Promise<{ default: string }>',
       '  }',
       '}',
       '',
-      'window.iconList = iconList || {}',
-      'window.importIcon = importIcon || function () {}',
+      'window.svgList = svgList || {}',
+      'window.importSvg = importSvg || function () {}',
       '',
     ]
 
@@ -62,23 +62,23 @@ export class GlobalTypeFile {
         contentFile.push(line)
       if (line === 'interface Window {') {
         interfaceReady = true
-        contentFile.push('  iconList: Record<IconType | string, Promise<{ default: string }>>')
-        contentFile.push('  importIcon: (name: IconType | string) => Promise<{ default: string }>')
+        contentFile.push('  svgList: Record<SvgType | string, Promise<{ default: string }>>')
+        contentFile.push('  importSvg: (name: SvgType | string) => Promise<{ default: string }>')
       }
     })
 
     if (!interfaceReady) {
       contentFile.push('declare global {')
       contentFile.push('  interface Window {')
-      contentFile.push('    iconList: Record<IconType | string, Promise<{ default: string }>>')
-      contentFile.push('    importIcon: (name: IconType | string) => Promise<{ default: string }>')
+      contentFile.push('    svgList: Record<SvgType | string, Promise<{ default: string }>>')
+      contentFile.push('    importSvg: (name: SvgType | string) => Promise<{ default: string }>')
       contentFile.push('  }')
       contentFile.push('}')
     }
 
     contentFile.push('')
-    contentFile.push('window.iconList = iconList || {}')
-    contentFile.push('window.importIcon = importIcon || function () {}')
+    contentFile.push('window.svgList = svgList || {}')
+    contentFile.push('window.importSvg = importSvg || function () {}')
     contentFile.push('')
     contentFile.push('export {}')
 

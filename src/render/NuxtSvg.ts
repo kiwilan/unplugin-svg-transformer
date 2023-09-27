@@ -5,13 +5,13 @@ import { defaultSvg, ssr } from './shared'
 
 // @ts-nocheck
 // @ts-expect-error - ignore
-import { importIcon } from '#icons'
+import { importSvg } from '#icons'
 
 const NuxtSvg = defineComponent({
   name: 'SvgIcon',
   props: {
     name: {
-      type: String as PropType<IconType>,
+      type: String as PropType<SvgType>,
       required: true,
     },
     display: {
@@ -36,8 +36,9 @@ const NuxtSvg = defineComponent({
       attributes.value.style.display = props.display
 
     async function getSvg() {
-      const svg = await importIcon(props.name)
-      current.value = svg.default
+      html.value = ''
+      current.value = ''
+      current.value = await importSvg(props.name)
     }
 
     watch(() => props.name, async () => {

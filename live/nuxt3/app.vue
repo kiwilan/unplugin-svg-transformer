@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { importIcon } from 'unplugin-svg-transformer/icons'
-import { importIcon as aliasImportIcon } from '#icons'
+import { importSvg } from 'unplugin-svg-transformer/icons'
+import { importSvg as aliasImportIcon } from '#icons'
 
-const svg = await importIcon('vite-3')
-console.warn(svg.default)
+const svg = await importSvg('vite-3')
+console.warn(svg)
 
 const aliasSvg = await aliasImportIcon('vite-3')
-console.warn(aliasSvg.default)
+console.warn(aliasSvg)
 </script>
 
 <template>

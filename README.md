@@ -193,6 +193,13 @@ const svg = await importSvg('svg-name')
 const svg = importSvg('svg-name').then(svg => svg)
 ```
 
+You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions (not SSR compatible).
+
+```ts
+const icon: SvgType = 'svg-name'
+const svg = await window.importSvg('svg-name')
+```
+
 With some frameworks, you don't have to create your own component, you can use ready-to-use components.
 
 > **Warning**
@@ -212,12 +219,7 @@ import 'unplugin-svg-transformer/icons'
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
 
-You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions (not SSR compatible).
 
-```ts
-const icon: SvgType = 'svg-name'
-const svg = await window.importSvg('svg-name')
-```
 
 ### Vue 3 or Inertia
 

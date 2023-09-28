@@ -1,23 +1,15 @@
 import { Path } from '../src/lib/Path'
 
 export function getPaths() {
-  const svgDir = `${process.cwd()}/test/icons`
-  const libraryDir = `${process.cwd()}/test`
-  const cacheDir = `${process.cwd()}/test/cache`
-  const gitignorePath = `${process.cwd()}/test/icons/.gitignore`
-
-  if (process.platform === 'win32') {
-    return {
-      svgDir: Path.normalizePaths(svgDir),
-      libraryDir: Path.normalizePaths(libraryDir),
-      cacheDir: Path.normalizePaths(cacheDir),
-      gitignorePath: Path.normalizePaths(gitignorePath),
-    }
-  }
+  const svgDir = Path.normalizePaths(`${process.cwd()}/test/icons`)
+  const libraryDir = Path.normalizePaths(`${process.cwd()}/test`)
+  const cacheDir = Path.normalizePaths(`${process.cwd()}/test/cache`)
+  const gitignorePath = Path.normalizePaths(`${process.cwd()}/test/icons/.gitignore`)
 
   return {
     svgDir,
     libraryDir,
+    cacheDir,
     gitignorePath,
   }
 }

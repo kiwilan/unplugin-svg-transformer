@@ -331,7 +331,8 @@ export class Path {
     target = Path.normalizePaths(target)
     link = Path.normalizePaths(link)
 
-    await unlink(link)
+    if (await Path.fileExists(link))
+      await unlink(link)
     await symlink(target, link)
   }
 

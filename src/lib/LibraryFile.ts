@@ -1,5 +1,4 @@
 import { dirname } from 'node:path'
-import { symlink } from 'node:fs/promises'
 import type { OptionsExtended } from '../types'
 import type { SvgItem } from './Svg/SvgItem'
 import { Path } from './Path'
@@ -128,11 +127,9 @@ export class LibraryFile {
   public async write(): Promise<void> {
     if (this.options.isNuxt) {
       const realFile = `${this.options.nuxtDir!}/icons.${this.extension}` // `/Users/ewilan/Workspace/vite-plugin-svg/examples/nuxt3/.nuxt/icons.ts`
-      // const symFile = `${Path.rootPath()}/icons.${this.extension}` // `/Users/ewilan/Workspace/vite-plugin-svg/examples/nuxt3/icons.ts`
-      const nodeModulesFile = `${Path.packagePath({ dist: true })}/icons.${this.extension}` // `/Users/ewilan/Workspace/vite-plugin-svg/examples/nuxt3/node_modules/unplugin-svg-transformer/dist/icons.ts`
+      const symFile = `${Path.packagePath({ dist: true })}/icons.${this.extension}` // `/Users/ewilan/Workspace/vite-plugin-svg/examples/nuxt3/node_modules/unplugin-svg-transformer/dist/icons.ts`
       await this.writeFile(realFile)
-      await Path.symLink(realFile, nodeModulesFile)
-      // await Path.symLink(realFile, symFile)
+      await Path.symLink(realFile, symFile)
     }
     else {
       const realFile = `${this.options.libraryDir!}/icons.${this.extension}` // `/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/src/icons.ts`

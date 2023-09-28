@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { Path } from '../src/lib/Path'
 import { getPaths } from './methods'

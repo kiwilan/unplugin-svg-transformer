@@ -1,4 +1,3 @@
-import { dirname } from 'node:path'
 import type { OptionsExtended } from '../types'
 import { DefinitionFile } from './Definition/DefinitionFile'
 import { LibraryFile } from './LibraryFile'

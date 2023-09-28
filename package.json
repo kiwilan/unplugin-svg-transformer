@@ -115,7 +115,7 @@
     "clean": "rimraf dist",
     "local": "rm -f ~/unplugin-svg-transformer-*.tgz || true && mv ./unplugin-svg-transformer-*.tgz ~/unplugin-svg-transformer.tgz",
     "package": "npm run clean && npm run build && npm pack && npm run local",
-    "npm": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
+    "deploy-package": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public"
   },
   "dependencies": {
     "unplugin": "^1.5.0"

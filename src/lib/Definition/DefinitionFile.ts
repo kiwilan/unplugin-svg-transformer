@@ -1,3 +1,4 @@
+import type { OptionsExtended } from '../../types'
 import { Path } from '../Path'
 
 /**
@@ -5,12 +6,13 @@ import { Path } from '../Path'
  */
 export class DefinitionFile {
   protected constructor(
-    protected contents?: string,
+    protected options: OptionsExtended,
+    protected contents = '',
     protected useVue = false,
   ) {}
 
-  public static async make(types: string, isNuxt: boolean): Promise<DefinitionFile> {
-    const self = new DefinitionFile(types)
+  public static async make(options: OptionsExtended, types: string, isNuxt: boolean): Promise<DefinitionFile> {
+    const self = new DefinitionFile(options, types)
 
     await self.checkVue()
 
@@ -24,8 +26,8 @@ export class DefinitionFile {
       'declare global {',
       `  ${types}`,
       '  interface Window {',
-      '    svgList: Record<SvgType, () => Promise<{ default: string }>>',
-      '    importSvg: (name: SvgType) => Promise<string>',
+      '    svgList: Record<SvgName, () => Promise<{ default: string }>>',
+      '    importSvg: (name: SvgName) => Promise<string>',
       '  }',
       '}',
       '',
@@ -58,7 +60,7 @@ export class DefinitionFile {
   }
 
   public getContents(): string {
-    return this.contents!
+    return this.contents
   }
 
   protected async checkVue(): Promise<void> {
@@ -73,5 +75,35 @@ export class DefinitionFile {
       if (containsVueOrNuxt)
         this.useVue = true
     }
+  }
+
+  /**
+   * Write the definition files.
+   *
+   * - `icons.d.ts` for Nuxt
+   * - `client.d.ts` for Vite
+   * - `icons.d.ts` for global types
+   */
+  public async write(): Promise<void> {
+    const globalPath = Path.rootPath('icons.d.ts')
+    const nuxtPath = `${this.options.nuxtDir}/types/icons.d.ts`
+    const clientPath = Path.packagePath({ dist: false, path: 'client.d.ts' })
+
+    await Path.rm(clientPath)
+    let viteContents = this.contents
+    viteContents = viteContents.replace('\'unplugin-svg-transformer', '\'.')
+    await Path.write(clientPath, viteContents)
+
+    await Path.rm(globalPath)
+    if (this.options.global)
+      await Path.write(globalPath, this.contents)
+
+    const viteEnv = Path.rootPath('src/vite-env.d.ts')
+    if (await Path.fileExists(viteEnv))
+      await Path.appendLineIfNotExists(viteEnv, '/// <reference types="unplugin-svg-transformer/client" />')
+
+    await Path.rm(nuxtPath)
+    if (this.options.isNuxt)
+      await Path.write(nuxtPath, this.contents)
   }
 }

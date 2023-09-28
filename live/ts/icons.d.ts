@@ -5,16 +5,9 @@
 export {};
 
 declare global {
-  type SvgName = 'download' | 'social/twitter' | 'default'
+  export type SvgName = 'download' | 'social/twitter' | 'vite' | 'vue-2' | 'vue' | 'default'
   interface Window {
     svgList: Record<SvgName, () => Promise<{ default: string }>>
-    importSvg: (name: SvgName) => Promise<string>
-  }
-}
-
-declare module 'vue' {
-  export interface GlobalComponents {
-    SvgIcon: typeof import('unplugin-svg-transformer/dist/components')['VueSvg']
     importSvg: (name: SvgName) => Promise<string>
   }
 }

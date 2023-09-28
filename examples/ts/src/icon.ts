@@ -1,5 +1,5 @@
-import { importSvg } from './icons'
+import { importSvg } from '../icons'
 
-export async function setupIcon(element: HTMLElement, name: SvgType) {
+export async function setupIcon(element: HTMLElement, name: SvgName) {
   element.innerHTML = await importSvg(name)
 }

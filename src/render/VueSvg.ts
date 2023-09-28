@@ -6,7 +6,7 @@ const VueSvg = defineComponent({
   name: 'SvgIcon',
   props: {
     name: {
-      type: String as PropType<SvgType>,
+      type: String as PropType<SvgName>,
       required: true,
     },
     display: {

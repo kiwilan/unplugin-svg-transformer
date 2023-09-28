@@ -1,5 +1,5 @@
-import fs, { access, readdir, rm } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import fs, { access, readdir, rm, symlink } from 'node:fs/promises'
+import { dirname, join, relative } from 'node:path'
 import type { Options, OptionsExtended } from '../types'
 
 interface PackagePathOpts {
@@ -38,6 +38,7 @@ export class Path {
     const opts: Options = Object.assign({}, defaultOptions, options)
     opts.svgDir = Path.fullPath(opts.svgDir || defaultOptions.svgDir!)
     opts.libraryDir = Path.fullPath(opts.libraryDir || defaultOptions.libraryDir!)
+    opts.cacheDir = Path.fullPath(opts.cacheDir || defaultOptions.cacheDir!)
     // opts.gitignorePath = Path.fullPath(opts.gitignorePath || defaultOptions.gitignorePath!)
 
     return opts
@@ -220,7 +221,10 @@ export class Path {
     }
   }
 
-  private static normalizePath(path: string): string {
+  private static normalizePath(path?: string): string {
+    if (!path)
+      return ''
+
     path = path.replace(/\/\//g, '/')
 
     if (process.platform === 'win32')
@@ -321,5 +325,17 @@ export class Path {
     dest = this.normalizePath(dest)
 
     await fs.copyFile(src, dest)
+  }
+
+  public static async symLink(target: string, link: string): Promise<void> {
+    target = Path.normalizePaths(target)
+    link = Path.normalizePaths(link)
+    await Path.rm(link)
+    await symlink(target, link)
+  }
+
+  public static relativePath(fromPath: string, toPath: string): string {
+    const relativePath = relative(dirname(fromPath), toPath)
+    return relativePath.startsWith('.') ? relativePath : `./${relativePath}`
   }
 }

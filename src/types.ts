@@ -46,6 +46,15 @@ export interface Options {
    * @default false
    */
   global?: boolean
+  /**
+   * SVG files will be added to cache directory.
+   *
+   * By default, cache is into `node_modules/unplugin-svg-components/cache`.
+   * But in some cases, you may want to change this directory.
+   *
+   * @default './node_modules/unplugin-svg-components/cache'
+   */
+  cacheDir?: string
 }
 
 export interface OptionsExtended extends Options {

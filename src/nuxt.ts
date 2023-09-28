@@ -4,10 +4,19 @@ import type { InlineConfig } from 'vite'
 import type { WatchEvent } from '@nuxt/schema'
 import { name, version } from '../package.json'
 import type { NuxtOptions, Options, OptionsExtended } from './types'
+import { Path } from './lib/Path'
 import unplugin from '.'
 
 const DEFAULT_OPTIONS: Options = {
   svgDir: './assets/svg',
+}
+
+async function readTypes(opts: OptionsExtended): Promise<string> {
+  const path = `${opts.nuxtDir}/types/icons.d.ts`
+  if (!await Path.fileExists(path))
+    return ''
+
+  return await Path.read(path)
 }
 
 export default defineNuxtModule<NuxtOptions>({
@@ -58,7 +67,7 @@ export default defineNuxtModule<NuxtOptions>({
 
     nuxt.options.alias['#svg-transformer-options'] = addTemplate({
       filename: 'svg-transformer-options.mjs',
-      getContents: () => Object.entries(options)
+      getContents: () => Object.entries(opts)
         .map(([key, value]) => `export const ${key} = ${JSON.stringify(value, null, 2)}`)
         .join('\n'),
     }).dst
@@ -73,13 +82,13 @@ export default defineNuxtModule<NuxtOptions>({
 
     addImports({
       from: '#icons',
-      name: 'svgList, importSvg',
+      name: 'SvgName, svgList, importSvg',
     })
 
     addTypeTemplate({
       dst: 'types/icons.d.ts', // resolver.resolve(`${opts.nuxtLibraryDir}/icons.d.ts`)
       filename: 'icons.d.ts',
-      getContents: () => '',
+      getContents: async () => await readTypes(opts),
     })
   },
 })

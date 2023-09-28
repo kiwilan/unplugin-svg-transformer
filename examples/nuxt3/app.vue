@@ -1,32 +1,30 @@
 <script lang="ts" setup>
-// import './icons'
+import type { SvgName as SvgNameAlt } from '#icons'
+import { importSvg, svgList } from '#icons'
 
-const icon: SvgType = 'download'
-console.warn(icon)
+const icon: SvgName = 'download'
+const iconAlt: SvgNameAlt = 'download'
 
-// if (process.client) {
-//   console.log(window);
-// }
+const svg = ref<string>('')
 
-// if (process.client && window.importSvg) {
-//   let svg = await window.importSvg('download')
-//   console.log(svg);
-// }
+svg.value = await importSvg('download')
+console.warn(svgList)
 </script>
 
 <template>
   <div>
-    <SvgIcon name="vite" />
-    <SvgIcon name="vite-2" />
-    <SvgIcon name="vite" />
-    <!-- <NuxtWelcome /> -->
+    <div class="svg" v-html="svg" />
+    <SvgIcon :name="icon" class="svg" />
+    <SvgIcon :name="iconAlt" class="svg" />
+    <SvgIcon name="vite-2" class="svg" />
+    <SvgIcon name="vite" class="svg" />
   </div>
 </template>
 
 <style lang="css">
-svg {
-  height: 3rem !important;
-  width: 3rem !important;
+.svg {
+  height: 2rem !important;
+  width: 2rem !important;
   color: black;
   display: inline-block;
 }

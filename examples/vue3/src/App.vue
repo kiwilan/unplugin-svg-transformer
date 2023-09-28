@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { SvgIcon as VueSvg } from '../../../src/vue'
-import type { SvgType as SvgTyped } from './icons'
+import type { SvgName as SvgTyped } from './icons'
 import { importSvg, svgList } from './icons'
 
 const icon = ref<string>()

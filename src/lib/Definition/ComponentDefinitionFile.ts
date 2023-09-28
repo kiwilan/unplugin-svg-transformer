@@ -39,13 +39,13 @@ export class ComponentDefinitionFile {
     const fileContents = await Path.read(path)
     let contents = fileContents
 
-    if (contents.includes('type SvgType'))
-      contents = contents.replace(/type SvgType = '(.*)'/g, this.types)
+    if (contents.includes('type SvgName'))
+      contents = contents.replace(/type SvgName = '(.*)'/g, this.types)
     else
       contents = contents.replace('import React from \'react\';', `import React from 'react';\n\n${this.types};`)
 
-    contents = contents.replace(/type: PropType<string>;/g, 'type: PropType<SvgType>;')
-    contents = contents.replace(/name: string;/g, 'name: SvgType;')
+    contents = contents.replace(/type: PropType<string>;/g, 'type: PropType<SvgName>;')
+    contents = contents.replace(/name: string;/g, 'name: SvgName;')
 
     this[type] = {
       contents,

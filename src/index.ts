@@ -8,6 +8,7 @@ const DEFAULT_OPTIONS: Options = {
   libraryDir: './src',
   useTypes: true,
   global: false,
+  cacheDir: './node_modules/unplugin-svg-transformer/cache',
 }
 
 async function isTesting(): Promise<boolean> {

@@ -22,12 +22,12 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 > Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
 
 ```ts
-import type { SvgType } from 'unplugin-svg-transformer/icons'
+import type { SvgName } from 'unplugin-svg-transformer/icons'
 import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
 
-const icon: SvgType = 'svg-name'
-const svg = await importSvg('svg-name') // param fully typed (SvgType), string output
-const list = svgList // as Record<SvgType, () => Promise<{ default: string }>>
+const icon: SvgName = 'svg-name'
+const svg = await importSvg('svg-name') // param fully typed (SvgName), string output
+const list = svgList // as Record<SvgName, () => Promise<{ default: string }>>
 ```
 
 ## Features
@@ -189,6 +189,11 @@ build({
 - `libraryDir`: `string` - Directory to create library file. Default: `./src` (for Nuxt 3, it's `./`)
 - `useTypes`: `boolean` - Use TypeScript or JavaScript. Default: `true`
 - `global`: `boolean` - Add `icons.d.ts`, global type file at root of project. Default: `false` (you might have to add `include: ["icons.d.ts"]` into `tsconfig.json`)
+- `cacheDir`: `string` - Directory to create cache files. Default: `./node_modules/unplugin-svg-transformer/cache`
+
+> **Note**
+>
+> For Nuxt users, only `svgDir` option is available because Nuxt 3 use TypeScript by default and cache is set to `.nuxt`.
 
 ### Add your SVG files
 
@@ -219,7 +224,7 @@ An example of `svgDir` directory:
 
 In plugin options, you can add a directory to choose where to create library file: `libraryDir`. By default, it's `./src` (for Nuxt 3, it's `./`). A library file will be created, `icons.ts` (or `icons.js` if `useTypes` is set to `false`), into this directory. This file will list all SVG files, used by `importSvg` function.
 
-With TypeScript, `SvgType` type is available. And with JavaScript or TypeScript, you can use `svgList` and `importSvg` function. SVG list is updated when you add, remove or update a SVG file.
+With TypeScript, `SvgName` type is available. And with JavaScript or TypeScript, you can use `svgList` and `importSvg` function. SVG list is updated when you add, remove or update a SVG file.
 
 > **Note**
 >
@@ -228,15 +233,15 @@ With TypeScript, `SvgType` type is available. And with JavaScript or TypeScript,
 An example of `icons.ts` file:
 
 ```ts
-export type SvgType = 'download' | 'social/twitter' | 'vite' | 'default'
-export const svgList: Record<SvgType, () => Promise<{ default: string }>> = {
+export type SvgName = 'download' | 'social/twitter' | 'vite' | 'default'
+export const svgList: Record<SvgName, () => Promise<{ default: string }>> = {
   'download': () => import('../node_modules/unplugin-svg-transformer/cache/download'),
   'social/twitter': () => import('../node_modules/unplugin-svg-transformer/cache/social/twitter'),
   'vite': () => import('../node_modules/unplugin-svg-transformer/cache/vite'),
   'default': () => import('../node_modules/unplugin-svg-transformer/cache/default'),
 }
 
-export async function importSvg(name: SvgType): Promise<string> {
+export async function importSvg(name: SvgName): Promise<string> {
   // ...
 }
 
@@ -248,13 +253,13 @@ if (typeof window !== 'undefined') {
 
 ### Import SVG
 
-You can easily import a SVG file with `importSvg` function from `unplugin-svg-transformer/icons` and use `SvgType` type (globally registered) to validate your SVG file name. `svgList` function list all SVG files, used by `importSvg` function.
+You can easily import a SVG file with `importSvg` function from `unplugin-svg-transformer/icons` and use `SvgName` type (globally registered) to validate your SVG file name. `svgList` function list all SVG files, used by `importSvg` function.
 
 ```ts
-import type { SvgType } from 'unplugin-svg-transformer/icons'
+import type { SvgName } from 'unplugin-svg-transformer/icons'
 import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
 
-const icon: SvgType = 'svg-name'
+const icon: SvgName = 'svg-name'
 const svg = await importSvg('svg-name')
 // or
 const svg = importSvg('svg-name').then(svg => svg)
@@ -293,15 +298,15 @@ All ready-to-use components have a `name` prop, based on SVG file name. You can 
 >
 > You can use JavaScript only with `useTypes` option set to `false`.
 
-You can use `SvgType` type to validate your SVG file name.
+You can use `SvgName` type to validate your SVG file name.
 
 ```ts
-import type { SvgType } from 'unplugin-svg-transformer/icons'
+import type { SvgName } from 'unplugin-svg-transformer/icons'
 
-const icon: SvgType = 'svg-name'
+const icon: SvgName = 'svg-name'
 ```
 
-If you use Vite with JS framework or Nuxt, `SvgType` is globally imported by default. But if you use Vite with vanilla JS or TS and you want to globally import `SvgType`, you can add `global` option to `true` in plugin options. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
+If you use Vite with JS framework or Nuxt, `SvgName` is globally imported by default. But if you use Vite with vanilla JS or TS and you want to globally import `SvgName`, you can add `global` option to `true` in plugin options. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
 
 ```ts
 // vite.config.ts

@@ -3,7 +3,7 @@
   import SvgIcon from "./lib/SvgIcon.svelte";
 
   let render: string = "";
-  async function getIcon(icon: SvgType) {
+  async function getIcon(icon: SvgName) {
     render = await importSvg(icon);
   }
   getIcon("download");

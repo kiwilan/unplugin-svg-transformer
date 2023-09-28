@@ -1,3 +1,4 @@
+import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { Path } from '../src/lib/Path'
 import { getPaths } from './methods'
@@ -30,9 +31,11 @@ describe('utils', () => {
 
   it('can get the paths', () => {
     const paths = getPaths()
+    const root = Path.rootPath()
 
     expect(typeof paths).toBe('object')
 
+    expect(root.endsWith('vite-plugin-svg')).toBe(true)
     expect(paths.svgDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons`))
     expect(paths.libraryDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
     expect(paths.gitignorePath).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
@@ -47,5 +50,22 @@ describe('utils', () => {
 
     expect(packagePath.includes(packagePathExpect)).toBe(true)
     expect(componentsPath.includes(componentsPathExpect)).toBe(true)
+  })
+
+  it('can find relative paths', () => {
+    const libraryPath1 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/icons.ts'
+    const iconPath1 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/cache/download.ts'
+
+    expect(Path.relativePath(libraryPath1, iconPath1)).toBe('./cache/download.ts')
+
+    const libraryPath2 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/src/icons.ts'
+    const iconPath2 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/cache/download.ts'
+
+    expect(Path.relativePath(libraryPath2, iconPath2)).toBe('../cache/download.ts')
+
+    const libraryPath3 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/src/icons.ts'
+    const iconPath3 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/node_modules/unplugin-svg-transformer/cache/download.ts'
+
+    expect(Path.relativePath(libraryPath3, iconPath3)).toBe('../node_modules/unplugin-svg-transformer/cache/download.ts')
   })
 })

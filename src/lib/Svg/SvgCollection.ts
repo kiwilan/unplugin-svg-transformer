@@ -1,18 +1,22 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
+import path, { dirname } from 'node:path'
+import type { OptionsExtended } from '../../types'
+import { Path } from '../Path'
 import { SvgItem } from './SvgItem'
 
 export class SvgCollection {
   protected constructor(
+    protected options: OptionsExtended,
     protected directoryPath: string,
     protected rootPath: string,
     protected items: SvgItem[],
   ) { }
 
-  public static async make(directoryPath: string, rootPath?: string): Promise<SvgCollection> {
-    rootPath = rootPath || directoryPath
-    const self = new SvgCollection(directoryPath, rootPath, [])
-    self.items = await self.parse(directoryPath, rootPath)
+  public static async make(options: OptionsExtended, rootPath?: string): Promise<SvgCollection> {
+    const svgDir = options.svgDir!
+    rootPath = rootPath || svgDir
+    const self = new SvgCollection(options, svgDir, rootPath, [])
+    self.items = await self.parse(svgDir, rootPath)
     self.items.push(await self.addDefaultSvg())
 
     return self
@@ -72,5 +76,21 @@ export class SvgCollection {
     await item.setContent(content)
 
     return item
+  }
+
+  public async write(cacheDir: string): Promise<void> {
+    const basePath = cacheDir
+    const promises = this.items.map(async (item) => {
+      let path = item.getPath().replace('.svg', this.options.useTypes ? '.ts' : '.js')
+      path = `${basePath}${path}`
+
+      await Path.rm(path)
+      const dir = dirname(path)
+      await Path.ensureDirectoryExists(dir)
+
+      return await Path.write(path, `export default '${item.getContent()}'\n`)
+    })
+
+    await Promise.all(promises).then(() => true)
   }
 }

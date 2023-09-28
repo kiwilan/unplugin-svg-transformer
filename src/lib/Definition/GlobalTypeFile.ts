@@ -35,8 +35,8 @@ export class GlobalTypeFile {
       '',
       'declare global {',
       '  interface Window {',
-      '    svgList: Record<SvgType | string, Promise<{ default: string }>>',
-      '    importSvg: (name: SvgType | string) => Promise<string>',
+      '    svgList: Record<SvgName | string, Promise<{ default: string }>>',
+      '    importSvg: (name: SvgName | string) => Promise<string>',
       '  }',
       '}',
       '',
@@ -60,16 +60,16 @@ export class GlobalTypeFile {
         contentFile.push(line)
       if (line === 'interface Window {') {
         interfaceReady = true
-        contentFile.push('  svgList: Record<SvgType | string, Promise<{ default: string }>>')
-        contentFile.push('  importSvg: (name: SvgType | string) => Promise<{ default: string }>')
+        contentFile.push('  svgList: Record<SvgName | string, Promise<{ default: string }>>')
+        contentFile.push('  importSvg: (name: SvgName | string) => Promise<{ default: string }>')
       }
     })
 
     if (!interfaceReady) {
       contentFile.push('declare global {')
       contentFile.push('  interface Window {')
-      contentFile.push('    svgList: Record<SvgType | string, Promise<{ default: string }>>')
-      contentFile.push('    importSvg: (name: SvgType | string) => Promise<{ default: string }>')
+      contentFile.push('    svgList: Record<SvgName | string, Promise<{ default: string }>>')
+      contentFile.push('    importSvg: (name: SvgName | string) => Promise<{ default: string }>')
       contentFile.push('  }')
       contentFile.push('}')
     }

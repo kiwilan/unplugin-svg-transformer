@@ -17,7 +17,8 @@ export class SvgTransformer {
   ) { }
 
   public static async make(options: OptionsExtended): Promise<SvgTransformer> {
-    const self = new SvgTransformer(options, Path.packagePath({ path: 'cache' }))
+    const cacheDir = options.cacheDir || Path.packagePath({ path: 'cache' })
+    const self = new SvgTransformer(options, cacheDir)
     if (options.isNuxt)
       options.libraryDir = options.nuxtDir
 
@@ -26,30 +27,6 @@ export class SvgTransformer {
     await self.write()
 
     return self
-  }
-
-  public getOptions(): OptionsExtended {
-    return this.options
-  }
-
-  public getCacheDir(): string {
-    return this.cacheDir
-  }
-
-  public getSvgCollection(): SvgCollection {
-    return this.collect!
-  }
-
-  public getLibrary(): LibraryFile {
-    return this.library!
-  }
-
-  public getDefinition(): DefinitionFile {
-    return this.definition!
-  }
-
-  public getComponentDefinition(): ComponentDefinitionFile {
-    return this.componentDefinition!
   }
 
   private async handleDirectories(): Promise<void> {
@@ -63,13 +40,10 @@ export class SvgTransformer {
   }
 
   private async parse(): Promise<void> {
-    this.collect = await SvgCollection.make(this.options.svgDir!)
-    this.library = await LibraryFile.make(
-      this.collect.getItems(),
-      this.options,
-    )
-    this.definition = await DefinitionFile.make(this.library.getTypes(), this.options.isNuxt || false)
-    this.componentDefinition = await ComponentDefinitionFile.make(this.library.getTypes())
+    this.collect = await SvgCollection.make(this.options)
+    this.library = await LibraryFile.make(this.collect, this.options)
+    this.definition = await DefinitionFile.make(this.options, this.library.getTypesString(), this.options.isNuxt || false)
+    this.componentDefinition = await ComponentDefinitionFile.make(this.library.getTypesString())
   }
 
   private async write(): Promise<void> {
@@ -79,65 +53,14 @@ export class SvgTransformer {
       await Path.deleteDirectory(cacheDir)
       await Path.ensureDirectoryExists(cacheDir)
     }
-    await this.writeIconFiles(cacheDir)
-    await this.library?.writeAll(this.options.libraryDir!)
+    await this.collect?.write(cacheDir)
+    await this.library?.write()
 
     if (this.options.useTypes) {
-      await this.writeDefinition()
+      await this.definition?.write()
       await this.componentDefinition?.write()
-      // if (this.options.windowInject && this.options.globalType)
-      // await this.writeGlobalTypeFile()
     }
 
-    //   await this.writeDefinition()
-  }
-
-  /**
-   * Write icon file for each SVG into the cache directory.
-   */
-  public async writeIconFiles(cacheDir: string): Promise<boolean> {
-    const basePath = cacheDir
-    const promises = this.collect!.getItems().map(async (item) => {
-      let path = item.getPath().replace('.svg', this.options.useTypes ? '.ts' : '.js')
-      path = `${basePath}${path}`
-
-      await Path.rm(path)
-      const dir = dirname(path)
-      await Path.ensureDirectoryExists(dir)
-
-      return await Path.write(path, `export default '${item.getContent()}'\n`)
-    })
-
-    return await Promise.all(promises).then(() => true)
-  }
-
-  /**
-   * Write the definition files.
-   *
-   * - `icons.d.ts` for Nuxt
-   * - `client.d.ts` for Vite
-   * - `icons.d.ts` for global types
-   */
-  private async writeDefinition(): Promise<void> {
-    const globalPath = Path.rootPath('icons.d.ts')
-    const nuxtPath = `${this.options.nuxtDir}/types/icons.d.ts`
-    const clientPath = Path.packagePath({ dist: false, path: 'client.d.ts' })
-
-    await Path.rm(clientPath)
-    let viteContents = this.definition!.getContents()
-    viteContents = viteContents.replace('\'unplugin-svg-transformer', '\'.')
-    await Path.write(clientPath, viteContents)
-
-    await Path.rm(globalPath)
-    if (this.options.global)
-      await Path.write(globalPath, this.definition!.getContents())
-
-    const viteEnv = Path.rootPath('src/vite-env.d.ts')
-    if (await Path.fileExists(viteEnv))
-      await Path.appendLineIfNotExists(viteEnv, '/// <reference types="unplugin-svg-transformer/client" />')
-
-    await Path.rm(nuxtPath)
-    if (this.options.isNuxt)
-      await Path.write(nuxtPath, this.definition!.getContents())
+    await this.componentDefinition?.write()
   }
 }

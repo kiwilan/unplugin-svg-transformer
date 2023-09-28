@@ -31,6 +31,7 @@ describe('utils', () => {
   it('can get the paths', () => {
     const paths = getPaths()
     const root = Path.rootPath()
+    console.log(root)
 
     expect(typeof paths).toBe('object')
 

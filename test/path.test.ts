@@ -34,6 +34,7 @@ describe('utils', () => {
 
     expect(typeof paths).toBe('object')
 
+    console.log(paths.cacheDir)
     expect(root.endsWith('unplugin-svg-transformer')).toBe(true)
     expect(paths.svgDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons`))
     expect(paths.libraryDir).toBe(Path.normalizePaths(`${process.cwd()}/test`))

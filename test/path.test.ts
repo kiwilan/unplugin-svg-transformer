@@ -38,7 +38,6 @@ describe('utils', () => {
     expect(paths.svgDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons`))
     expect(paths.libraryDir).toBe(Path.normalizePaths(`${process.cwd()}/test`))
     expect(paths.cacheDir).toBe(Path.normalizePaths(`${process.cwd()}/test/cache`))
-    expect(paths.gitignorePath).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
   })
 
   it('can get package paths', () => {

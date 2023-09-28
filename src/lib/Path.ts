@@ -1,4 +1,4 @@
-import fs, { access, readdir, rm, symlink, unlink } from 'node:fs/promises'
+import fs, { access, readdir, readlink, rm, symlink, unlink } from 'node:fs/promises'
 import { dirname, join, relative } from 'node:path'
 import type { Options, OptionsExtended } from '../types'
 
@@ -331,9 +331,32 @@ export class Path {
     target = Path.normalizePaths(target)
     link = Path.normalizePaths(link)
 
-    if (await Path.fileExists(link))
+    await Path.unLink(link)
+
+    if (!await Path.fileExists(target))
+      return
+
+    try {
+      await symlink(target, link)
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
+  public static async unLink(link?: string): Promise<void> {
+    if (!link)
+      return
+
+    link = Path.normalizePaths(link)
+
+    try {
+      await readlink(link)
       await unlink(link)
-    await symlink(target, link)
+    }
+    catch (error) {
+      console.error(error)
+    }
   }
 
   public static relativePath(fromPath: string, toPath: string): string {

@@ -35,6 +35,8 @@ export class ComponentDefinitionFile {
 
   private async replace(file: string, type: 'vue' | 'react'): Promise<string> {
     const path = Path.componentsPath(file)
+    if (!await Path.fileExists(path))
+      return ''
 
     const fileContents = await Path.read(path)
     let contents = fileContents

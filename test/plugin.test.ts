@@ -25,6 +25,7 @@ it('can write svg as ts files', async () => {
   const writer = await SvgTransformer.make({
     svgDir: paths.svgDir,
     libraryDir: paths.libraryDir,
+    cacheDir: paths.cacheDir,
     useTypes: true,
     // windowInject: true,
   })

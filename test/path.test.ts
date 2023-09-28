@@ -31,13 +31,13 @@ describe('utils', () => {
   it('can get the paths', () => {
     const paths = getPaths()
     const root = Path.rootPath()
-    console.log(root)
 
     expect(typeof paths).toBe('object')
 
-    expect(root.endsWith('vite-plugin-svg')).toBe(true)
+    expect(root.endsWith('unplugin-svg-transformer')).toBe(true)
     expect(paths.svgDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons`))
-    expect(paths.libraryDir).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/icons.ts`))
+    expect(paths.libraryDir).toBe(Path.normalizePaths(`${process.cwd()}/test`))
+    expect(paths.cacheDir).toBe(Path.normalizePaths(`${process.cwd()}/test/cache`))
     expect(paths.gitignorePath).toBe(Path.normalizePaths(`${process.cwd()}/test/icons/.gitignore`))
   })
 

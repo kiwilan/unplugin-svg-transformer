@@ -90,3 +90,4 @@ cache
 
 /test/icons/.gitignore
 /global.d.ts
+test/icons.ts

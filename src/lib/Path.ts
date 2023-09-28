@@ -1,4 +1,4 @@
-import fs, { access, readdir, rm, symlink } from 'node:fs/promises'
+import fs, { access, readdir, rm, symlink, unlink } from 'node:fs/promises'
 import { dirname, join, relative } from 'node:path'
 import type { Options, OptionsExtended } from '../types'
 
@@ -330,7 +330,8 @@ export class Path {
   public static async symLink(target: string, link: string): Promise<void> {
     target = Path.normalizePaths(target)
     link = Path.normalizePaths(link)
-    await Path.rm(link)
+
+    await unlink(link)
     await symlink(target, link)
   }
 

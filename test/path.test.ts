@@ -65,6 +65,6 @@ describe('utils', () => {
     const libraryPath3 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/src/icons.ts'
     const iconPath3 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/node_modules/unplugin-svg-transformer/cache/download.ts'
 
-    expect(Path.relativePath(libraryPath3, iconPath3)).toBe(process.platform === 'win32' ? '..\\..\\node_modules\\unplugin-svg-transformer\\cache\\download.ts' : '../../node_modules/unplugin-svg-transformer/cache/download.ts')
+    expect(Path.relativePath(libraryPath3, iconPath3)).toBe(process.platform === 'win32' ? '..\\node_modules\\unplugin-svg-transformer\\cache\\download.ts' : '../node_modules/unplugin-svg-transformer/cache/download.ts')
   })
 })

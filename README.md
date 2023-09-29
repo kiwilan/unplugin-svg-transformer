@@ -216,6 +216,8 @@ An example of `svgDir` directory:
 └── ...
 ```
 
+This example will give you this list: `['download', 'social/twitter', 'vite']`.
+
 > **Note**
 >
 > A symlink of this directory will be created into `unplugin-svg-transformer/cache`.

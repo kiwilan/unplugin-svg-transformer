@@ -51,6 +51,8 @@ const list = svgList // as Record<SvgName, () => Promise<{ default: string }>>
 - [ ] Add Nuxt 2 support
 - [ ] Add more tests
 - [ ] Add SVGO support
+- [ ] Add options of `nuxt-svg-transformer` module
+- [ ] Add default SVG option
 
 ## Install
 
@@ -186,7 +188,7 @@ build({
 ### Options
 
 - `svgDir`: `string` - Directory to watch SVG files. Default: `./src/svg` (for Nuxt 3, it's `./assets/svg`)
-- `libraryDir`: `string` - Directory to create library file. Default: `./src` (for Nuxt 3, it's `./`)
+- `libraryDir`: `string` - Directory to create library file. Default: `./src` (for Nuxt 3, it's `./.nuxt`)
 - `useTypes`: `boolean` - Use TypeScript or JavaScript. Default: `true`
 - `global`: `boolean` - Add `icons.d.ts`, global type file at root of project. Default: `false` (you might have to add `include: ["icons.d.ts"]` into `tsconfig.json`)
 - `cacheDir`: `string` - Directory to create cache files. Default: `./node_modules/unplugin-svg-transformer/cache`
@@ -224,7 +226,7 @@ This example will give you this list: `['download', 'social/twitter', 'vite']`.
 
 ### Library file
 
-In plugin options, you can add a directory to choose where to create library file: `libraryDir`. By default, it's `./src` (for Nuxt 3, it's `./`). A library file will be created, `icons.ts` (or `icons.js` if `useTypes` is set to `false`), into this directory. This file will list all SVG files, used by `importSvg` function.
+In plugin options, you can add a directory to choose where to create library file: `libraryDir`. By default, it's `./src` (for Nuxt 3, it's `./.nuxt`). A library file will be created, `icons.ts` (or `icons.js` if `useTypes` is set to `false`), into this directory. This file will list all SVG files, used by `importSvg` function.
 
 With TypeScript, `SvgName` type is available. And with JavaScript or TypeScript, you can use `svgList` and `importSvg` function. SVG list is updated when you add, remove or update a SVG file.
 
@@ -262,9 +264,12 @@ import type { SvgName } from 'unplugin-svg-transformer/icons'
 import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
 
 const icon: SvgName = 'svg-name'
-const svg = await importSvg('svg-name')
+const icon = await importSvg('svg-name')
 // or
-const svg = importSvg('svg-name').then(svg => svg)
+const icon = ''
+importSvg('svg-name').then((svg) => {
+  icon = svg
+})
 ```
 
 You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions (not SSR compatible).
@@ -280,19 +285,22 @@ With some frameworks, you don't have to create your own component, you can use r
 > **Warning**
 >
 > Assure you have import `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`) when you use ready-to-use components: `import 'unplugin-svg-transformer/icons'` (except for Nuxt).
-
-```ts
-// main.ts
-import 'unplugin-svg-transformer/icons'
-```
+>
+>```ts
+>// main.ts
+>import 'unplugin-svg-transformer/icons'
+>```
 
 - For Vue 3, you can use a plugin to register globally `SvgIcon` component with `SvgTransformerPlugin` from `unplugin-svg-transformer/vue` and use `SvgIcon` component directly. But you can just import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component.
 - For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`
-- For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
 - For Nuxt 3, you have a globally registered `SvgIcon` component, you can use `SvgIcon` component directly. You have an alias to use easily icons: `#icons`, same as `unplugin-svg-transformer/icons`.
-- For vanilla JS or TS, you can import `importSvg` function from `unplugin-svg-transformer/icons` to import SVG file.
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
+
+#### Create your own component
+
+- For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
+- For vanilla JS or TS, you can import `importSvg` function from `unplugin-svg-transformer/icons` to import SVG file.
 
 ### TypeScript
 
@@ -308,7 +316,7 @@ import type { SvgName } from 'unplugin-svg-transformer/icons'
 const icon: SvgName = 'svg-name'
 ```
 
-If you use Vite with JS framework or Nuxt, `SvgName` is globally imported by default. But if you use Vite with vanilla JS or TS and you want to globally import `SvgName`, you can add `global` option to `true` in plugin options. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
+If you use Vite (with Vue, React or Svelte) or Nuxt, `SvgName` is globally imported by default. But if you use another bundler or vanilla JS/TS and you want to globally import `SvgName`, you can add `global` option to `true` in plugin options to create `icons.d.ts` at root of project to add `SvgName` globally. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
 
 ```ts
 // vite.config.ts
@@ -332,6 +340,8 @@ An example with Vue 3 and Vite.
 <details>
 <summary>Vue 3</summary><br>
 
+You can skip `SvgTransformerPlugin` registration, this plugin will only load `SvgIcon` component globally, you can import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component. But you have to import `unplugin-svg-transformer/icons` in `main.ts` if you want to use `SvgIcon` component.
+
 ```diff
 // main.ts
 import { createApp } from "vue";
@@ -348,7 +358,7 @@ createApp(App)
 
 #### Inertia
 
-An example with [Laravel Jetstream](https://jetstream.laravel.com/) ([Inertia](https://inertiajs.com/)) and Vite.
+An example with [Laravel Jetstream](https://jetstream.laravel.com/) ([Inertia](https://inertiajs.com/)) and Vite. This example will use TypeScript, but it works with JavaScript. For TypeScript, you will have to create `tsconfig.json` file at root of project, here a [example](https://gist.github.com/ewilan-riviere/616dc2bb9da36e4ed77068628719a00a).
 
 <details>
 <summary>Inertia</summary><br>
@@ -395,12 +405,13 @@ export default defineConfig({
 +   svgTransformer({
 +     svgDir: "./resources/js/Svg",
 +     libraryDir: "./resources/js",
++     global: true,
 +   }),
   ],
 });
 ```
 
-Just replace `app.js` to `app.ts` into `resources/js`.
+Just replace `app.js` to `app.ts` into `resources/js` (and root Blade file).
 
 ```diff
 // app.ts

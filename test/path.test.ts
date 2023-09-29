@@ -55,16 +55,16 @@ describe('utils', () => {
     const libraryPath1 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/icons.ts'
     const iconPath1 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/cache/download.ts'
 
-    expect(Path.relativePath(libraryPath1, iconPath1)).toBe('./cache/download.ts')
+    expect(Path.relativePath(libraryPath1, iconPath1)).toBe(process.platform === 'win32' ? './cache\\download.ts' : './cache/download.ts')
 
     const libraryPath2 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/src/icons.ts'
     const iconPath2 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/cache/download.ts'
 
-    expect(Path.relativePath(libraryPath2, iconPath2)).toBe('../cache/download.ts')
+    expect(Path.relativePath(libraryPath2, iconPath2)).toBe(process.platform === 'win32' ? '..\\cache\\download.ts' : '../cache/download.ts')
 
     const libraryPath3 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/src/icons.ts'
     const iconPath3 = '/Users/ewilan/Workspace/vite-plugin-svg/examples/ts/node_modules/unplugin-svg-transformer/cache/download.ts'
 
-    expect(Path.relativePath(libraryPath3, iconPath3)).toBe('../node_modules/unplugin-svg-transformer/cache/download.ts')
+    expect(Path.relativePath(libraryPath3, iconPath3)).toBe(process.platform === 'win32' ? '..\\..\\node_modules\\unplugin-svg-transformer\\cache\\download.ts' : '../../node_modules/unplugin-svg-transformer/cache/download.ts')
   })
 })

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import type { Display } from './shared'
-import { defaultSvg } from './shared'
+import { defaultSvg, warningSvg } from './shared'
 
 interface Props {
   className?: string
@@ -20,6 +20,12 @@ function ReactSvg({ className, style, name, display }: Props): JSX.Element {
   async function getSvg() {
     setCurrent('')
     const wd = window as any
+    if (!wd || !wd.importSvg) {
+      setCurrent(warningSvg)
+      console.warn('[unplugin-svg-transformer] Error: window.importSvg is not defined, you should import `unplugin-svg-transformer/icons` into your main file.')
+
+      return
+    }
     setCurrent(await wd.importSvg(name))
   }
 

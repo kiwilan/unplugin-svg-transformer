@@ -34,7 +34,7 @@ const VueSvg = defineComponent({
       const wd = window as { importSvg?: (name: string) => Promise<string> }
       if (!wd || !wd.importSvg) {
         current.value = warningSvg
-        console.warn('[unplugin-svg-transformer] Error: window.importSvg is not defined, you should import `icons.ts` into your main file.')
+        console.warn('[unplugin-svg-transformer] Error: window.importSvg is not defined, you should import `unplugin-svg-transformer/icons` into your main file.')
 
         return
       }

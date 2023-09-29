@@ -479,6 +479,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Credits
 
+- [UnJS](https://github.com/unjs): UnJS team for [`unplugin`](https://github.com/unjs/unplugin)
 - [`ewilan-riviere`](https://github.com/ewilan-riviere): author
 - [`antfu`](https://github.com/antfu/unplugin-starter): for the starter template
 

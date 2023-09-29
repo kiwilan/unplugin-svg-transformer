@@ -338,7 +338,7 @@ export default defineConfig({
 An example with Vue 3 and Vite.
 
 <details>
-<summary>Vue 3</summary><br>
+<summary>Click to see example</summary><br>
 
 You can skip `SvgTransformerPlugin` registration, this plugin will only load `SvgIcon` component globally, you can import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component. But you have to import `unplugin-svg-transformer/icons` in `main.ts` if you want to use `SvgIcon` component.
 
@@ -361,9 +361,7 @@ createApp(App)
 An example with [Laravel Jetstream](https://jetstream.laravel.com/) ([Inertia](https://inertiajs.com/)) and Vite. This example will use TypeScript, but it works with JavaScript. For TypeScript, you will have to create `tsconfig.json` file at root of project, here a [example](https://gist.github.com/ewilan-riviere/616dc2bb9da36e4ed77068628719a00a).
 
 <details>
-<summary>Inertia</summary><br>
-
-Example here with Laravel Jetstream,
+<summary>CLick to see example</summary><br>
 
 > **Note**
 >
@@ -447,6 +445,34 @@ And you can use globally registered `SvgIcon` component.
     <SvgIcon name="svg-name" />
   </div>
 </template>
+```
+
+<br></details>
+
+#### React
+
+An example with React and Vite.
+
+<details>
+<summary>Click to see example</summary><br>
+
+You have to import `unplugin-svg-transformer/icons` only once in `main.tsx` (or `app.tsx`), you can use `SvgIcon` component if you import it from `unplugin-svg-transformer/react`.
+
+```diff
+// main.tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
++import { SvgIcon } from 'unplugin-svg-transformer/react'
+import './index.css'
++import 'unplugin-svg-transformer/icons'
+
+const root = document.getElementById('root') as HTMLElement
+ReactDOM.createRoot(root).render(
+  <React.StrictMode>
+    hello
++   <SvgIcon name="svg-name" className='icon' />
+  </React.StrictMode>,
+)
 ```
 
 <br></details>

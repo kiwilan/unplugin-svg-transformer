@@ -3,12 +3,14 @@ import type { Configuration } from 'webpack'
 import type { InlineConfig } from 'vite'
 import type { WatchEvent } from '@nuxt/schema'
 import { name, version } from '../package.json'
-import type { NuxtOptions, Options, OptionsExtended } from './types'
+import type { NuxtOptions, OptionsExtended } from './types'
 import { Path } from './lib/Path'
 import unplugin from '.'
 
-const DEFAULT_OPTIONS: Options = {
+const DEFAULT_OPTIONS: NuxtOptions = {
   svgDir: './assets/svg',
+  fallback: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+  log: true,
 }
 
 async function readTypes(opts: OptionsExtended): Promise<string> {

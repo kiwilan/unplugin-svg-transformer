@@ -15,6 +15,7 @@ export class DefinitionFile {
     const self = new DefinitionFile(options, types)
 
     await self.checkVue()
+    const optionsType = '{ fallback?: string, libraryDir?: string, useTypes?: boolean, global?: boolean, cacheDir?: string, isTesting?: boolean, isNuxt?: boolean, nuxtDir?: string }'
 
     let contents = [
       '/* eslint-disable */',
@@ -26,8 +27,11 @@ export class DefinitionFile {
       'declare global {',
       `  ${types}`,
       '  interface Window {',
-      '    svgList: Record<SvgName, () => Promise<{ default: string }>>',
-      '    importSvg: (name: SvgName) => Promise<string>',
+      '    ust: {',
+      `      options: ${optionsType}`,
+      '      svgList: Record<SvgName, () => Promise<{ default: string }>>',
+      '      importSvg: (name: SvgName) => Promise<string>',
+      '    }',
       '  }',
       '}',
       '',
@@ -48,8 +52,11 @@ export class DefinitionFile {
     if (!isNuxt) {
       contents = [
         ...contents,
-        'window.svgList = window.svgList || {}',
-        'window.importSvg = importSvg || function () {}',
+        'window.ust = {',
+        '  options: options || {},',
+        '  svgList: svgList || {},',
+        '  importSvg: importSvg || function () {},',
+        '} || {}',
         '',
       ]
     }

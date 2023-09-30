@@ -28,7 +28,7 @@ const list = svgList // as Record<SvgName, () => Promise<{ default: string }>>
 
 > **Note**
 >
-> A demo is available on [Stackblitz](https://stackblitz.com/github/ewilan-riviere/unplugin-svg-transformer-example?file=README.md) or directly on [github.com/ewilan-riviere/unplugin-svg-transformer-exampl](https://github.com/ewilan-riviere/unplugin-svg-transformer-example).
+> A demo is available on [Stackblitz](https://stackblitz.com/github/ewilan-riviere/unplugin-svg-transformer-example?file=README.md) or directly on [github.com/ewilan-riviere/unplugin-svg-transformer-example](https://github.com/ewilan-riviere/unplugin-svg-transformer-example).
 
 ## Features
 
@@ -187,15 +187,20 @@ build({
 
 ### Options
 
-- `svgDir`: `string` - Directory to watch SVG files. Default: `./src/svg` (for Nuxt 3, it's `./assets/svg`)
+> **Note**
+>
+> Options with ⛰️ are available for Nuxt 3.
+
+- ⛰️ `svgDir`: `string` - Directory to watch SVG files. Default: `./src/svg` (for Nuxt 3, it's `./assets/svg`)
+- ⛰️ `fallback`: `string` - Fallback if SVG not found. Default: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
+- ⛰️ `log`: `boolean` - Trigger console warning when SVG not found. Default: `true`
+- ⛰️ `display`: `Display` - CSS `display` property. Default: `inline-block`
 - `libraryDir`: `string` - Directory to create library file. Default: `./src` (for Nuxt 3, it's `./.nuxt`)
 - `useTypes`: `boolean` - Use TypeScript or JavaScript. Default: `true`
 - `global`: `boolean` - Add `icons.d.ts`, global type file at root of project. Default: `false` (you might have to add `include: ["icons.d.ts"]` into `tsconfig.json`)
 - `cacheDir`: `string` - Directory to create cache files. Default: `./node_modules/unplugin-svg-transformer/cache`
 
-> **Note**
->
-> For Nuxt users, only `svgDir` option is available because Nuxt 3 use TypeScript by default and cache is set to `.nuxt`.
+
 
 ### Add your SVG files
 
@@ -234,6 +239,7 @@ An example of `icons.ts` file:
 
 ```ts
 export type SvgName = 'download' | 'social/twitter' | 'vite' | 'default'
+export const options = {}
 export const svgList: Record<SvgName, () => Promise<{ default: string }>> = {
   'download': () => import('../node_modules/unplugin-svg-transformer/cache/download'),
   'social/twitter': () => import('../node_modules/unplugin-svg-transformer/cache/social/twitter'),
@@ -246,8 +252,9 @@ export async function importSvg(name: SvgName): Promise<string> {
 }
 
 if (typeof window !== 'undefined') {
-  window.svgList = svgList
-  window.importSvg = importSvg
+  window.ust.options = options
+  window.ust.svgList = svgList
+  window.ust.importSvg = importSvg
 }
 ```
 
@@ -257,21 +264,25 @@ You can easily import a SVG file with `importSvg` function from `unplugin-svg-tr
 
 ```ts
 import type { SvgName } from 'unplugin-svg-transformer/icons'
-import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
+import { importSvg, options, svgList } from 'unplugin-svg-transformer/icons'
 
+// `SvgName` type represents SVG file name
 const icon: SvgName = 'svg-name'
+// importSvg function is async, you can use `await` or `then` method
 const icon = await importSvg('svg-name')
 // or
 const icon = ''
 importSvg('svg-name').then((svg) => {
   icon = svg
 })
+
+const fallback = options.fallback // All options are available
 ```
 
-You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions (not SSR compatible).
+You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions from `ust` (not SSR compatible).
 
 ```ts
-const svg = await window.importSvg('svg-name')
+const svg = await window.ust.importSvg('svg-name')
 ```
 
 #### Ready-to-use components
@@ -329,7 +340,7 @@ If you use Vite (with Vue, React or Svelte) or Nuxt, `SvgName` is globally impor
 And enable `global` option in plugin options.
 
 ```ts
-// vite.config.ts
+// vite.config.ts (or webpack.config.js, rollup.config.js, ...)
 import svgTransformer from 'unplugin-svg-transformer/vite'
 
 export default defineConfig({

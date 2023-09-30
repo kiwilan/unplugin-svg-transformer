@@ -1,6 +1,7 @@
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
-import { type Display, defaultSvg, warningSvg } from './shared'
+import { defaultSvg, warningSvg } from './shared'
+import type { Display, LibraryType } from './shared'
 
 const VueSvg = defineComponent({
   name: 'SvgIcon',
@@ -18,7 +19,7 @@ const VueSvg = defineComponent({
   setup(props, { attrs }) {
     const defaultSSR = defaultSvg(props.name, true)
     const current = ref<string>(defaultSSR)
-
+    const reactive = ref(false)
     const attributes = ref({
       ...(attrs as Record<string, any>),
       style: {
@@ -31,19 +32,23 @@ const VueSvg = defineComponent({
 
     async function getSvg() {
       current.value = ''
-      const wd = window as { importSvg?: (name: string) => Promise<string> }
-      if (!wd || !wd.importSvg) {
+      const wd = window as unknown as LibraryType
+      if (!wd || !wd.ust || !wd.ust.importSvg) {
         current.value = warningSvg
         console.warn('[unplugin-svg-transformer] Error: window.importSvg is not defined, you should import `unplugin-svg-transformer/icons` into your main file.')
 
         return
       }
-      current.value = await wd.importSvg(props.name)
+
+      reactive.value = wd.ust.options.reactive || false
+      current.value = await wd.ust.importSvg(props.name)
     }
 
-    watch(() => props.name, async () => {
-      await getSvg()
-    })
+    if (reactive.value) {
+      watch(() => props.name, async () => {
+        await getSvg()
+      })
+    }
 
     onMounted(async () => {
       await getSvg()

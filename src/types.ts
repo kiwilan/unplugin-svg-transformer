@@ -1,4 +1,6 @@
-export interface NuxtOptions {
+import type { Display } from './render/shared'
+
+export interface NuxtOptions extends Options {
   /**
    * Directory where your SVG files are located.
    *
@@ -8,6 +10,86 @@ export interface NuxtOptions {
 }
 
 export interface Options {
+  /**
+   * Default SVG displayed when the SVG is not found.
+   *
+   * @default
+   * ```html
+   * <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+   * ```
+   */
+  fallback?: string
+  /**
+   * Trigger a warning when the SVG is not found.
+   *
+   * @default true
+   */
+  log?: boolean
+  /**
+   * **Only for Vue 3, React and Nuxt 3** if you ready-to-use components.
+   */
+  component?: {
+    /**
+     * CSS default `display` property for component.
+     *
+     * @default `inline-block`
+     */
+    display?: Display
+    /**
+     * Set `watch` hook for `name` prop for component.
+     *
+     * @default false
+     */
+    reactive?: boolean
+    /**
+     * Global options to toggle title attribute on icon based on SVG filename. If you set title on any SvgIcon component, it will override this option.
+     */
+    title?: boolean
+  }
+  /**
+   * SVG will be rendered as a string, so it's possible to add custom attributes.
+   */
+  svg?: {
+    /**
+     * Add default classes to all SVG.
+     *
+     * @default undefined
+     */
+    classDefault?: string
+    /**
+     * Add default inline style to all SVG.
+     *
+     * @default undefined
+     */
+    styleDefault?: string
+    /**
+     * Global options to toggle size inheritance, inline style `height: inherit; width: inherit;`.
+     *
+     * @default false
+     */
+    sizeInherit?: boolean
+    /**
+     * Clear classes from SVG (can be all, just parent on `<svg>` or none).
+     *
+     * @default `none`
+     */
+    clearClass?: 'all' | 'parent' | 'none'
+    /**
+     * Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none).
+     *
+     * @default `none`
+     */
+    clearSize?: 'all' | 'parent' | 'none'
+    /**
+     * Clear inline styles from SVG (can be all, just parent on `<svg>` or none).
+     *
+     * @default `none`
+     */
+    clearStyle?: 'all' | 'parent' | 'none'
+  }
+}
+
+export interface PluginOptions extends Options {
   /**
    * Directory where your SVG files are located.
    *
@@ -57,7 +139,7 @@ export interface Options {
   cacheDir?: string
 }
 
-export interface OptionsExtended extends Options {
+export interface OptionsExtended extends PluginOptions {
   isTesting?: boolean
   isNuxt?: boolean
   nuxtDir?: string

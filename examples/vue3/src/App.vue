@@ -7,7 +7,7 @@ import { importSvg, svgList } from './icons'
 const icon = ref<string>()
 
 async function fetchIcon() {
-  icon.value = await window.importSvg('vue-2')
+  icon.value = await window.ust.importSvg('vue-2')
 }
 fetchIcon()
 
@@ -23,10 +23,14 @@ importMethod('vue-2')
 <template>
   <div>
     Vue 3
-    <div v-html="icon" />
+    <div>
+      fetchIcon
+      <div v-html="icon" />
+    </div>
     <VueSvg name="vite" />
     <SvgIcon name="vite" />
     <VueSvg name="vue-2" />
     <SvgIcon name="vue-2" />
+    <VueSvg name="vue-3" />
   </div>
 </template>

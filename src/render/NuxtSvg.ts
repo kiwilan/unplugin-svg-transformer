@@ -1,6 +1,7 @@
 /* eslint-disable ts/ban-ts-comment */
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
+import type { Display } from './shared'
 import { defaultSvg, ssr } from './shared'
 
 // @ts-nocheck
@@ -15,7 +16,7 @@ const NuxtSvg = defineComponent({
       required: true,
     },
     display: {
-      type: String as PropType<'block' | 'inline-block' | 'inline' | 'flex' | 'inline-flex' | 'none' | 'grid' | 'inline-grid' | 'contents' | 'flow' | 'flow-root' | 'table' | 'table-row' | 'table-cell' | false>,
+      type: String as PropType<Display>,
       required: false,
       default: 'inline-block',
     },

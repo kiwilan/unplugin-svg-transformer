@@ -48,8 +48,10 @@ export class LibraryFile {
       ]
     }
 
+    const options = JSON.stringify(this.parseOptions())
     content = [
       ...content,
+      `export const options = ${options}`,
       this.options.useTypes ? 'export const svgList: Record<SvgName, () => Promise<{ default: string }>> = {' : 'export const svgList = {',
     ]
 
@@ -63,7 +65,6 @@ export class LibraryFile {
 
       if (this.options.isNuxt)
         path = `./icons${baseIconPath}`
-        // path = `./.nuxt/icons${baseIconPath}`
 
       content.push(`  '${item.getName()}': () => import('${path}'),`)
     })
@@ -73,7 +74,7 @@ export class LibraryFile {
       '}',
       '',
       this.options.useTypes ? 'export async function importSvg(name: SvgName): Promise<string> {' : 'export async function importSvg(name) {',
-      '  if (!svgList[name])',
+      '  if (!svgList[name] && options.log)',
       // eslint-disable-next-line no-template-curly-in-string
       '    console.warn(`Icon ${name} not found`)',
       '  name = svgList[name] || svgList["default"]',
@@ -89,14 +90,38 @@ export class LibraryFile {
         ...content,
         '',
         'if (typeof window !== \'undefined\') {',
-        '  window.svgList = svgList',
-        '  window.importSvg = importSvg',
+        '  window.ust = window.ust || {}',
+        '  window.ust.options = options',
+        '  window.ust.svgList = svgList',
+        '  window.ust.importSvg = importSvg',
         '}',
         '',
       ]
     }
 
     return content.join('\n')
+  }
+
+  private parseOptions(): OptionsExtended {
+    return {
+      cacheDir: this.parseOptionPath(this.options.cacheDir),
+      fallback: this.options.fallback,
+      global: this.options.global || false,
+      isNuxt: this.options.isNuxt || false,
+      isTesting: this.options.isTesting || false,
+      libraryDir: this.parseOptionPath(this.options.libraryDir),
+      nuxtDir: this.parseOptionPath(this.options.nuxtDir),
+      svgDir: this.parseOptionPath(this.options.svgDir),
+      useTypes: this.options.useTypes || false,
+    }
+  }
+
+  private parseOptionPath(path?: string): string | undefined {
+    if (!path)
+      return undefined
+
+    path = path.replace(`${Path.rootPath()}/`, '')
+    return `./${path}`
   }
 
   /**

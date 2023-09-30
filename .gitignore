@@ -91,3 +91,4 @@ cache
 /test/icons/.gitignore
 /global.d.ts
 test/icons.ts
+CHANGELOG-release.md

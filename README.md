@@ -311,8 +311,8 @@ const icon: SvgName = 'svg-name'
 
 If you use Vite (with Vue, React or Svelte) or Nuxt, `SvgName` is globally imported by default. But if you use another bundler or vanilla JS/TS and you want to globally import `SvgName`, you can add `global` option to `true` in plugin options to create `icons.d.ts` at root of project to add `SvgName` globally. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
 
-```json
-// tsconfig.json
+```jsonc
+// tsconfig.json, if you enabled `global` option.
 {
   "include": ["icons.d.ts"]
 }

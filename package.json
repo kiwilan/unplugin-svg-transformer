@@ -18,8 +18,13 @@
     "vite",
     "webpack",
     "rollup",
-    "transform",
-    "svg"
+    "svg",
+    "react",
+    "javascript",
+    "typescript",
+    "vue",
+    "icons",
+    "nuxt"
   ],
   "exports": {
     ".": {

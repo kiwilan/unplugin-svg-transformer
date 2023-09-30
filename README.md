@@ -11,10 +11,6 @@
 [![codecov][codecov-src]][codecov-href]
 [![style][style-src]][style-href]
 
-> **Warning**
->
-> EXPERIMENTAL: This project is still in early development, and may face breaking changes in the future.
-
 Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
 Use SVG into modern tools is not easy, especially when you want to use SVG as component. This plugin will parse your SVG files and create a cache file to import them easily with a library index file. It works with any framework with Vite/Webpack, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework. Built for TypeScript, but works with JavaScript.
@@ -29,6 +25,10 @@ const icon: SvgName = 'svg-name'
 const svg = await importSvg('svg-name') // param fully typed (SvgName), string output
 const list = svgList // as Record<SvgName, () => Promise<{ default: string }>>
 ```
+
+> **Note**
+>
+> A demo is available on [Stackblitz](https://stackblitz.com/github/ewilan-riviere/unplugin-svg-transformer-example?file=README.md) or directly on [github.com/ewilan-riviere/unplugin-svg-transformer-exampl](https://github.com/ewilan-riviere/unplugin-svg-transformer-example).
 
 ## Features
 
@@ -361,7 +361,7 @@ createApp(App)
 An example with [Laravel Jetstream](https://jetstream.laravel.com/) ([Inertia](https://inertiajs.com/)) and Vite. This example will use TypeScript, but it works with JavaScript. For TypeScript, you will have to create `tsconfig.json` file at root of project, here a [example](https://gist.github.com/ewilan-riviere/616dc2bb9da36e4ed77068628719a00a).
 
 <details>
-<summary>CLick to see example</summary><br>
+<summary>Click to see example</summary><br>
 
 > **Note**
 >

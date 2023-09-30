@@ -309,7 +309,15 @@ import type { SvgName } from 'unplugin-svg-transformer/icons'
 const icon: SvgName = 'svg-name'
 ```
 
+If you use only JavaScript you can import your SVG with same way without type validation.
+
+#### Global type
+
 If you use Vite (with Vue, React or Svelte) or Nuxt, `SvgName` is globally imported by default. But if you use another bundler or vanilla JS/TS and you want to globally import `SvgName`, you can add `global` option to `true` in plugin options to create `icons.d.ts` at root of project to add `SvgName` globally. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
+
+> **Note**
+>
+> With Vue, React and Svelte, this plugin use `vite-env.d.ts` to add `SvgName` globally, `global` option is not needed (same for Nuxt).
 
 ```jsonc
 // tsconfig.json, if you enabled `global` option.
@@ -318,9 +326,7 @@ If you use Vite (with Vue, React or Svelte) or Nuxt, `SvgName` is globally impor
 }
 ```
 
-> **Note**
->
-> With Vue, React and Svelte, this plugin use `vite-env.d.ts` to add `SvgName` globally.
+And enable `global` option in plugin options.
 
 ```ts
 // vite.config.ts
@@ -334,8 +340,6 @@ export default defineConfig({
   ],
 })
 ```
-
-If you use only JavaScript you can import your SVG with same way without type validation.
 
 ### Advanced examples
 

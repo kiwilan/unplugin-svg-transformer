@@ -80,11 +80,11 @@ export default defineConfig({
 })
 ```
 
-Examples:
+Examples for Vue, React and Svelte:
 
-- [`examples/vue3`](./examples/vue3)
-- [`examples/react`](./examples/react)
-- [`examples/svelte`](./examples/svelte)
+- [`live/vue3`](./live/vue3)
+- [`live/react`](./live/react)
+- [`live/svelte`](./live/svelte)
 
 <br></details>
 
@@ -140,7 +140,7 @@ export default defineNuxtConfig({
 
 > This module works for Nuxt 3 only
 
-Example: [`examples/nuxt3`](./examples/nuxt3)
+Example: [`live/nuxt3`](./live/nuxt3)
 
 <br></details>
 
@@ -220,10 +220,6 @@ An example of `svgDir` directory:
 
 This example will give you this list: `['download', 'social/twitter', 'vite']`.
 
-> **Note**
->
-> A symlink of this directory will be created into `unplugin-svg-transformer/cache`.
-
 ### Library file
 
 In plugin options, you can add a directory to choose where to create library file: `libraryDir`. By default, it's `./src` (for Nuxt 3, it's `./.nuxt`). A library file will be created, `icons.ts` (or `icons.js` if `useTypes` is set to `false`), into this directory. This file will list all SVG files, used by `importSvg` function.
@@ -284,7 +280,7 @@ With some frameworks, you don't have to create your own component, you can use r
 
 > **Warning**
 >
-> Assure you have import `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`) when you use ready-to-use components: `import 'unplugin-svg-transformer/icons'` (except for Nuxt).
+> Assure you have import `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`) when you use ready-to-use components: `import 'unplugin-svg-transformer/icons'` (except for Nuxt). Why? Because ready-to-use components use `window` to access to `importSvg` function (of course for Nuxt 3, you don't have to import `unplugin-svg-transformer/icons` because component use `#icons` alias).
 >
 >```ts
 >// main.ts
@@ -292,23 +288,20 @@ With some frameworks, you don't have to create your own component, you can use r
 >```
 
 - For Vue 3, you can use a plugin to register globally `SvgIcon` component with `SvgTransformerPlugin` from `unplugin-svg-transformer/vue` and use `SvgIcon` component directly. But you can just import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component.
-- For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`
+- For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`.
 - For Nuxt 3, you have a globally registered `SvgIcon` component, you can use `SvgIcon` component directly. You have an alias to use easily icons: `#icons`, same as `unplugin-svg-transformer/icons`.
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
 
 #### Create your own component
 
-- For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte)
+- For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte).
 - For vanilla JS or TS, you can import `importSvg` function from `unplugin-svg-transformer/icons` to import SVG file.
+- For Vue or React, you can create your own component like with Svelte.
 
-### TypeScript
+### TypeScript or JavaScript
 
-> **Note**
->
-> You can use JavaScript only with `useTypes` option set to `false`.
-
-You can use `SvgName` type to validate your SVG file name.
+To use JavaScript only, set `useTypes` option to `false`, but this plugin is built for TypeScript first. You can use `SvgName` type to validate your SVG file name.
 
 ```ts
 import type { SvgName } from 'unplugin-svg-transformer/icons'
@@ -317,6 +310,17 @@ const icon: SvgName = 'svg-name'
 ```
 
 If you use Vite (with Vue, React or Svelte) or Nuxt, `SvgName` is globally imported by default. But if you use another bundler or vanilla JS/TS and you want to globally import `SvgName`, you can add `global` option to `true` in plugin options to create `icons.d.ts` at root of project to add `SvgName` globally. You might have to add `include: ["icons.d.ts"]` into `tsconfig.json`.
+
+```json
+// tsconfig.json
+{
+  "include": ["icons.d.ts"]
+}
+```
+
+> **Note**
+>
+> With Vue, React and Svelte, this plugin use `vite-env.d.ts` to add `SvgName` globally.
 
 ```ts
 // vite.config.ts
@@ -330,6 +334,8 @@ export default defineConfig({
   ],
 })
 ```
+
+If you use only JavaScript you can import your SVG with same way without type validation.
 
 ### Advanced examples
 

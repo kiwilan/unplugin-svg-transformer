@@ -22,12 +22,12 @@ Use SVG into modern tools is not easy, especially when you want to use SVG as co
 > If you want to use SVG from icon sets, you should use [`unplugin-icons`](https://github.com/unplugin/unplugin-icons), a very good plugin from [unplugin](https://github.com/unplugin). `unplugin-svg-transformer` is good for custom SVG.
 
 ```ts
-import type { SvgName } from 'unplugin-svg-transformer/icons'
-import { importSvg, svgList } from 'unplugin-svg-transformer/icons'
+import type { SvgName } from "unplugin-svg-transformer/icons";
+import { importSvg, svgList } from "unplugin-svg-transformer/icons";
 
-const icon: SvgName = 'svg-name'
-const svg = await importSvg('svg-name') // param fully typed (SvgName), string output
-const list = svgList // as Record<SvgName, () => Promise<{ default: string }>>
+const icon: SvgName = "svg-name";
+const svg = await importSvg("svg-name"); // param fully typed (SvgName), string output
+const list = svgList; // as Record<SvgName, () => Promise<{ default: string }>>
 ```
 
 > **Note**
@@ -71,7 +71,7 @@ yarn add unplugin-svg-transformer -D
 
 ```ts
 // vite.config.ts
-import svgTransformer from 'unplugin-svg-transformer/vite'
+import svgTransformer from "unplugin-svg-transformer/vite";
 
 export default defineConfig({
   plugins: [
@@ -79,7 +79,7 @@ export default defineConfig({
       /* options */
     }),
   ],
-})
+});
 ```
 
 Examples for Vue, React and Svelte:
@@ -95,7 +95,7 @@ Examples for Vue, React and Svelte:
 
 ```ts
 // rollup.config.js
-import svgTransformer from 'unplugin-svg-transformer/rollup'
+import svgTransformer from "unplugin-svg-transformer/rollup";
 
 export default {
   plugins: [
@@ -103,7 +103,7 @@ export default {
       /* options */
     }),
   ],
-}
+};
 ```
 
 <br></details>
@@ -116,11 +116,11 @@ export default {
 module.exports = {
   /* ... */
   plugins: [
-    require('unplugin-svg-transformer/webpack')({
+    require("unplugin-svg-transformer/webpack")({
       /* options */
     }),
   ],
-}
+};
 ```
 
 <br></details>
@@ -132,12 +132,12 @@ module.exports = {
 // nuxt.config.ts
 export default defineNuxtConfig({
   buildModules: [
-    'unplugin-svg-transformer/nuxt', // https://github.com/kiwilan/unplugin-svg-transformer
+    "unplugin-svg-transformer/nuxt", // https://github.com/kiwilan/unplugin-svg-transformer
   ],
   svgTransformer: {
     /* options */
   },
-})
+});
 ```
 
 > This module works for Nuxt 3 only
@@ -154,12 +154,12 @@ Example: [`live/nuxt3`](./live/nuxt3)
 module.exports = {
   configureWebpack: {
     plugins: [
-      require('unplugin-svg-transformer/webpack')({
+      require("unplugin-svg-transformer/webpack")({
         /* options */
       }),
     ],
   },
-}
+};
 ```
 
 <br></details>
@@ -169,8 +169,8 @@ module.exports = {
 
 ```ts
 // esbuild.config.js
-import { build } from 'esbuild'
-import svgTransformer from 'unplugin-svg-transformer/esbuild'
+import { build } from "esbuild";
+import svgTransformer from "unplugin-svg-transformer/esbuild";
 
 build({
   plugins: [
@@ -178,7 +178,7 @@ build({
       /* options */
     }),
   ],
-})
+});
 ```
 
 <br></details>
@@ -193,16 +193,23 @@ build({
 >
 > Options with ⛰️ are available for Nuxt 3.
 
-- ⛰️ `svgDir`: `string` - Directory to watch SVG files. Default: `./src/svg` (for Nuxt 3, it's `./assets/svg`)
-- ⛰️ `fallback`: `string` - Fallback if SVG not found. Default: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
-- ⛰️ `log`: `boolean` - Trigger console warning when SVG not found. Default: `true`
-- ⛰️ `display`: `Display` - CSS `display` property. Default: `inline-block`
-- `libraryDir`: `string` - Directory to create library file. Default: `./src` (for Nuxt 3, it's `./.nuxt`)
-- `useTypes`: `boolean` - Use TypeScript or JavaScript. Default: `true`
-- `global`: `boolean` - Add `icons.d.ts`, global type file at root of project. Default: `false` (you might have to add `include: ["icons.d.ts"]` into `tsconfig.json`)
-- `cacheDir`: `string` - Directory to create cache files. Default: `./node_modules/unplugin-svg-transformer/cache`
-
-
+|           Name           |          Type           |                                         Description                                          |                    Default                     | On Nuxt |
+| :----------------------: | :---------------------: | :------------------------------------------------------------------------------------------: | :--------------------------------------------: | :-----: |
+|        `cacheDir`        |        `string`         |                         SVG files will be added to cache directory.                          | `./node_modules/unplugin-svg-components/cache` |         |
+|        `fallback`        |        `string`         |                       Default SVG displayed when the SVG is not found.                       |                `<svg>...</svg>`                |   ✅    |
+|         `global`         |        `boolean`        |                    Create `icons.d.ts` file at the root of your project.                     |                    `false`                     |         |
+|       `libraryDir`       |        `string`         |                         Directory where `icons.ts` will be created.                          |                    `./src`                     |         |
+|         `svgDir`         |        `string`         |                         Directory where your SVG files are located.                          |                  `./src/svg`                   |   ✅    |
+|    `svg.classDefault`    |       `string[]`        |                               Add default classes to all SVG.                                |                  `undefined`                   |   ✅    |
+|     `svg.clearSize`      | `all`, `parent`, `none` | Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none). |                     `none`                     |   ✅    |
+|     `svg.clearClass`     | `all`, `parent`, `none` |             Clear classes from SVG (can be all, just parent on `<svg>` or none).             |                     `none`                     |   ✅    |
+|     `svg.clearStyle`     | `all`, `parent`, `none` |          Clear inline styles from SVG (can be all, just parent on `<svg>` or none).          |                     `none`                     |   ✅    |
+|    `svg.currentColor`    |        `boolean`        |               Add `fill="currentColor"` or `stroke="currentColor"` to all SVG.               |                    `false`                     |   ✅    |
+| `svg.inlineStyleDefault` |       `string[]`        |                             Add default inline style to all SVG.                             |                  `undefined`                   |   ✅    |
+|    `svg.sizeInherit`     |        `boolean`        |                     Add inline style `height: inherit; width: inherit;`.                     |                    `false`                     |   ✅    |
+|       `svg.title`        |        `boolean`        |                                   Add title to SVG string.                                   |                    `false`                     |   ✅    |
+|        `useTypes`        |        `boolean`        |               Use types, if you want to use JavaScript instead of TypeScript.                |                    `false`                     |         |
+|        `warning`         |        `boolean`        |                         Trigger a warning when the SVG is not found.                         |                    `false`                     |   ✅    |
 
 ### Add your SVG files
 
@@ -240,23 +247,26 @@ With TypeScript, `SvgName` type is available. And with JavaScript or TypeScript,
 An example of `icons.ts` file:
 
 ```ts
-export type SvgName = 'download' | 'social/twitter' | 'vite' | 'default'
-export const options = {}
+export type SvgName = "download" | "social/twitter" | "vite" | "default";
+export const options = {};
 export const svgList: Record<SvgName, () => Promise<{ default: string }>> = {
-  'download': () => import('../node_modules/unplugin-svg-transformer/cache/download'),
-  'social/twitter': () => import('../node_modules/unplugin-svg-transformer/cache/social/twitter'),
-  'vite': () => import('../node_modules/unplugin-svg-transformer/cache/vite'),
-  'default': () => import('../node_modules/unplugin-svg-transformer/cache/default'),
-}
+  download: () =>
+    import("../node_modules/unplugin-svg-transformer/cache/download"),
+  "social/twitter": () =>
+    import("../node_modules/unplugin-svg-transformer/cache/social/twitter"),
+  vite: () => import("../node_modules/unplugin-svg-transformer/cache/vite"),
+  default: () =>
+    import("../node_modules/unplugin-svg-transformer/cache/default"),
+};
 
 export async function importSvg(name: SvgName): Promise<string> {
   // ...
 }
 
-if (typeof window !== 'undefined') {
-  window.ust.options = options
-  window.ust.svgList = svgList
-  window.ust.importSvg = importSvg
+if (typeof window !== "undefined") {
+  window.ust.options = options;
+  window.ust.svgList = svgList;
+  window.ust.importSvg = importSvg;
 }
 ```
 
@@ -265,26 +275,26 @@ if (typeof window !== 'undefined') {
 You can easily import a SVG file with `importSvg` function from `unplugin-svg-transformer/icons` and use `SvgName` type (globally registered) to validate your SVG file name. `svgList` function list all SVG files, used by `importSvg` function.
 
 ```ts
-import type { SvgName } from 'unplugin-svg-transformer/icons'
-import { importSvg, options, svgList } from 'unplugin-svg-transformer/icons'
+import type { SvgName } from "unplugin-svg-transformer/icons";
+import { importSvg, options, svgList } from "unplugin-svg-transformer/icons";
 
 // `SvgName` type represents SVG file name
-const icon: SvgName = 'svg-name'
+const icon: SvgName = "svg-name";
 // importSvg function is async, you can use `await` or `then` method
-const icon = await importSvg('svg-name')
+const icon = await importSvg("svg-name");
 // or
-const icon = ''
-importSvg('svg-name').then((svg) => {
-  icon = svg
-})
+const icon = "";
+importSvg("svg-name").then((svg) => {
+  icon = svg;
+});
 
-const fallback = options.fallback // All options are available
+const fallback = options.fallback; // All options are available
 ```
 
 You can use [`Window`](https://developer.mozilla.org/en-US/docs/Web/API/Window) to access `svgList` and `importSvg` functions from `ust` (not SSR compatible).
 
 ```ts
-const svg = await window.ust.importSvg('svg-name')
+const svg = await window.ust.importSvg("svg-name");
 ```
 
 #### Ready-to-use components
@@ -295,10 +305,10 @@ With some frameworks, you don't have to create your own component, you can use r
 >
 > Assure you have import `unplugin-svg-transformer/icons` into `main.ts` or `app.ts` (or `app.js`) when you use ready-to-use components: `import 'unplugin-svg-transformer/icons'` (except for Nuxt). Why? Because ready-to-use components use `window` to access to `importSvg` function (of course for Nuxt 3, you don't have to import `unplugin-svg-transformer/icons` because component use `#icons` alias).
 >
->```ts
->// main.ts
->import 'unplugin-svg-transformer/icons'
->```
+> ```ts
+> // main.ts
+> import "unplugin-svg-transformer/icons";
+> ```
 
 - For Vue 3, you can use a plugin to register globally `SvgIcon` component with `SvgTransformerPlugin` from `unplugin-svg-transformer/vue` and use `SvgIcon` component directly. But you can just import `SvgIcon` component from `unplugin-svg-transformer/vue` and use `SvgIcon` component.
 - For React, you can import `SvgIcon` component from `unplugin-svg-transformer/react`.
@@ -317,9 +327,9 @@ All ready-to-use components have a `name` prop, based on SVG file name. You can 
 To use JavaScript only, set `useTypes` option to `false`, but this plugin is built for TypeScript first. You can use `SvgName` type to validate your SVG file name.
 
 ```ts
-import type { SvgName } from 'unplugin-svg-transformer/icons'
+import type { SvgName } from "unplugin-svg-transformer/icons";
 
-const icon: SvgName = 'svg-name'
+const icon: SvgName = "svg-name";
 ```
 
 If you use only JavaScript you can import your SVG with same way without type validation.
@@ -343,7 +353,7 @@ And enable `global` option in plugin options.
 
 ```ts
 // vite.config.ts (or webpack.config.js, rollup.config.js, ...)
-import svgTransformer from 'unplugin-svg-transformer/vite'
+import svgTransformer from "unplugin-svg-transformer/vite";
 
 export default defineConfig({
   plugins: [
@@ -351,7 +361,7 @@ export default defineConfig({
       global: true,
     }),
   ],
-})
+});
 ```
 
 ### Advanced examples

@@ -60,7 +60,7 @@ export interface Options {
      */
     inlineStyleDefault?: string[]
     /**
-     * Global options to toggle size inheritance, inline style `height: inherit; width: inherit;`.
+     * Add inline style `height: inherit; width: inherit;`.
      *
      * @default false
      */

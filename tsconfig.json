@@ -10,5 +10,5 @@
     "strict": true,
     "strictNullChecks": true
   },
-  "include": ["*.d.ts"]
+  "include": ["src", "*.d.ts"]
 }

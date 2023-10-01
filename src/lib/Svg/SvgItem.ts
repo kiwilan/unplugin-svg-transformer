@@ -94,15 +94,22 @@ export class SvgItem {
   }
 
   public static async getDefaultSvg(options: OptionsExtended, fallback: string): Promise<SvgItem> {
-    return new SvgItem(
+    const svg = new SvgItem(
       'default.svg',
       'default',
       'default',
       'Default',
       'default.svg',
       '/default.svg',
-      options.fallback ?? fallback,
     )
+
+    const render = await SvgRender.make(options.svg)
+      .setTitle(svg.title)
+      .setContents(options.fallback ?? fallback)
+      .get()
+    svg.contents = render.getContents()
+
+    return svg
   }
 
   private nameFromPath(): string {

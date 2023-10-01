@@ -1,7 +1,7 @@
 {
   "name": "unplugin-svg-transformer",
   "type": "module",
-  "version": "1.0.01",
+  "version": "1.0.02",
   "description": "Import easily your SVG with Vite.",
   "author": "kiwilan <ewilan.riviere@gmail.com>",
   "license": "MIT",

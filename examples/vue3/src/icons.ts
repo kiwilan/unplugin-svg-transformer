@@ -20,7 +20,7 @@ export const options = {
     sizeInherit: true,
     title: true
   },
-  warning: false,
+  warning: true,
   cacheDir: "./node_modules/unplugin-svg-transformer/cache",
   global: false,
   libraryDir: "./src",

@@ -41,16 +41,20 @@ export default createUnplugin<PluginOptions | undefined>(options => ({
     const opts = Path.convertOptions(DEFAULT_OPTIONS, options)
     opts.isTesting = await isTesting()
     await SvgTransformer.make(opts)
+    process.on('warning', e => console.warn(e.stack))
   },
   vite: {
     handleHotUpdate({ file, server }) {
       if (file.endsWith('.svg'))
         server.restart()
-
-      server.watcher.on('unlink', (path) => {
-        if (path.endsWith('.svg'))
+    },
+    configureServer(server) {
+      function onWatchChange(filepath: string) {
+        if (filepath.endsWith('.svg'))
           server.restart()
-      })
+      }
+
+      server.watcher.on('unlink', onWatchChange)
     },
   },
   rollup: {

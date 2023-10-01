@@ -1,6 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import type { OptionsExtended, OptionsSvg } from '../../types'
-import type { SvgItem } from './SvgItem'
+import type { OptionsSvg } from '../../types'
 
 export class SvgRender {
   public constructor(

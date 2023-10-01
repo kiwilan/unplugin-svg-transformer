@@ -2,10 +2,9 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu({
   gitignore: true,
+  markdown: false,
   ignores: [
     'coverage',
-    'resources',
-    '**/*.md',
     'examples',
     'playground',
   ],

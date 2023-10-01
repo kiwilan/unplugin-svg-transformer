@@ -1,7 +1,7 @@
 {
   "name": "unplugin-svg-transformer",
   "type": "module",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "Import easily your SVG with Vite.",
   "author": "kiwilan <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -103,7 +103,7 @@
     "build": "npm run clean && npm run build:unplugin",
     "dev": "tsup --watch src",
     "build:fix": "esno scripts/postbuild.ts",
-    "lint": "eslint .",
+    "lint": "eslint --ignore-path README.md .",
     "lint:fix": "npm run lint -- --fix",
     "play": "npm -C playground run dev",
     "play:js": "npm -C examples/js run dev",

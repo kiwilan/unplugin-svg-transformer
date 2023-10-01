@@ -48,7 +48,8 @@ export class LibraryFile {
       ]
     }
 
-    const options = JSON.stringify(this.parseOptions())
+    let options = JSON.stringify(this.parseOptions(), null, 2)
+    options = options.replace(/"([^(")"]+)":/g, '$1:')
     content = [
       ...content,
       `export const options = ${options}`,
@@ -74,14 +75,13 @@ export class LibraryFile {
       '}',
       '',
       this.options.useTypes ? 'export async function importSvg(name: SvgName): Promise<string> {' : 'export async function importSvg(name) {',
-      '  if (!svgList[name] && options.log)',
+      '  if (!svgList[name] && options.warning)',
       // eslint-disable-next-line no-template-curly-in-string
       '    console.warn(`Icon ${name} not found`)',
-      '  name = svgList[name] || svgList["default"]',
-      '  const svg = await name()',
-      '  if (svg.default)',
-      '    return svg.default',
-      '  return svg',
+      '  const icon = svgList[name] || svgList["default"]',
+      '  const svg = await icon()',
+      '',
+      '  return svg.default',
       '}',
     ]
 
@@ -104,15 +104,23 @@ export class LibraryFile {
 
   private parseOptions(): OptionsExtended {
     return {
-      cacheDir: this.parseOptionPath(this.options.cacheDir),
       fallback: this.options.fallback,
-      global: this.options.global || false,
-      isNuxt: this.options.isNuxt || false,
-      isTesting: this.options.isTesting || false,
+      svg: {
+        classDefault: this.options.svg?.classDefault ?? undefined,
+        clearSize: this.options.svg?.clearSize ?? 'none',
+        clearClass: this.options.svg?.clearClass ?? 'none',
+        clearStyle: this.options.svg?.clearStyle ?? 'none',
+        currentColor: this.options.svg?.currentColor ?? false,
+        inlineStyleDefault: this.options.svg?.inlineStyleDefault ?? undefined,
+        sizeInherit: this.options.svg?.sizeInherit ?? false,
+        title: this.options.svg?.title ?? undefined,
+      },
+      warning: this.options.warning ?? false,
+      cacheDir: this.parseOptionPath(this.options.cacheDir),
+      global: this.options.global ?? false,
       libraryDir: this.parseOptionPath(this.options.libraryDir),
-      nuxtDir: this.parseOptionPath(this.options.nuxtDir),
       svgDir: this.parseOptionPath(this.options.svgDir),
-      useTypes: this.options.useTypes || false,
+      useTypes: this.options.useTypes ?? false,
     }
   }
 

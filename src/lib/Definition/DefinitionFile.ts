@@ -15,7 +15,7 @@ export class DefinitionFile {
     const self = new DefinitionFile(options, types)
 
     await self.checkVue()
-    const optionsType = '{ fallback?: string, libraryDir?: string, useTypes?: boolean, global?: boolean, cacheDir?: string, isTesting?: boolean, isNuxt?: boolean, nuxtDir?: string }'
+    const optionsType = `{ cacheDir?: string, global: boolean, libraryDir?: string, svgDir?: string, useTypes: boolean, isTesting: boolean, isNuxt: boolean, nuxtDir: string, fallback: string, svg: { classDefault?: string[], clearSize: 'all' | 'parent' | 'none', clearClass: 'all' | 'parent' | 'none', clearStyle: 'all' | 'parent' | 'none', currentColor: boolean, inlineStyleDefault?: string[], sizeInherit: boolean, title?: boolean }, warning: boolean }`
 
     let contents = [
       '/* eslint-disable */',

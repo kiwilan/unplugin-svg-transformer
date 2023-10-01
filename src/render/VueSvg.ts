@@ -10,25 +10,29 @@ const VueSvg = defineComponent({
       type: String as PropType<SvgName>,
       required: true,
     },
-    display: {
-      type: String as PropType<Display>,
+    title: {
+      type: String as PropType<string>,
       required: false,
-      default: 'inline-block',
+      default: undefined,
+    },
+    reactive: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false,
     },
   },
   setup(props, { attrs }) {
     const defaultSSR = defaultSvg(props.name, true)
     const current = ref<string>(defaultSSR)
-    const reactive = ref(false)
     const attributes = ref({
       ...(attrs as Record<string, any>),
       style: {
         ...(attrs as Record<string, any>).style,
       },
-    })
+    }) as any
 
-    if (props.display !== false)
-      attributes.value.style.display = props.display
+    if (props.title)
+      attributes.value.title = props.title
 
     async function getSvg() {
       current.value = ''
@@ -40,11 +44,10 @@ const VueSvg = defineComponent({
         return
       }
 
-      reactive.value = wd.ust.options.reactive || false
       current.value = await wd.ust.importSvg(props.name)
     }
 
-    if (reactive.value) {
+    if (props.reactive) {
       watch(() => props.name, async () => {
         await getSvg()
       })

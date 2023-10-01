@@ -15,7 +15,7 @@ Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
 > Designed to be a replacement of [`kiwilan/nuxt-svg-transformer`](https://github.com/kiwilan/nuxt-svg-transformer), a Nuxt module.
 
-Use SVG into modern tools is not easy, especially when you want to use SVG as component. This plugin will parse your SVG files and create a cache file to import them easily with a library index file. It works with any framework with Vite/Webpack, but some components are ready-to-use for Vue and React. You could also create your own component for your favorite framework. Built for TypeScript, but works with JavaScript.
+Use SVG into modern tools is not easy, especially when you want to use SVG as component. **This plugin will parse your SVG files** and **create a cache file** to **import them easily with a library index file**. It **works with any framework with Vite/Webpack**, but some components are ready-to-use for Vue, Nuxt and React. You could also create your own component for your favorite framework. **Built for TypeScript, but works with JavaScript**.
 
 > **Warning**
 >
@@ -530,7 +530,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 - [UnJS](https://github.com/unjs): UnJS team for [`unplugin`](https://github.com/unjs/unplugin)
 - [`ewilan-riviere`](https://github.com/ewilan-riviere): author
-- [`antfu`](https://github.com/antfu/unplugin-starter): for the starter template
+- [`antfu`](https://github.com/antfu/unplugin-starter): for the starter template, `@antfu/eslint-config` and his amazing work
 
 ## License
 
@@ -548,7 +548,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [license-href]: https://github.com/kiwilan/unplugin-svg-transformer/blob/main/README.md
 [tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/unplugin-svg-transformer/tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
 [tests-href]: https://github.com/kiwilan/unplugin-svg-transformer/actions/workflows/tests.yml
-[codecov-src]: https://codecov.io/gh/kiwilan/unplugin-svg-transformer/branch/main/graph/badge.svg?token=epJribIFGR
+[codecov-src]: https://img.shields.io/codecov/c/gh/kiwilan/unplugin-svg-transformer/main?style=flat&colorA=18181B&colorB=F0DB4F
 [codecov-href]: https://codecov.io/gh/kiwilan/unplugin-svg-transformer
 [style-src]: https://antfu.me/badge-code-style.svg
 [style-href]: https://github.com/antfu/eslint-config

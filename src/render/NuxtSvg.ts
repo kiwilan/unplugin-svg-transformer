@@ -15,10 +15,15 @@ const NuxtSvg = defineComponent({
       type: String as PropType<SvgName>,
       required: true,
     },
-    display: {
-      type: String as PropType<Display>,
+    title: {
+      type: String as PropType<string>,
       required: false,
-      default: 'inline-block',
+      default: undefined,
+    },
+    reactive: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false,
     },
   },
   setup(props, { attrs }) {
@@ -31,10 +36,10 @@ const NuxtSvg = defineComponent({
       style: {
         ...(attrs as Record<string, any>).style,
       },
-    })
+    }) as any
 
-    if (props.display !== false)
-      attributes.value.style.display = props.display
+    if (props.title)
+      attributes.value.title = props.title
 
     async function getSvg() {
       html.value = ''
@@ -42,9 +47,11 @@ const NuxtSvg = defineComponent({
       current.value = await importSvg(props.name)
     }
 
-    watch(() => props.name, async () => {
-      await getSvg()
-    })
+    if (props.reactive) {
+      watch(() => props.name, async () => {
+        await getSvg()
+      })
+    }
 
     onMounted(async () => {
       await getSvg()

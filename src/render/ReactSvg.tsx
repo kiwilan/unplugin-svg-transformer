@@ -6,14 +6,10 @@ interface Props {
   className?: string
   style?: React.CSSProperties
   name: SvgName
-  display?: Display
+  title: string
 }
 
-function ReactSvg({ className, style, name, display }: Props): JSX.Element {
-  const svgStyle: React.CSSProperties = {
-    display: display || 'inline-block',
-  }
-
+function ReactSvg({ className, style, name, title }: Props): JSX.Element {
   const defaultSSR = defaultSvg(name)
   const [current, setCurrent] = useState(defaultSSR)
 
@@ -33,7 +29,7 @@ function ReactSvg({ className, style, name, display }: Props): JSX.Element {
     getSvg()
   }, [name])
 
-  return <span className={className} style={{ ...svgStyle, ...style }} dangerouslySetInnerHTML={{ __html: current }}></span>
+  return <span title={title} className={className} style={{ ...style }} dangerouslySetInnerHTML={{ __html: current }}></span>
 }
 
 export {

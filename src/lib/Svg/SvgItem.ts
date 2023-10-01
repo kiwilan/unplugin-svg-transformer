@@ -1,17 +1,19 @@
 import fs from 'node:fs/promises'
+import type { OptionsExtended } from '../../types'
+import { SvgRender } from './SvgRender'
 
 export class SvgItem {
   public constructor(
-    protected basename?: string,
-    protected filename?: string,
-    protected name?: string,
-    protected title?: string,
-    protected fullPath?: string,
-    protected path?: string,
-    protected content?: string,
+    protected basename: string = '',
+    protected filename: string = '',
+    protected name: string = '',
+    protected title: string = '',
+    protected fullPath: string = '',
+    protected path: string = '',
+    protected contents: string = '',
   ) { }
 
-  public static async make(path: string, rootPath: string): Promise<SvgItem> {
+  public static async make(path: string, rootPath: string, options: OptionsExtended): Promise<SvgItem> {
     const self = new SvgItem()
     self.basename = path.replace(/^.*[\\\/]/, '')
     self.filename = self.basename.replace('.svg', '')
@@ -19,7 +21,7 @@ export class SvgItem {
     self.path = path.replace(rootPath, '')
     self.name = self.nameFromPath()
     self.title = self.setTitle()
-    self.content = await self.svgContent()
+    self.contents = await self.svgRender(options)
 
     return self
   }
@@ -83,12 +85,20 @@ export class SvgItem {
    *
    * @example `<svg></svg>`
    */
-  public getContent(): string {
-    return this.content ?? 'undefined'
+  public getContents(): string {
+    return this.contents ?? 'undefined'
   }
 
-  public async setContent(content: string): Promise<void> {
-    this.content = await this.svgContent(content)
+  public static async getDefaultSvg(options: OptionsExtended, fallback: string): Promise<SvgItem> {
+    return new SvgItem(
+      'default.svg',
+      'default',
+      'default',
+      'Default',
+      'default.svg',
+      '/default.svg',
+      options.fallback ?? fallback,
+    )
   }
 
   private nameFromPath(): string {
@@ -102,43 +112,6 @@ export class SvgItem {
     name = name.replace(/ /g, '-')
 
     return name
-  }
-
-  private async svgContent(content?: string): Promise<string | undefined> {
-    if (!content)
-      content = await fs.readFile(this.fullPath!, 'utf8')
-
-    try {
-      content = this.addInlineCurrentColor(content)
-      content = this.removeBuiltInHeightAndWidth(content)
-      content = this.addDefaultStyle(content)
-      content = this.removeBreakLines(content)
-      content = this.removeClasses(content)
-      content = this.addTitleIfMissing(content)
-      content = this.removeTooLargeSpaces(content)
-
-      return content
-    }
-    catch (err) {
-      console.error('Unable to read file:', err)
-      return undefined
-    }
-  }
-
-  private addTitleIfMissing(content: string): string {
-    if (/<title>.*?<\/title>/.test(content))
-      return content
-
-    const svgTagRegex = /<svg([^>]*)>/i
-    const match = svgTagRegex.exec(content)
-    if (!match)
-      return content
-
-    const svgAttrs = match[1]
-    const titleElement = `<title>${this.title}</title>`
-    const newContent = content.replace(svgTagRegex, `<svg${svgAttrs}>${titleElement}`)
-
-    return newContent
   }
 
   private setTitle(): string {
@@ -156,49 +129,12 @@ export class SvgItem {
     if (!string)
       return ''
 
-    return string.replace(/\w\S*/g, (txt) => {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    })
+    return string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase())
   }
 
-  private addInlineCurrentColor(content: string): string {
-    if (/fill="none"/.test(content)) {
-      if (/stroke="currentColor"/.test(content))
-        return content
+  private async svgRender(options: OptionsExtended): Promise<string> {
+    const render = await SvgRender.make(this, options)
 
-      return content.replace(/<svg/g, '<svg stroke="currentColor"')
-    }
-
-    return content.replace(/<svg/g, '<svg fill="currentColor"')
-  }
-
-  private removeBuiltInHeightAndWidth(content: string): string {
-    return content.replace(/height=".*?"/g, '').replace(/width=".*?"/g, '')
-  }
-
-  private addDefaultStyle(content: string) {
-    const styles = [
-      // 'display: inline-block;',
-      'height: inherit;',
-      'width: inherit;',
-    ]
-    const style = styles.join(' ')
-
-    return content.replace(/<svg/g, `<svg style="${style}"`)
-  }
-
-  private removeBreakLines(content: string): string {
-    return content.replace(/\r?\n|\r/g, '')
-  }
-
-  private removeTooLargeSpaces(content: string): string {
-    content = content.replace(/\s{2,}/g, ' ')
-    content = content.replace(/>\s</g, '><')
-
-    return content
-  }
-
-  private removeClasses(content: string): string {
-    return content.replace(/class=".*?"/g, '')
+    return render.getContents()
   }
 }

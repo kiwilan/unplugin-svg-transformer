@@ -1,5 +1,3 @@
-import type { Display } from './render/shared'
-
 export interface NuxtOptions extends Options {
   /**
    * Directory where your SVG files are located.
@@ -20,33 +18,6 @@ export interface Options {
    */
   fallback?: string
   /**
-   * Trigger a warning when the SVG is not found.
-   *
-   * @default true
-   */
-  log?: boolean
-  /**
-   * **Only for Vue 3, React and Nuxt 3** if you ready-to-use components.
-   */
-  component?: {
-    /**
-     * CSS default `display` property for component.
-     *
-     * @default `inline-block`
-     */
-    display?: Display
-    /**
-     * Set `watch` hook for `name` prop for component.
-     *
-     * @default false
-     */
-    reactive?: boolean
-    /**
-     * Global options to toggle title attribute on icon based on SVG filename. If you set title on any SvgIcon component, it will override this option.
-     */
-    title?: boolean
-  }
-  /**
    * SVG will be rendered as a string, so it's possible to add custom attributes.
    */
   svg?: {
@@ -55,25 +26,7 @@ export interface Options {
      *
      * @default undefined
      */
-    classDefault?: string
-    /**
-     * Add default inline style to all SVG.
-     *
-     * @default undefined
-     */
-    styleDefault?: string
-    /**
-     * Global options to toggle size inheritance, inline style `height: inherit; width: inherit;`.
-     *
-     * @default false
-     */
-    sizeInherit?: boolean
-    /**
-     * Clear classes from SVG (can be all, just parent on `<svg>` or none).
-     *
-     * @default `none`
-     */
-    clearClass?: 'all' | 'parent' | 'none'
+    classDefault?: string[]
     /**
      * Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none).
      *
@@ -81,34 +34,67 @@ export interface Options {
      */
     clearSize?: 'all' | 'parent' | 'none'
     /**
+     * Clear classes from SVG (can be all, just parent on `<svg>` or none).
+     *
+     * @default `none`
+     */
+    clearClass?: 'all' | 'parent' | 'none'
+    /**
      * Clear inline styles from SVG (can be all, just parent on `<svg>` or none).
      *
      * @default `none`
      */
     clearStyle?: 'all' | 'parent' | 'none'
+    /**
+     * Add `fill="currentColor"` or `stroke="currentColor"` to all SVG.
+     *
+     * Engine will try to detect if the SVG is a stroke or a fill.
+     *
+     * @default false
+     */
+    currentColor?: boolean
+    /**
+     * Add default inline style to all SVG.
+     *
+     * @default undefined
+     */
+    inlineStyleDefault?: string[]
+    /**
+     * Global options to toggle size inheritance, inline style `height: inherit; width: inherit;`.
+     *
+     * @default false
+     */
+    sizeInherit?: boolean
+    /**
+     * Add title to SVG string.
+     *
+     * @example
+     * ```html
+     * <svg><title>svg-name</title></svg>
+     * ```
+     *
+     * @default false
+     */
+    title?: boolean
   }
+  /**
+   * Trigger a warning when the SVG is not found.
+   *
+   * @default true
+   */
+  warning?: boolean
 }
 
 export interface PluginOptions extends Options {
   /**
-   * Directory where your SVG files are located.
+   * SVG files will be added to cache directory.
    *
-   * @default './src/svg'
-   */
-  svgDir?: string
-  /**
-   * Directory where `icons.ts` will be created.
+   * By default, cache is into `node_modules/unplugin-svg-components/cache`.
+   * But in some cases, you may want to change this directory.
    *
-   * @default './src'
+   * @default './node_modules/unplugin-svg-components/cache'
    */
-  libraryDir?: string
-  /**
-   * Use types, if you want to use JavaScript instead of TypeScript, set this option to false.
-   * You can't have autocompletion with JavaScript.
-   *
-   * @default true
-   */
-  useTypes?: boolean
+  cacheDir?: string
   /**
    * For Vite users, this option is already enabled by `vite-env.d.ts` file.
    *
@@ -129,14 +115,24 @@ export interface PluginOptions extends Options {
    */
   global?: boolean
   /**
-   * SVG files will be added to cache directory.
+   * Directory where `icons.ts` will be created.
    *
-   * By default, cache is into `node_modules/unplugin-svg-components/cache`.
-   * But in some cases, you may want to change this directory.
-   *
-   * @default './node_modules/unplugin-svg-components/cache'
+   * @default './src'
    */
-  cacheDir?: string
+  libraryDir?: string
+  /**
+   * Directory where your SVG files are located.
+   *
+   * @default './src/svg'
+   */
+  svgDir?: string
+  /**
+   * Use types, if you want to use JavaScript instead of TypeScript, set this option to false.
+   * You can't have autocompletion with JavaScript.
+   *
+   * @default true
+   */
+  useTypes?: boolean
 }
 
 export interface OptionsExtended extends PluginOptions {

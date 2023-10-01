@@ -41,7 +41,7 @@ export class SvgCollection {
         svgFiles.push(...subFiles)
       }
       else if (path.extname(file) === '.svg') {
-        const item: SvgItem = await SvgItem.make(filePath, rootPath)
+        const item: SvgItem = await SvgItem.make(filePath, rootPath, this.options)
         svgFiles.push(item)
       }
     }
@@ -53,7 +53,7 @@ export class SvgCollection {
     const itemsContent: string[] = []
 
     await Promise.all(this.items.map(async (item) => {
-      let content = item.getContent()
+      let content = item.getContents()
       content = `export default '${content}'\n`
 
       itemsContent.push(content)
@@ -63,19 +63,7 @@ export class SvgCollection {
   }
 
   private async addDefaultSvg(): Promise<SvgItem> {
-    const content = this.options.fallback || '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>'
-
-    const item = new SvgItem(
-      'default.svg',
-      'default',
-      'default',
-      'Default',
-      'default.svg',
-      '/default.svg',
-    )
-    await item.setContent(content)
-
-    return item
+    return SvgItem.getDefaultSvg(this.options, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>')
   }
 
   public async write(cacheDir: string): Promise<void> {
@@ -88,7 +76,7 @@ export class SvgCollection {
       const dir = dirname(path)
       await Path.ensureDirectoryExists(dir)
 
-      return await Path.write(path, `export default '${item.getContent()}'\n`)
+      return await Path.write(path, `export default '${item.getContents()}'\n`)
     })
 
     await Promise.all(promises).then(() => true)

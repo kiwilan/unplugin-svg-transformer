@@ -191,9 +191,9 @@ build({
 
 > **Note**
 >
-> Options with ⛰️ are available for Nuxt 3.
+> Nuxt 3 have some built-in options defined statically, because it uses amazing Nuxt 3 features. If ✅ option is available, otherwise is static.
 
-|           Name           |          Type           |                                         Description                                          |                    Default                     |      Nuxt\*       |
+|           Name           |          Type           |                                         Description                                          |                    Default                     |       Nuxt        |
 | :----------------------: | :---------------------: | :------------------------------------------------------------------------------------------: | :--------------------------------------------: | :---------------: |
 |        `cacheDir`        |        `string`         |                         SVG files will be added to cache directory.                          | `./node_modules/unplugin-svg-components/cache` |  `./.nuxt/icons`  |
 |        `fallback`        |        `string`         |                       Default SVG displayed when the SVG is not found.                       |                `<svg>...</svg>`                |        ✅         |
@@ -210,8 +210,6 @@ build({
 |       `svg.title`        |        `boolean`        |                                   Add title to SVG string.                                   |                    `false`                     |        ✅         |
 |        `useTypes`        |        `boolean`        |               Use types, if you want to use JavaScript instead of TypeScript.                |                     `true`                     |      `true`       |
 |        `warning`         |        `boolean`        |                         Trigger a warning when the SVG is not found.                         |                    `false`                     |        ✅         |
-
-\*: ✅ option is available, otherwise is static.
 
 ### Add your SVG files
 

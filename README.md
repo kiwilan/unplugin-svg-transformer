@@ -32,7 +32,7 @@ const list = svgList; // as Record<SvgName, () => Promise<{ default: string }>>
 
 > **Note**
 >
-> A demo is available on [Stackblitz](https://stackblitz.com/github/ewilan-riviere/unplugin-svg-transformer-example?file=README.md) or directly on [github.com/ewilan-riviere/unplugin-svg-transformer-example](https://github.com/ewilan-riviere/unplugin-svg-transformer-example).
+> A demo is available on [Stackblitz](https://stackblitz.com/github/ewilan-riviere/unplugin-svg-transformer-example) or directly on [github.com/ewilan-riviere/unplugin-svg-transformer-example](https://github.com/ewilan-riviere/unplugin-svg-transformer-example).
 
 ## Features
 

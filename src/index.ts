@@ -35,7 +35,7 @@ async function isTesting(): Promise<boolean> {
   return false
 }
 
-export default createUnplugin<Options | undefined>(options => ({
+export default createUnplugin<PluginOptions | undefined>(options => ({
   name: 'unplugin-svg-transformer',
   async buildStart() {
     const opts = Path.convertOptions(DEFAULT_OPTIONS, options)

@@ -17,9 +17,9 @@ Import easily your SVG. Powered by [unplugin](https://github.com/unjs/unplugin).
 
 Use SVG into modern tools is not easy, especially when you want to use SVG as component. **This plugin will parse your SVG files** and **create a cache file** to **import them easily with a library index file**. It **works with any framework with Vite/Webpack**, but some components are ready-to-use for Vue, Nuxt and React. You could also create your own component for your favorite framework. **Built for TypeScript, but works with JavaScript**.
 
-> **Warning**
+> **Note**
 >
-> If you want to use SVG from icon sets, you should use [`unplugin-icons`](https://github.com/unplugin/unplugin-icons), a very good plugin from [unplugin](https://github.com/unplugin). `unplugin-svg-transformer` is good for custom SVG.
+> If you want to use SVG from icon sets, you should use [`unplugin-icons`](https://github.com/unplugin/unplugin-icons), a very good plugin from [unplugin](https://github.com/unplugin). `unplugin-svg-transformer` is only for custom SVG.
 
 ```ts
 import type { SvgName } from "unplugin-svg-transformer/icons";

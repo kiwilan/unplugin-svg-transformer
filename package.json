@@ -153,9 +153,9 @@
     "webpack": "^5.88.2"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint:fix"
+    "pre-commit": "pnpm lint"
   },
   "lint-staged": {
-    "*": "eslint --fix"
+    "*": "npm run lint -- --fix"
   }
 }

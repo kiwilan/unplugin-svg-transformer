@@ -23,9 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm i -g pnpm && pnpm i
 
-      - name: Run ESLint
-        run: pnpm lint
-
       - name: Execute tests
         run: pnpm coverage
 

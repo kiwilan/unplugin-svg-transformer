@@ -199,7 +199,7 @@ build({
 |        `fallback`        |        `string`         |                       Default SVG displayed when the SVG is not found.                       |                `<svg>...</svg>`                |   ✅    |
 |         `global`         |        `boolean`        |                    Create `icons.d.ts` file at the root of your project.                     |                    `false`                     |         |
 |       `libraryDir`       |        `string`         |                         Directory where `icons.ts` will be created.                          |                    `./src`                     |         |
-|         `svgDir`         |        `string`         |                         Directory where your SVG files are located.                          |                  `./src/svg`                   |   ✅    |
+|         `svgDir`         |        `string`         |                         Directory where your SVG files are located.                          |     `./src/svg` or `./assets/svg` for Nuxt     |   ✅    |
 |    `svg.classDefault`    |       `string[]`        |                               Add default classes to all SVG.                                |                  `undefined`                   |   ✅    |
 |     `svg.clearSize`      | `all`, `parent`, `none` | Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none). |                     `none`                     |   ✅    |
 |     `svg.clearClass`     | `all`, `parent`, `none` |             Clear classes from SVG (can be all, just parent on `<svg>` or none).             |                     `none`                     |   ✅    |

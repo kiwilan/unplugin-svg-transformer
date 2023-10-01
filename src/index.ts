@@ -1,5 +1,5 @@
 import { createUnplugin } from 'unplugin'
-import type { Options, PluginOptions } from './types'
+import type { PluginOptions } from './types'
 import { Path } from './lib/Path'
 import { SvgTransformer } from './lib'
 

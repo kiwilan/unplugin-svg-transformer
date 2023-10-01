@@ -316,6 +316,12 @@ With some frameworks, you don't have to create your own component, you can use r
 
 All ready-to-use components have a `name` prop, based on SVG file name. You can use `name` prop to validate SVG file name.
 
+| Prop name  | Prop type | Required |                          Prop description                           |
+| :--------: | :-------: | :------: | :-----------------------------------------------------------------: |
+|   `name`   | `SvgName` |    ✅    |                            SVG file name                            |
+|  `title`   | `string`  |          |                         Add `title` to SVG                          |
+| `reactive` | `boolean` |          | Add `watch` to update SVG if `name` update (not available on React) |
+
 #### Create your own component
 
 - For Svelte, no component available, you have to create your own, you can use example: [`./examples/svelte/src/lib/SvgIcon.svelte`](./examples/svelte/src/lib/SvgIcon.svelte).

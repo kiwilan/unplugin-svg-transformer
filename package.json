@@ -103,7 +103,7 @@
     "build": "npm run clean && npm run build:unplugin",
     "dev": "tsup --watch src",
     "build:fix": "esno scripts/postbuild.ts",
-    "lint": "eslint --ignore-path README.md .",
+    "lint": "eslint --ignore-pattern README.md .",
     "lint:fix": "npm run lint -- --fix",
     "play": "npm -C playground run dev",
     "play:js": "npm -C examples/js run dev",

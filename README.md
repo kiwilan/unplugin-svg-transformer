@@ -193,23 +193,25 @@ build({
 >
 > Options with ⛰️ are available for Nuxt 3.
 
-|           Name           |          Type           |                                         Description                                          |                    Default                     | On Nuxt |
-| :----------------------: | :---------------------: | :------------------------------------------------------------------------------------------: | :--------------------------------------------: | :-----: |
-|        `cacheDir`        |        `string`         |                         SVG files will be added to cache directory.                          | `./node_modules/unplugin-svg-components/cache` |         |
-|        `fallback`        |        `string`         |                       Default SVG displayed when the SVG is not found.                       |                `<svg>...</svg>`                |   ✅    |
-|         `global`         |        `boolean`        |                    Create `icons.d.ts` file at the root of your project.                     |                    `false`                     |         |
-|       `libraryDir`       |        `string`         |                         Directory where `icons.ts` will be created.                          |                    `./src`                     |         |
-|         `svgDir`         |        `string`         |                         Directory where your SVG files are located.                          |     `./src/svg` or `./assets/svg` for Nuxt     |   ✅    |
-|    `svg.classDefault`    |       `string[]`        |                               Add default classes to all SVG.                                |                  `undefined`                   |   ✅    |
-|     `svg.clearSize`      | `all`, `parent`, `none` | Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none). |                     `none`                     |   ✅    |
-|     `svg.clearClass`     | `all`, `parent`, `none` |             Clear classes from SVG (can be all, just parent on `<svg>` or none).             |                     `none`                     |   ✅    |
-|     `svg.clearStyle`     | `all`, `parent`, `none` |          Clear inline styles from SVG (can be all, just parent on `<svg>` or none).          |                     `none`                     |   ✅    |
-|    `svg.currentColor`    |        `boolean`        |               Add `fill="currentColor"` or `stroke="currentColor"` to all SVG.               |                    `false`                     |   ✅    |
-| `svg.inlineStyleDefault` |       `string[]`        |                             Add default inline style to all SVG.                             |                  `undefined`                   |   ✅    |
-|    `svg.sizeInherit`     |        `boolean`        |                     Add inline style `height: inherit; width: inherit;`.                     |                    `false`                     |   ✅    |
-|       `svg.title`        |        `boolean`        |                                   Add title to SVG string.                                   |                    `false`                     |   ✅    |
-|        `useTypes`        |        `boolean`        |               Use types, if you want to use JavaScript instead of TypeScript.                |                    `false`                     |         |
-|        `warning`         |        `boolean`        |                         Trigger a warning when the SVG is not found.                         |                    `false`                     |   ✅    |
+|           Name           |          Type           |                                         Description                                          |                    Default                     |      Nuxt\*       |
+| :----------------------: | :---------------------: | :------------------------------------------------------------------------------------------: | :--------------------------------------------: | :---------------: |
+|        `cacheDir`        |        `string`         |                         SVG files will be added to cache directory.                          | `./node_modules/unplugin-svg-components/cache` |  `./.nuxt/icons`  |
+|        `fallback`        |        `string`         |                       Default SVG displayed when the SVG is not found.                       |                `<svg>...</svg>`                |        ✅         |
+|         `global`         |        `boolean`        |                    Create `icons.d.ts` file at the root of your project.                     |                    `false`                     |                   |
+|       `libraryDir`       |        `string`         |                         Directory where `icons.ts` will be created.                          |                    `./src`                     |     `./.nuxt`     |
+|         `svgDir`         |        `string`         |                         Directory where your SVG files are located.                          |                  `./src/svg`                   | ✅ `./assets/svg` |
+|    `svg.classDefault`    |       `string[]`        |                               Add default classes to all SVG.                                |                  `undefined`                   |        ✅         |
+|     `svg.clearSize`      | `all`, `parent`, `none` | Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none). |                     `none`                     |        ✅         |
+|     `svg.clearClass`     | `all`, `parent`, `none` |             Clear classes from SVG (can be all, just parent on `<svg>` or none).             |                     `none`                     |        ✅         |
+|     `svg.clearStyle`     | `all`, `parent`, `none` |          Clear inline styles from SVG (can be all, just parent on `<svg>` or none).          |                     `none`                     |        ✅         |
+|    `svg.currentColor`    |        `boolean`        |               Add `fill="currentColor"` or `stroke="currentColor"` to all SVG.               |                    `false`                     |        ✅         |
+| `svg.inlineStyleDefault` |       `string[]`        |                             Add default inline style to all SVG.                             |                  `undefined`                   |        ✅         |
+|    `svg.sizeInherit`     |        `boolean`        |                     Add inline style `height: inherit; width: inherit;`.                     |                    `false`                     |        ✅         |
+|       `svg.title`        |        `boolean`        |                                   Add title to SVG string.                                   |                    `false`                     |        ✅         |
+|        `useTypes`        |        `boolean`        |               Use types, if you want to use JavaScript instead of TypeScript.                |                     `true`                     |      `true`       |
+|        `warning`         |        `boolean`        |                         Trigger a warning when the SVG is not found.                         |                    `false`                     |        ✅         |
+
+\*: ✅ option is available, otherwise is static.
 
 ### Add your SVG files
 

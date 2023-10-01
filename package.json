@@ -116,7 +116,7 @@
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
-    "test-coverage": "vitest --coverage",
+    "test:coverage": "vitest --coverage",
     "clean": "rimraf dist",
     "local": "rm -f ~/unplugin-svg-transformer-*.tgz || true && mv ./unplugin-svg-transformer-*.tgz ~/unplugin-svg-transformer.tgz",
     "package": "npm run clean && npm run build && npm pack && npm run local",

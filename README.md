@@ -516,6 +516,51 @@ ReactDOM.createRoot(root).render(
 
 <br></details>
 
+#### Nuxt 3
+
+An example with Nuxt 3.
+
+<details>
+<summary>Click to see example</summary><br>
+
+Installation on Nuxt 3 is easily with `nuxt.config.ts` file.
+
+```ts
+// nuxt.config.ts
+import { defineNuxtConfig } from "nuxt3";
+
+export default defineNuxtConfig({
+  buildModules: [
+    "unplugin-svg-transformer/nuxt", //
+  ],
+  svgTransformer: {
+    /* options */
+  },
+});
+```
+
+And you can use globally registered `SvgIcon` component or `#icons` alias.
+
+```vue
+<script setup lang="ts">
+import { importSvg } from "#icons"; // `#icons` alias
+
+const svg = ref<string>("");
+importSvg("svg-name").then((icon) => {
+  svg.value = icon;
+});
+</script>
+
+<template>
+  <div>
+    <div v-html="svg" />
+    <SvgIcon name="svg-name" />
+  </div>
+</template>
+```
+
+<br></details>
+
 ## Testing
 
 ```bash

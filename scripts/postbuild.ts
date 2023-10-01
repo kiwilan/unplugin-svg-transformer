@@ -19,34 +19,9 @@ async function run() {
     await fs.writeFile(file, code)
   }
 
-  // let content = await fs.readFile(VueSvgPath, 'utf8')
-  // content = content.replace('export {\nVueSvg,\n}\n', 'export default VueSvg\n')
-
-  // const lines = content.split('\n')
-  // // delete four last lines
-  // lines.splice(-4)
-  // // add export default VueSvg
-  // lines.push('export default VueSvg\n')
-  // content = lines.join('\n')
-
   await fs.mkdir('./dist/render', { recursive: true })
   await fs.copyFile('./src/render/NuxtSvg.ts', './dist/render/NuxtSvg.ts')
   await fs.copyFile('./src/render/shared.ts', './dist/render/shared.ts')
-
-  // const NuxtTypePath = resolve('./dist/nuxt.d.ts')
-  // const contents = [
-  //   'import { Options } from "./types.js"',
-  //   '',
-  //   'declare module \'@nuxt/schema\' {',
-  //   '  interface NuxtConfig { [\'svgTransformer\']?: Partial<Options> }',
-  //   '  interface NuxtOptions { [\'svgTransformer\']?: Options }',
-  //   '}',
-  //   '',
-  //   'export { Options, default } from \'./types.js\'',
-  //   '',
-  // ]
-
-  // await fs.writeFile(NuxtTypePath, contents.join('\n'))
 }
 
 run()

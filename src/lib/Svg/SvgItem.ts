@@ -1,4 +1,3 @@
-import fs from 'node:fs/promises'
 import type { OptionsExtended } from '../../types'
 import { SvgRender } from './SvgRender'
 

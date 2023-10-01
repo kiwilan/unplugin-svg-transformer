@@ -1,7 +1,7 @@
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
 import { defaultSvg, warningSvg } from './shared'
-import type { Display, LibraryType } from './shared'
+import type { LibraryType } from './shared'
 
 const VueSvg = defineComponent({
   name: 'SvgIcon',

@@ -1,7 +1,6 @@
 /* eslint-disable ts/ban-ts-comment */
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
-import type { Display } from './shared'
 import { defaultSvg, ssr } from './shared'
 
 // @ts-nocheck

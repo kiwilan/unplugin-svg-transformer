@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import type { Display, LibraryType } from './shared'
+import type { LibraryType } from './shared'
 import { defaultSvg, warningSvg } from './shared'
 
 interface Props {

@@ -34,8 +34,8 @@ export class Path {
     return root
   }
 
-  public static convertOptions(defaultOptions: Options, options?: Options): OptionsExtended {
-    const opts: Options = Object.assign({}, defaultOptions, options)
+  public static convertOptions(defaultOptions: OptionsExtended, options?: Options): OptionsExtended {
+    const opts: OptionsExtended = Object.assign({}, defaultOptions, options)
     opts.svgDir = Path.fullPath(opts.svgDir || defaultOptions.svgDir!)
     opts.libraryDir = Path.fullPath(opts.libraryDir || defaultOptions.libraryDir!)
     opts.cacheDir = Path.fullPath(opts.cacheDir || defaultOptions.cacheDir!)
@@ -355,7 +355,7 @@ export class Path {
       await unlink(link)
     }
     catch (error) {
-      console.error(error)
+      // console.error(error)
     }
   }
 

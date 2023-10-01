@@ -20,7 +20,12 @@ export class SvgItem {
     self.path = path.replace(rootPath, '')
     self.name = self.nameFromPath()
     self.title = self.setTitle()
-    self.contents = await self.svgRender(options)
+
+    const render = await SvgRender.make(options.svg)
+      .setPath(path)
+      .setTitle(self.title)
+      .get()
+    self.contents = render.getContents()
 
     return self
   }
@@ -129,11 +134,5 @@ export class SvgItem {
       return ''
 
     return string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase())
-  }
-
-  private async svgRender(options: OptionsExtended): Promise<string> {
-    const render = await SvgRender.make(this, options)
-
-    return render.getContents()
   }
 }

@@ -1,11 +1,12 @@
 import { readFile } from 'node:fs/promises'
-import type { OptionsExtended } from '../../types'
+import type { OptionsExtended, OptionsSvg } from '../../types'
 import type { SvgItem } from './SvgItem'
 
 export class SvgRender {
   public constructor(
-    protected svgItem: SvgItem,
-    protected options: OptionsExtended,
+    protected options: OptionsSvg,
+    protected path?: string,
+    protected title?: string,
     protected contents: string = '',
 
     protected svgClass: string[] = [],
@@ -16,63 +17,95 @@ export class SvgRender {
     protected children: string = '',
   ) { }
 
-  public static async make(item: SvgItem, options: OptionsExtended): Promise<SvgRender> {
-    const self = new SvgRender(item, options)
-    await self.readFile()
-    if (options.svg?.title)
-      self.contents = self.addTitleIfMissing()
-    self.parse()
-
-    if (options.svg?.classDefault) {
-      self.svgClass = [
-        ...self.svgClass,
-        ...options.svg.classDefault,
-      ]
+  public static make(options?: OptionsSvg): SvgRender {
+    if (!options) {
+      options = {
+        classDefault: [],
+        clearClass: 'none',
+        clearSize: 'none',
+        clearStyle: 'none',
+        currentColor: false,
+        inlineStyleDefault: [],
+        sizeInherit: false,
+        title: false,
+      }
     }
-
-    if (options.svg?.inlineStyleDefault) {
-      self.svgStyle = [
-        ...self.svgStyle,
-        ...options.svg.inlineStyleDefault,
-      ]
-    }
-
-    if (options.svg?.clearSize === 'all') {
-      self.parentStart = self.removeWidthAndHeight(self.parentStart)
-      self.children = self.removeWidthAndHeight(self.children)
-    }
-
-    if (options.svg?.clearSize === 'parent')
-      self.parentStart = self.removeWidthAndHeight(self.parentStart)
-
-    if (options.svg?.clearClass === 'all') {
-      self.parentStart = self.removeClass(self.parentStart)
-      self.children = self.removeClass(self.children)
-    }
-
-    if (options.svg?.clearClass === 'parent')
-      self.parentStart = self.removeClass(self.parentStart)
-
-    if (options.svg?.clearStyle === 'all') {
-      self.parentStart = self.removeInlineStyle(self.parentStart)
-      self.children = self.removeInlineStyle(self.children)
-    }
-
-    if (options.svg?.clearStyle === 'parent')
-      self.parentStart = self.removeInlineStyle(self.parentStart)
-
-    self.contents = `${self.parentStart}${self.children}${self.parentEnd}`
-
-    if (options.svg?.sizeInherit)
-      self.addWidthAndHeightInherit()
-    if (options.svg?.currentColor)
-      self.contents = self.addInlineCurrentColor()
-
-    self.contents = self.addInlineStyle()
-    self.contents = self.addClassDefault()
-    self.contents = self.removeTooLargeSpaces()
+    const self = new SvgRender(options)
 
     return self
+  }
+
+  public setContents(contents: string): SvgRender {
+    this.contents = contents
+    return this
+  }
+
+  public setPath(path: string): SvgRender {
+    this.path = path
+    return this
+  }
+
+  public setTitle(title: string): SvgRender {
+    this.title = title
+    return this
+  }
+
+  public async get(): Promise<SvgRender> {
+    await this.readFile()
+    this.contents = this.handleTitle()
+    this.parse()
+
+    if (this.options.classDefault) {
+      this.svgClass = [
+        ...this.svgClass,
+        ...this.options.classDefault,
+      ]
+    }
+
+    if (this.options.inlineStyleDefault) {
+      this.svgStyle = [
+        ...this.svgStyle,
+        ...this.options.inlineStyleDefault,
+      ]
+    }
+
+    if (this.options.clearSize === 'all') {
+      this.parentStart = this.removeWidthAndHeight(this.parentStart)
+      this.children = this.removeWidthAndHeight(this.children)
+    }
+
+    if (this.options.clearSize === 'parent')
+      this.parentStart = this.removeWidthAndHeight(this.parentStart)
+
+    if (this.options.clearClass === 'all') {
+      this.parentStart = this.removeClass(this.parentStart)
+      this.children = this.removeClass(this.children)
+    }
+
+    if (this.options.clearClass === 'parent')
+      this.parentStart = this.removeClass(this.parentStart)
+
+    if (this.options.clearStyle === 'all') {
+      this.parentStart = this.removeInlineStyle(this.parentStart)
+      this.children = this.removeInlineStyle(this.children)
+    }
+
+    if (this.options.clearStyle === 'parent')
+      this.parentStart = this.removeInlineStyle(this.parentStart)
+
+    if (this.options.currentColor)
+      this.addInlineCurrentColor()
+
+    this.contents = `${this.parentStart}${this.children}${this.parentEnd}`
+
+    if (this.options.sizeInherit)
+      this.addWidthAndHeightInherit()
+
+    this.contents = this.addInlineStyle()
+    this.contents = this.addClassDefault()
+    this.contents = this.removeTooLargeSpaces()
+
+    return this
   }
 
   public getContents(): string {
@@ -80,8 +113,11 @@ export class SvgRender {
   }
 
   private async readFile(): Promise<void> {
+    if (!this.path)
+      return
+
     try {
-      this.contents = await readFile(this.svgItem.getFullPath()!, 'utf8')
+      this.contents = await readFile(this.path!, 'utf8')
     }
     catch (err) {
       // console.error('Unable to read file:', err)
@@ -129,11 +165,20 @@ export class SvgRender {
   }
 
   private addWidthAndHeightInherit(): void {
-    this.svgStyle = [
-      ...this.svgStyle,
-      'height: inherit;',
-      'width: inherit;',
-    ]
+    // if svgStyle don't contains width or height
+    if (!this.svgStyle.some(style => /width:.*?;/.test(style))) {
+      this.svgStyle = [
+        ...this.svgStyle,
+        'width: inherit;',
+      ]
+    }
+
+    if (!this.svgStyle.some(style => /height:.*?;/.test(style))) {
+      this.svgStyle = [
+        ...this.svgStyle,
+        'height: inherit;',
+      ]
+    }
   }
 
   private addInlineStyle(): string {
@@ -150,7 +195,7 @@ export class SvgRender {
   }
 
   private addClassDefault(): string {
-    if (!this.options.svg?.classDefault)
+    if (!this.options.classDefault || this.options.classDefault.length === 0)
       return this.contents
 
     const classDefault = this.svgClass.join(' ')
@@ -162,7 +207,12 @@ export class SvgRender {
     return this.contents.replace(/<svg/g, `<svg class="${classDefault}"`)
   }
 
-  private addTitleIfMissing(): string {
+  private handleTitle(): string {
+    if (!this.options.title) {
+      // remove title
+      return this.contents.replace(/<title>.*?<\/title>/, '')
+    }
+
     if (/<title>.*?<\/title>/.test(this.contents))
       return this.contents
 
@@ -172,19 +222,28 @@ export class SvgRender {
       return this.contents
 
     const svgAttrs = match[1]
-    const titleElement = `<title>${this.svgItem.getTitle()}</title>`
+    const titleElement = `<title>${this.title}</title>`
 
     return this.contents.replace(svgTagRegex, `<svg${svgAttrs}>${titleElement}`)
   }
 
-  private addInlineCurrentColor(): string {
-    if (/fill="none"/.test(this.contents)) {
-      if (/stroke="currentColor"/.test(this.contents))
-        return this.contents
+  private addInlineCurrentColor(): void {
+    if (/stroke/.test(this.parentStart) && !/stroke="none"/.test(this.parentStart)) {
+      if (/stroke="currentColor"/.test(this.parentStart))
+        return
 
-      return this.contents.replace(/<svg/g, '<svg stroke="currentColor"')
+      this.parentStart = this.parentStart.replace(/<svg/g, '<svg stroke="currentColor"')
+      return
     }
 
-    return this.contents.replace(/<svg/g, '<svg fill="currentColor"')
+    if (/fill/.test(this.parentStart) && !/fill="none"/.test(this.parentStart)) {
+      if (/fill="currentColor"/.test(this.parentStart))
+        return
+
+      this.parentStart = this.parentStart.replace(/<svg/g, '<svg fill="currentColor"')
+    }
+
+    if (!/fill="currentColor"/.test(this.parentStart) || !/stroke="currentColor"/.test(this.parentStart))
+      this.parentStart = this.parentStart.replace(/<svg/g, '<svg fill="currentColor"')
   }
 }

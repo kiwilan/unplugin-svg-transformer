@@ -248,15 +248,12 @@ An example of `icons.ts` file:
 
 ```ts
 export type SvgName = "download" | "social/twitter" | "vite" | "default";
-export const options = {};
+export const options = {...};
 export const svgList: Record<SvgName, () => Promise<{ default: string }>> = {
-  download: () =>
-    import("../node_modules/unplugin-svg-transformer/cache/download"),
-  "social/twitter": () =>
-    import("../node_modules/unplugin-svg-transformer/cache/social/twitter"),
-  vite: () => import("../node_modules/unplugin-svg-transformer/cache/vite"),
-  default: () =>
-    import("../node_modules/unplugin-svg-transformer/cache/default"),
+  download: () => import(".../cache/download"),
+  "social/twitter": () => import(".../cache/social/twitter"),
+  vite: () => import(".../cache/vite"),
+  default: () => import(".../cache/default"),
 };
 
 export async function importSvg(name: SvgName): Promise<string> {

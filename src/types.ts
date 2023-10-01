@@ -20,63 +20,7 @@ export interface Options {
   /**
    * SVG will be rendered as a string, so it's possible to add custom attributes.
    */
-  svg?: {
-    /**
-     * Add default classes to all SVG.
-     *
-     * @default undefined
-     */
-    classDefault?: string[]
-    /**
-     * Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none).
-     *
-     * @default `none`
-     */
-    clearSize?: 'all' | 'parent' | 'none'
-    /**
-     * Clear classes from SVG (can be all, just parent on `<svg>` or none).
-     *
-     * @default `none`
-     */
-    clearClass?: 'all' | 'parent' | 'none'
-    /**
-     * Clear inline styles from SVG (can be all, just parent on `<svg>` or none).
-     *
-     * @default `none`
-     */
-    clearStyle?: 'all' | 'parent' | 'none'
-    /**
-     * Add `fill="currentColor"` or `stroke="currentColor"` to all SVG.
-     *
-     * Engine will try to detect if the SVG is a stroke or a fill.
-     *
-     * @default false
-     */
-    currentColor?: boolean
-    /**
-     * Add default inline style to all SVG.
-     *
-     * @default undefined
-     */
-    inlineStyleDefault?: string[]
-    /**
-     * Add inline style `height: inherit; width: inherit;`.
-     *
-     * @default false
-     */
-    sizeInherit?: boolean
-    /**
-     * Add title to SVG string.
-     *
-     * @example
-     * ```html
-     * <svg><title>svg-name</title></svg>
-     * ```
-     *
-     * @default false
-     */
-    title?: boolean
-  }
+  svg?: OptionsSvg
   /**
    * Trigger a warning when the SVG is not found.
    *
@@ -133,6 +77,64 @@ export interface PluginOptions extends Options {
    * @default true
    */
   useTypes?: boolean
+}
+
+export interface OptionsSvg {
+  /**
+   * Add default classes to all SVG.
+   *
+   * @default undefined
+   */
+  classDefault?: string[]
+  /**
+   * Clear `width` and `height` attributes from SVG (can be all, just parent on `<svg>` or none).
+   *
+   * @default `none`
+   */
+  clearSize?: 'all' | 'parent' | 'none'
+  /**
+   * Clear classes from SVG (can be all, just parent on `<svg>` or none).
+   *
+   * @default `none`
+   */
+  clearClass?: 'all' | 'parent' | 'none'
+  /**
+   * Clear inline styles from SVG (can be all, just parent on `<svg>` or none).
+   *
+   * @default `none`
+   */
+  clearStyle?: 'all' | 'parent' | 'none'
+  /**
+   * Add `fill="currentColor"` or `stroke="currentColor"` to all SVG if not already present.
+   *
+   * Engine will try to detect if the SVG is a stroke or a fill.
+   *
+   * @default false
+   */
+  currentColor?: boolean
+  /**
+   * Add default inline style to all SVG.
+   *
+   * @default undefined
+   */
+  inlineStyleDefault?: string[]
+  /**
+   * Add inline style `height: inherit; width: inherit;`.
+   *
+   * @default false
+   */
+  sizeInherit?: boolean
+  /**
+   * Add title to SVG string.
+   *
+   * @example
+   * ```html
+   * <svg><title>svg-name</title></svg>
+   * ```
+   *
+   * @default false
+   */
+  title?: boolean
 }
 
 export interface OptionsExtended extends PluginOptions {

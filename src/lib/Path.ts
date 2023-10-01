@@ -123,7 +123,7 @@ export class Path {
       }
     }
     catch (err) {
-      console.error('Unable to list directories:', err, path)
+      // console.error('Unable to list directories:', err, path)
     }
 
     return directories
@@ -165,7 +165,7 @@ export class Path {
       return content
     }
     catch (err) {
-      console.error('Unable to read file:', err, path)
+      // console.error('Unable to read file:', err, path)
       return ''
     }
   }
@@ -177,7 +177,7 @@ export class Path {
       return true
     }
     catch (err) {
-      console.error('Unable to write file:', err, path)
+      // console.error('Unable to write file:', err, path)
     }
 
     return false
@@ -205,7 +205,7 @@ export class Path {
       await rm(path, { force: true })
     }
     catch (err) {
-      console.error('Unable to remove file:', err, path)
+      // console.error('Unable to remove file:', err, path)
     }
   }
 
@@ -216,7 +216,7 @@ export class Path {
       return stats.isDirectory()
     }
     catch (err) {
-      console.error('Unable to check if directory:', err, path)
+      // console.error('Unable to check if directory:', err, path)
       return false
     }
   }
@@ -255,7 +255,7 @@ export class Path {
         return true
       }
       catch (err) {
-        console.error('Unable to create directory:', err, path)
+        // console.error('Unable to create directory:', err, path)
         return false
       }
     }
@@ -270,7 +270,7 @@ export class Path {
       await fs.rm(path, { recursive: true })
     }
     catch (err) {
-      console.error('Unable to remove directory:', err)
+      // console.error('Unable to remove directory:', err)
     }
   }
 
@@ -340,7 +340,7 @@ export class Path {
       await symlink(target, link)
     }
     catch (error) {
-      console.error(error)
+      // console.error(error)
     }
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "unplugin-svg-transformer",
   "type": "module",
-  "version": "1.0.3",
+  "version": "1.0.31",
   "description": "Import easily your SVG with Vite.",
   "author": "kiwilan <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -113,14 +113,13 @@
     "play:ts": "npm -C examples/ts run dev",
     "play:vue": "npm -C examples/vue3 run dev",
     "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "clean": "rimraf dist",
     "local": "rm -f ~/unplugin-svg-transformer-*.tgz || true && mv ./unplugin-svg-transformer-*.tgz ~/unplugin-svg-transformer.tgz",
     "package": "npm run clean && npm run build && npm pack && npm run local",
-    "deployment": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public",
+    "release": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public",
     "prepare": "husky install"
   },
   "dependencies": {

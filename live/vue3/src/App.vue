@@ -28,7 +28,7 @@ fetchIcon()
     Vue 3
     <div v-html="icon" />
     <div v-html="importMethod" />
-    <SvgIcon name="vite" />
+    <SvgIcon name="vite" reactive />
     <VueSvg name="vite" />
     <SvgIcon name="vue-2" />
     <VueSvg name="vue-2" />

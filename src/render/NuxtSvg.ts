@@ -1,7 +1,7 @@
 /* eslint-disable ts/ban-ts-comment */
 import type { PropType } from 'vue'
 import { defineComponent, h, onMounted, ref, watch } from 'vue'
-import { defaultSvg, ssr } from './shared'
+import { defaultSvg } from './shared'
 
 // @ts-nocheck
 // @ts-expect-error - ignore
@@ -28,7 +28,6 @@ const NuxtSvg = defineComponent({
   setup(props, { attrs }) {
     const defaultSSR = defaultSvg(props.name, true)
     const current = ref<string>(defaultSSR)
-    const html = ref(ssr(props.name))
 
     const attributes = ref({
       ...(attrs as Record<string, any>),
@@ -40,24 +39,19 @@ const NuxtSvg = defineComponent({
     if (props.title)
       attributes.value.title = props.title
 
-    async function getSvg() {
-      html.value = ''
-      current.value = ''
-      current.value = await importSvg(props.name)
-    }
+    importSvg(props.name).then((svg: string) => current.value = svg)
 
     if (props.reactive) {
-      watch(() => props.name, async () => {
-        await getSvg()
+      watch(() => props.name, () => {
+        importSvg(props.name).then((svg: string) => current.value = svg)
       })
     }
 
     onMounted(async () => {
-      await getSvg()
-      html.value = current.value
+      importSvg(props.name).then((svg: string) => current.value = svg)
     })
 
-    return () => h('span', { ...attributes, innerHTML: html.value })
+    return () => h('span', { ...attributes, innerHTML: current.value })
   },
 })
 

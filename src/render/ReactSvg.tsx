@@ -6,14 +6,14 @@ interface Props {
   className?: string
   style?: React.CSSProperties
   name: SvgName
-  title: string
+  title?: string
 }
 
 function ReactSvg({ className, style, name, title }: Props): JSX.Element {
   const defaultSSR = defaultSvg(name)
   const [current, setCurrent] = useState(defaultSSR)
 
-  async function getSvg() {
+  function fetchIcon() {
     setCurrent('')
     const wd = window as unknown as LibraryType
     if (!wd || !wd.ust || !wd.ust.importSvg) {
@@ -22,11 +22,12 @@ function ReactSvg({ className, style, name, title }: Props): JSX.Element {
 
       return
     }
-    setCurrent(await wd.ust.importSvg(name))
+
+    wd.ust.importSvg(name).then((svg: string) => setCurrent(svg))
   }
 
   useEffect(() => {
-    getSvg()
+    fetchIcon()
   }, [name])
 
   return <span title={title} className={className} style={{ ...style }} dangerouslySetInnerHTML={{ __html: current }}></span>

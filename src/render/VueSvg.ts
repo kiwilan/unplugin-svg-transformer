@@ -34,7 +34,7 @@ const VueSvg = defineComponent({
     if (props.title)
       attributes.value.title = props.title
 
-    async function getSvg() {
+    function fetchIcon() {
       current.value = ''
       const wd = window as unknown as LibraryType
       if (!wd || !wd.ust || !wd.ust.importSvg) {
@@ -44,17 +44,17 @@ const VueSvg = defineComponent({
         return
       }
 
-      current.value = await wd.ust.importSvg(props.name)
+      wd.ust.importSvg(props.name).then((svg: string) => current.value = svg)
     }
 
     if (props.reactive) {
-      watch(() => props.name, async () => {
-        await getSvg()
+      watch(() => props.name, () => {
+        fetchIcon()
       })
     }
 
-    onMounted(async () => {
-      await getSvg()
+    onMounted(() => {
+      fetchIcon()
     })
 
     return () => h('span', { ...attributes, innerHTML: current.value })

@@ -1,6 +1,6 @@
-# unplugin-svg-transformer
-
 ![Banner with unplugin logo and unplugin-svg-transformer title, a SVG logo inserted for svg in title](docs/banner.jpg)
+
+# unplugin-svg-transformer
 
 [![unplugin][unplugin-version-src]][unplugin-version-href]
 [![version][version-src]][version-href]

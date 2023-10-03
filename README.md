@@ -596,9 +596,9 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [<img src="https://user-images.githubusercontent.com/48261459/201463225-0a5a084e-df15-4b11-b1d2-40fafd3555cf.svg" height="120rem" width="100%" />](https://github.com/kiwilan)
 
-[unplugin-version-src]: https://img.shields.io/badge/dynamic/json?label=unplugin&query=dependencies[%27unplugin%27]&url=https://raw.githubusercontent.com/kiwilan/unplugin-svg-transformer/main/package.json&color=F0DB4F&labelColor=18181b
+[unplugin-version-src]: https://img.shields.io/badge/dynamic/json?label=unplugin&query=dependencies[%27unplugin%27]&url=https://raw.githubusercontent.com/kiwilan/unplugin-svg-transformer/main/package.json&style=flat-square&colorA=18181B&colorB=F0DB4F
 [unplugin-version-href]: https://github.com/unjs/unplugin
-[version-src]: https://img.shields.io/npm/v/unplugin-svg-transformer.svg?style=flat-square&color=F0DB4F&labelColor=18181b
+[version-src]: https://img.shields.io/npm/v/unplugin-svg-transformer.svg?style=flat-square&colorA=18181B&colorB=F0DB4F
 [version-href]: https://www.npmjs.com/package/unplugin-svg-transformer
 [downloads-src]: https://img.shields.io/npm/dm/unplugin-svg-transformer?style=flat-square&colorA=18181B&colorB=F0DB4F
 [downloads-href]: https://npmjs.com/package/unplugin-svg-transformer
@@ -606,7 +606,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [license-href]: https://github.com/kiwilan/unplugin-svg-transformer/blob/main/README.md
 [tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/unplugin-svg-transformer/tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
 [tests-href]: https://github.com/kiwilan/unplugin-svg-transformer/actions/workflows/tests.yml
-[codecov-src]: https://img.shields.io/codecov/c/gh/kiwilan/unplugin-svg-transformer/main?style=flat&colorA=18181B&colorB=F0DB4F
+[codecov-src]: https://img.shields.io/codecov/c/gh/kiwilan/unplugin-svg-transformer/main?style=flat-square&colorA=18181B&colorB=F0DB4F
 [codecov-href]: https://codecov.io/gh/kiwilan/unplugin-svg-transformer
 [style-src]: https://antfu.me/badge-code-style.svg
 [style-href]: https://github.com/antfu/eslint-config

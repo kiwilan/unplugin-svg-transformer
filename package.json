@@ -1,7 +1,8 @@
 {
   "name": "unplugin-svg-transformer",
   "type": "module",
-  "version": "1.0.31",
+  "version": "1.0.32",
+  "packageManager": "pnpm@8.6.12",
   "description": "Import easily your SVG with Vite.",
   "author": "kiwilan <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -62,11 +63,6 @@
       "import": "./dist/types.js",
       "require": "./dist/types.cjs"
     },
-    "./components": {
-      "types": "./dist/components.d.ts",
-      "import": "./dist/components.js",
-      "require": "./dist/components.cjs"
-    },
     "./vue": {
       "types": "./dist/vue.d.ts",
       "import": "./dist/vue.js",
@@ -122,12 +118,41 @@
     "release": "npm run clean && npm run build && npm pack --dry-run && npm publish --access public",
     "prepare": "husky install"
   },
+  "peerDependencies": {
+    "@nuxt/kit": "^3",
+    "@nuxt/schema": "^3",
+    "esbuild": "*",
+    "rollup": "^3",
+    "vite": ">=3",
+    "webpack": "^4 || ^5"
+  },
+  "peerDependenciesMeta": {
+    "webpack": {
+      "optional": true
+    },
+    "rollup": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    },
+    "esbuild": {
+      "optional": true
+    },
+    "@nuxt/kit": {
+      "optional": true
+    },
+    "@nuxt/schema": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "unplugin": "^1.5.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "1.0.0-beta.18",
     "@nuxt/kit": "^3.7.4",
+    "@nuxt/schema": "^3.6.5",
     "@types/node": "^20.8.0",
     "@types/react": "^18.2.23",
     "@vitejs/plugin-vue": "^4.3.4",
@@ -139,7 +164,6 @@
     "fast-glob": "^3.3.1",
     "husky": "^8.0.0",
     "nodemon": "^3.0.1",
-    "nuxt": "^3.7.4",
     "react": "^18.2.0",
     "rimraf": "^5.0.5",
     "rollup": "^3.29.4",

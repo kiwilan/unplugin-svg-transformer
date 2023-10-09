@@ -1,4 +1,4 @@
-![Banner with unplugin logo and unplugin-svg-transformer title, a SVG logo inserted for svg in title](docs/banner.jpg)
+![Banner with unplugin logo and unplugin-svg-transformer title, a SVG logo inserted for svg in title](https://raw.githubusercontent.com/kiwilan/unplugin-svg-transformer/main/docs/banner.jpg)
 
 # unplugin-svg-transformer
 

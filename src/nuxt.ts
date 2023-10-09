@@ -1,11 +1,14 @@
-import { addComponent, addImports, addTemplate, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
-import type { Configuration } from 'webpack'
-import type { InlineConfig } from 'vite'
-import type { WatchEvent } from '@nuxt/schema'
+// import type { InlineConfig } from 'vite'
+// import type { WatchEvent } from '@nuxt/schema'
+// import type { Configuration } from 'webpack'
+
+import { addComponent, addImports, addTemplate, addTypeTemplate, addVitePlugin, addWebpackPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
+import type { Nuxt } from '@nuxt/schema'
 import { name, version } from '../package.json'
+import vite from './vite'
+import webpack from './webpack'
 import type { NuxtOptions, OptionsExtended } from './types'
 import { Path } from './lib/Path'
-import unplugin from '.'
 
 const DEFAULT_OPTIONS: NuxtOptions = {
   svgDir: './assets/svg',
@@ -13,14 +16,8 @@ const DEFAULT_OPTIONS: NuxtOptions = {
   warning: true,
 }
 
-async function readTypes(opts: OptionsExtended): Promise<string> {
-  const path = `${opts.nuxtDir}/types/icons.d.ts`
-  if (!await Path.fileExists(path))
-    return ''
-
-  return await Path.read(path)
-}
-
+// https://nuxt.com/docs/guide/going-further/hooks
+// https://nuxt.com/docs/api/advanced/hooks#lifecycle-hooks
 export default defineNuxtModule<NuxtOptions>({
   meta: {
     name,
@@ -31,66 +28,80 @@ export default defineNuxtModule<NuxtOptions>({
     },
   },
   defaults: DEFAULT_OPTIONS,
-  async setup(options, nuxt) {
+  setup(options, nuxt) {
     const opts: OptionsExtended = options
-
     opts.isNuxt = true
     opts.nuxtDir = nuxt.options.buildDir
 
-    nuxt.hook('webpack:config', async (config: Configuration[]) => {
-      const c: Configuration = {}
-      c.plugins = c.plugins || []
-      c.plugins.unshift(unplugin.webpack(opts))
-      config.push(c)
-    })
+    addVitePlugin(() => vite(opts))
+    addWebpackPlugin(() => webpack(opts))
 
-    nuxt.hook('vite:extendConfig', async (config: InlineConfig) => {
-      config.plugins = config.plugins || []
-      config.plugins.push(unplugin.vite(opts))
-    })
+    // nuxt.hook('webpack:config', async (config: Configuration[]) => {
+    //   const c: Configuration = {}
+    //   c.plugins = c.plugins || []
+    //   c.plugins.unshift(unplugin.webpack(opts))
+    //   config.push(c)
+    // })
 
-    nuxt.hook('build:done', async () => {
-      unplugin.vite(opts)
-    })
+    // nuxt.hook('vite:extendConfig', async (config: InlineConfig) => {
+    //   config.plugins = config.plugins || []
+    //   config.plugins.push(unplugin.vite(opts))
+    // })
 
-    nuxt.hook('builder:watch', async (event: WatchEvent, path: string) => {
-      if (path.endsWith('.svg'))
-        unplugin.vite(opts)
-    })
+    // nuxt.hook('build:done', async () => {
+    //   unplugin.vite(opts)
+    // })
 
-    nuxt.hook('vite:serverCreated', async (viteServer) => {
-      viteServer.watcher.on('unlink', async (path: string) => {
-        if (path.endsWith('.svg'))
-          unplugin.vite(opts)
-      })
-    })
+    // nuxt.hook('builder:watch', async (event: WatchEvent, path: string) => {
+    //   if (path.endsWith('.svg'))
+    //     unplugin.vite(opts)
+    // })
 
-    const resolver = createResolver(import.meta.url)
+    // nuxt.hook('vite:serverCreated', async (viteServer) => {
+    //   viteServer.watcher.on('unlink', async (path: string) => {
+    //     if (path.endsWith('.svg'))
+    //       unplugin.vite(opts)
+    //   })
+    // })
 
-    nuxt.options.alias['#svg-transformer-options'] = addTemplate({
-      filename: 'svg-transformer-options.mjs',
-      getContents: () => Object.entries(opts)
-        .map(([key, value]) => `export const ${key} = ${JSON.stringify(value, null, 2)}`)
-        .join('\n'),
-    }).dst
-
-    const path = resolver.resolve(`${opts.nuxtDir}/icons.ts`)
-    nuxt.options.alias['#icons'] = path
-
-    addComponent({
-      name: 'SvgIcon',
-      filePath: resolver.resolve('./render/NuxtSvg.ts'),
-    })
-
-    addImports({
-      from: '#icons',
-      name: 'SvgName, svgList, importSvg',
-    })
-
-    addTypeTemplate({
-      dst: 'types/icons.d.ts', // resolver.resolve(`${opts.nuxtLibraryDir}/icons.d.ts`)
-      filename: 'icons.d.ts',
-      getContents: async () => await readTypes(opts),
-    })
+    nuxtAddon(nuxt, opts)
   },
 })
+
+async function nuxtAddon(nuxt: Nuxt, opts: OptionsExtended): Promise<void> {
+  const resolver = createResolver(import.meta.url)
+
+  nuxt.options.alias['#svg-transformer-options'] = addTemplate({
+    filename: 'svg-transformer-options.mjs',
+    getContents: () => Object.entries(opts)
+      .map(([key, value]) => `export const ${key} = ${JSON.stringify(value, null, 2)}`)
+      .join('\n'),
+  }).dst
+
+  const path = resolver.resolve(`${opts.nuxtDir}/icons.ts`)
+  nuxt.options.alias['#icons'] = path
+
+  addComponent({
+    name: 'SvgIcon',
+    filePath: resolver.resolve('./render/NuxtSvg.ts'),
+  })
+
+  addImports({
+    from: '#icons',
+    name: 'SvgName, svgList, importSvg',
+  })
+
+  addTypeTemplate({
+    dst: 'types/icons.d.ts', // resolver.resolve(`${opts.nuxtLibraryDir}/icons.d.ts`)
+    filename: 'icons.d.ts',
+    getContents: async () => await readTypes(opts),
+  })
+}
+
+async function readTypes(opts: OptionsExtended): Promise<string> {
+  const path = `${opts.nuxtDir}/types/icons.d.ts`
+  if (!await Path.fileExists(path))
+    return ''
+
+  return await Path.read(path)
+}

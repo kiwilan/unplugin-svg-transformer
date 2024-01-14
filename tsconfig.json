@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["esnext", "DOM"],
     "jsx": "react",
+    "lib": ["esnext", "DOM"],
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "esModuleInterop": true
   },
   "include": ["scripts", "src", "test", "*.d.ts"]
 }

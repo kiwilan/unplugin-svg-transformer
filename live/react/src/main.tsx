@@ -8,6 +8,6 @@ const root = document.getElementById('root') as HTMLElement
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
     hello
-    <SvgIcon name="download" className='icon' />
+    <SvgIcon name="download" className="icon" />
   </React.StrictMode>,
 )

@@ -18,7 +18,6 @@ interface ViteConfig {
   }
 }
 
-// eslint-disable-next-line ts/no-extraneous-class
 export class Path {
   public static fullPath(path: string): string {
     path = this.normalizePath(path)
